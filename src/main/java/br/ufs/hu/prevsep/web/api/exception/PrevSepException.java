@@ -11,12 +11,12 @@ public abstract class PrevSepException extends RuntimeException{
         this.httpStatus = httpStatus;
     }
 
-    public PrevSepException setMessage(String message) {
+    public PrevSepException withMessage(String message) {
         this.message = message;
         return this;
     }
 
-    public PrevSepException setDetailedMessage(String detailedMessage) {
+    public PrevSepException withDetailedMessage(String detailedMessage) {
         this.detailedMessage = detailedMessage;
         return this;
     }

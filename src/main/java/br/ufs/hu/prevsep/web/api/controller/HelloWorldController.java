@@ -27,7 +27,7 @@ public class HelloWorldController extends BaseController {
     @GetMapping
     @Operation(summary = "Returns a Hello World from the API")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK",
+            @ApiResponse(responseCode = "200", description = "Ok",
                     content = @Content(schema = @Schema(implementation = HelloWorldDTO.class)))})
     public HelloWorldDTO getUsers() {
         return helloWorldService.getHelloWorld("Hello from PrevSep! :)");
