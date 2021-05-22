@@ -22,11 +22,6 @@ public class SwaggerConfig {
                         .title("PrevSep Web API")
                         .version(version)
                         .description("PrevSep Web API")
-//                        .contact(new Contact()
-//                                .name("Eduardo Fillipe da Silva Reis")
-//                                .email("eduardo556@live.com")
-//                                .url("https://www.linkedin.com/in/eduardo-fillipe-silva-reis/")
-//                        )
                 ).schemaRequirement("oauth", oAuthSecuritySchema(authorizationServer, tokenUrl));
 
     }
