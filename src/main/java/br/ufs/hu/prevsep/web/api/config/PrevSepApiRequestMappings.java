@@ -3,6 +3,9 @@ package br.ufs.hu.prevsep.web.api.config;
 import org.springframework.beans.factory.annotation.Value;
 
 public class PrevSepApiRequestMappings {
+    //Swagger
+    public static final String SWAGGER_ENTRYPOINT = "/swagger-ui.html";
+
     // API Base Endpoints
     public static final String API = "/api";
     public static final String API_VERSION = "/v1";
