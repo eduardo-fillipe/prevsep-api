@@ -1,8 +1,6 @@
 package br.ufs.hu.prevsep.web.api.dto;
 
-import br.ufs.hu.prevsep.web.api.exception.UserNotFoundException;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
 

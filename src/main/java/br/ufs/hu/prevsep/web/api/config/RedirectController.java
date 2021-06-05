@@ -1,6 +1,5 @@
 package br.ufs.hu.prevsep.web.api.config;
 
-import br.ufs.hu.prevsep.web.api.config.PrevSepApiRequestMappings;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -15,6 +14,6 @@ public class RedirectController {
 
     @GetMapping
     public ModelAndView redirectWithUsingRedirectPrefix(ModelMap model) {
-        return new ModelAndView("redirect:" + PrevSepApiRequestMappings.SWAGGER_ENTRYPOINT, model);
+        return new ModelAndView("redirect:" + ApiRequestMappings.SWAGGER_ENTRYPOINT, model);
     }
 }

@@ -1,21 +1,15 @@
 package br.ufs.hu.prevsep.web.api.config.security.filter;
 
-import br.ufs.hu.prevsep.web.api.config.PrevSepApiRequestMappings;
-import br.ufs.hu.prevsep.web.api.config.security.WebSecurityConfig;
+import br.ufs.hu.prevsep.web.api.config.ApiRequestMappings;
 import br.ufs.hu.prevsep.web.api.config.security.exception.UnauthorizedException;
 import br.ufs.hu.prevsep.web.api.dto.security.authorization.role.RoleDTO;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -46,7 +40,7 @@ public class OAuth2JWTAuthorizationFilter extends BasicAuthenticationFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
-        return !path.startsWith(PrevSepApiRequestMappings.API_BASE_ENDPOINT);
+        return !path.startsWith(ApiRequestMappings.API_BASE_ENDPOINT);
     }
 
     @Override
