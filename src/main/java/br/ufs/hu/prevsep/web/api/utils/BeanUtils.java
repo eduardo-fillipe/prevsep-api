@@ -7,6 +7,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class BeanUtils {
+
+    /**
+     * Returns all Null properties of a given Bean.
+     * @param source Bean that will be analysed
+     * @return A list of the names of the null fields.
+     */
     public static String[] getNullPropertyNames (Object source) {
         final BeanWrapper src = new BeanWrapperImpl(source);
         java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
@@ -21,7 +27,18 @@ public class BeanUtils {
         return emptyNames.toArray(result);
     }
 
-    public static void copyPropertiesIgnoreNulls(Object src, Object target) {
-        org.springframework.beans.BeanUtils.copyProperties(src, target, getNullPropertyNames(src));
+    /**
+     * Copies all fields values from a Bean to another
+     *
+     * @param src The source Bean, from where the info will come
+     * @param target The target Bean, to where the values will be copy
+     * @param ignoreNulls If true, fields with null values will be ignored during the copie process
+     * @param <T> Bean type
+     */
+    public static <T> void copyPropertiesIgnoreNulls(T src, T target, boolean ignoreNulls) {
+        if (ignoreNulls)
+            org.springframework.beans.BeanUtils.copyProperties(src, target, getNullPropertyNames(src));
+        else
+            org.springframework.beans.BeanUtils.copyProperties(src, target);
     }
 }

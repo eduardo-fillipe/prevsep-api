@@ -34,7 +34,7 @@ public class UsuarioServiceImpl implements UsuarioService{
                 new UserNotFoundException().withDetailedMessage("This user was not found."));
 
         UsuarioEntity mappedEntity = usuarioMapper.mapToUsuarioEntity(usuario);
-        BeanUtils.copyPropertiesIgnoreNulls(mappedEntity, existingUsuario);
+        BeanUtils.copyPropertiesIgnoreNulls(mappedEntity, existingUsuario, true);
 
         if (usuario.getSenha() != null) {
             if (validatePassword(usuario.getSenha())) {
