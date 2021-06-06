@@ -48,7 +48,7 @@ public class ManagerController extends BaseController{
     @Operation(summary = "Returns info about a manager by a given CPF")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = ManagerFullDTO.class)))),
+                    content = @Content(schema = @Schema(implementation = ManagerFullDTO.class))),
             @ApiResponse(responseCode = "404", description = "Medic not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     public ManagerFullDTO getManagerByCPF(@PathVariable @Valid @CPF String cpf){

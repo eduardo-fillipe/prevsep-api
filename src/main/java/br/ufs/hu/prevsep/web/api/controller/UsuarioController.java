@@ -50,7 +50,7 @@ public class UsuarioController extends BaseController{
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     public void updateUsuario(@PathVariable @NotEmpty @CPF String cpf, @RequestBody @Valid UsuarioUpdateDTO usuarioUpdateDTO){
-
+        usuarioService.updateUsuario(cpf, usuarioUpdateDTO);
     }
 
     @DeleteMapping("/{cpf}")
@@ -61,8 +61,8 @@ public class UsuarioController extends BaseController{
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
-    public void updateUsuario(@PathVariable @NotEmpty @CPF String cpf){
-
+    public void deleteUsuario(@PathVariable @NotEmpty @CPF String cpf){
+        usuarioService.deleteUsuario(cpf);
     }
 
 }

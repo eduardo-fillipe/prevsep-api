@@ -7,7 +7,8 @@ import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioUpdateDTO;
 import br.ufs.hu.prevsep.web.api.exception.PasswordDoesNotHaveMinimumRequirementsException;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
 import br.ufs.hu.prevsep.web.api.model.UsuarioEntity;
-import br.ufs.hu.prevsep.web.api.repository.usuario.UsuarioRepository;
+import br.ufs.hu.prevsep.web.api.repository.UsuarioRepository;
+import br.ufs.hu.prevsep.web.api.utils.BeanUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,21 +30,21 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Override
     public UsuarioResponseDTO updateUsuario(String cpf, UsuarioUpdateDTO usuario) throws UserNotFoundException {
-        if (getUsuario(cpf).isEmpty())
-            throw new UserNotFoundException().withDetailedMessage("This user was not found.");
+        UsuarioEntity existingUsuario =  usuarioRepository.findById(cpf).orElseThrow(() ->
+                new UserNotFoundException().withDetailedMessage("This user was not found."));
 
-        UsuarioEntity usuarioEntity = usuarioMapper.mapToUsuarioEntity(usuario);
-        usuarioEntity.setCpf(cpf);
+        UsuarioEntity mappedEntity = usuarioMapper.mapToUsuarioEntity(usuario);
+        BeanUtils.copyPropertiesIgnoreNulls(mappedEntity, existingUsuario);
 
         if (usuario.getSenha() != null) {
             if (validatePassword(usuario.getSenha())) {
-                usuarioEntity.setSenha(passwordEncoder.encode(usuario.getSenha()));
+                existingUsuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
             } else {
                 throw new PasswordDoesNotHaveMinimumRequirementsException();
             }
         }
 
-        UsuarioEntity result = usuarioRepository.save(usuarioEntity);
+        UsuarioEntity result = usuarioRepository.save(existingUsuario);
 
         return usuarioMapper.mapToUsuarioResponseDto(result);
     }

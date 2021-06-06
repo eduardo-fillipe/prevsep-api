@@ -11,6 +11,9 @@ public enum CargoEnum {
     }
 
     public static CargoEnum fromId(Integer value) {
+        if (value == null)
+            return null;
+
         switch (value) {
             case 1:
                 return GESTOR;

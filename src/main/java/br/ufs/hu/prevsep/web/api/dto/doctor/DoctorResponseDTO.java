@@ -1,8 +1,8 @@
-package br.ufs.hu.prevsep.web.api.dto.medic;
+package br.ufs.hu.prevsep.web.api.dto.doctor;
 
 import br.ufs.hu.prevsep.web.api.dto.usuario.StatusUsuarioEnum;
 
-public class MedicoResponseDTO {
+public class DoctorResponseDTO {
 
     private String cpf;
     private String nome;

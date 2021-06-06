@@ -1,10 +1,10 @@
-package br.ufs.hu.prevsep.web.api.dto.medic;
+package br.ufs.hu.prevsep.web.api.dto.doctor;
 
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 
-public class MedicoUpdateDTO {
+public class DoctorUpdateDTO {
     @NotEmpty(message = "Name can not be null")
     private String nome;
     @NotEmpty(message = "CRM can not be null")

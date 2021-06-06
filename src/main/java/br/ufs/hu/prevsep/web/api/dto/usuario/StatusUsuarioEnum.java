@@ -11,6 +11,9 @@ public enum StatusUsuarioEnum {
     }
 
     public static StatusUsuarioEnum fromId(Integer value) {
+        if (value == null)
+            return null;
+
         switch (value) {
             case 1:
                 return ATIVO;

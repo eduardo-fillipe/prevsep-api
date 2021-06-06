@@ -9,7 +9,7 @@ import br.ufs.hu.prevsep.web.api.dto.usuario.StatusUsuarioEnum;
 import br.ufs.hu.prevsep.web.api.exception.user.CPFAlreadyRegistered;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
 import br.ufs.hu.prevsep.web.api.model.ManagerEntity;
-import br.ufs.hu.prevsep.web.api.repository.usuario.ManagerRepository;
+import br.ufs.hu.prevsep.web.api.repository.ManagerRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

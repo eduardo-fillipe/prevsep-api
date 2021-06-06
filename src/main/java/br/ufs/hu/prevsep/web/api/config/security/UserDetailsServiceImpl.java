@@ -4,7 +4,7 @@ import br.ufs.hu.prevsep.web.api.dto.security.authorization.role.RoleDTO;
 import br.ufs.hu.prevsep.web.api.dto.usuario.CargoEnum;
 import br.ufs.hu.prevsep.web.api.dto.usuario.StatusUsuarioEnum;
 import br.ufs.hu.prevsep.web.api.model.UsuarioEntity;
-import br.ufs.hu.prevsep.web.api.repository.usuario.UsuarioRepository;
+import br.ufs.hu.prevsep.web.api.repository.UsuarioRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

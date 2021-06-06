@@ -1,19 +1,19 @@
-package br.ufs.hu.prevsep.web.api.dto.medic;
+package br.ufs.hu.prevsep.web.api.dto.doctor;
 
-import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioRequestDTO;
+import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioResponseDTO;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-public class MedicoRequestDTO {
+public class DoctorResponseFullDTO {
     @NotEmpty(message = "Name can not be null")
     private String nome;
     @NotNull(message = "CRM can not be null")
     private Integer crm;
     @NotNull
     @Valid
-    private UsuarioRequestDTO userInfo;
+    private UsuarioResponseDTO userInfo;
 
     public String getNome() {
         return nome;
@@ -31,11 +31,11 @@ public class MedicoRequestDTO {
         this.crm = crm;
     }
 
-    public UsuarioRequestDTO getUserInfo() {
+    public UsuarioResponseDTO getUserInfo() {
         return userInfo;
     }
 
-    public void setUserInfo(UsuarioRequestDTO userInfo) {
+    public void setUserInfo(UsuarioResponseDTO userInfo) {
         this.userInfo = userInfo;
     }
 }

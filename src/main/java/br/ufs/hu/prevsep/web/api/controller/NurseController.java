@@ -1,11 +1,9 @@
 package br.ufs.hu.prevsep.web.api.controller;
 
 import br.ufs.hu.prevsep.web.api.config.ApiRequestMappings;
+import br.ufs.hu.prevsep.web.api.dto.doctor.DoctorResponseFullDTO;
 import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
-import br.ufs.hu.prevsep.web.api.dto.medic.MedicoRequestDTO;
-import br.ufs.hu.prevsep.web.api.dto.medic.MedicoResponseDTO;
-import br.ufs.hu.prevsep.web.api.dto.medic.MedicoResponseFullDTO;
-import br.ufs.hu.prevsep.web.api.dto.medic.MedicoUpdateDTO;
+import br.ufs.hu.prevsep.web.api.dto.doctor.DoctorResponseDTO;
 import br.ufs.hu.prevsep.web.api.dto.nurse.NurseDTO;
 import br.ufs.hu.prevsep.web.api.dto.nurse.NurseFullDTO;
 import br.ufs.hu.prevsep.web.api.dto.nurse.NurseRequestDTO;
@@ -44,7 +42,7 @@ public class NurseController extends BaseController{
     @Operation(summary = "Returns all nurses in the database.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = MedicoResponseDTO.class))))})
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = DoctorResponseDTO.class))))})
     public List<NurseDTO> getMedics(){
         return nurseService.getNurses();
     }
@@ -53,7 +51,7 @@ public class NurseController extends BaseController{
     @Operation(summary = "Returns info about a Nurse by a given CRE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = MedicoResponseFullDTO.class)))),
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = DoctorResponseFullDTO.class)))),
             @ApiResponse(responseCode = "404", description = "Nurse not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     public NurseFullDTO getMedicByCRM(@Valid @Size @NotNull @PathVariable Integer cre){
@@ -65,7 +63,7 @@ public class NurseController extends BaseController{
     @Operation(summary = "Creates a new Nurse.")
     @ResponseStatus(HttpStatus.CREATED)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Nurse Created", content = @Content(schema = @Schema(implementation = MedicoResponseDTO.class))),
+            @ApiResponse(responseCode = "201", description = "Nurse Created", content = @Content(schema = @Schema(implementation = DoctorResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
             @ApiResponse(responseCode = "409", description = "Nurse already registered", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })

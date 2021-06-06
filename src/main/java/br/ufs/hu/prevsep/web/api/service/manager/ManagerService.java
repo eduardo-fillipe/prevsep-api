@@ -4,7 +4,6 @@ import br.ufs.hu.prevsep.web.api.dto.manager.ManagerDTO;
 import br.ufs.hu.prevsep.web.api.dto.manager.ManagerFullDTO;
 import br.ufs.hu.prevsep.web.api.dto.manager.ManagerRequestDTO;
 import br.ufs.hu.prevsep.web.api.dto.manager.ManagerUpdateDTO;
-import br.ufs.hu.prevsep.web.api.dto.medic.MedicoResponseDTO;
 import br.ufs.hu.prevsep.web.api.exception.user.CPFAlreadyRegistered;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
 
