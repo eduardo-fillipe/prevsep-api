@@ -49,6 +49,12 @@ public class UsuarioServiceImpl implements UsuarioService{
         return usuarioMapper.mapToUsuarioResponseDto(result);
     }
 
+    /**
+     * Validates if a given password have the minimum requirements.
+     * @param password The password
+     * @return true if the password meet the requirements, otherwise false
+     */
+    //TODO Implementar esse método.
     private boolean validatePassword(String password) {
         return true;
     }
