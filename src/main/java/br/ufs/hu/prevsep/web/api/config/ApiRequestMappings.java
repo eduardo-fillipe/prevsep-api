@@ -13,7 +13,7 @@ public class ApiRequestMappings {
     public static final String HELLO_WORLD = API_BASE_ENDPOINT + "/hello-world";
 
     public static final String USERS = API_BASE_ENDPOINT + "/users";
-    public static final String MEDICS = API_BASE_ENDPOINT + "/doctors";
+    public static final String DOCTORS = API_BASE_ENDPOINT + "/doctors";
     public static final String MANAGERS = API_BASE_ENDPOINT + "/managers";
     public static final String NURSES = API_BASE_ENDPOINT + "/nurses";
 
