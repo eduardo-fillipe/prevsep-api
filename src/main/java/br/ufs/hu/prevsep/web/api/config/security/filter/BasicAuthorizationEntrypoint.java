@@ -29,6 +29,8 @@ public class BasicAuthorizationEntrypoint implements AuthenticationEntryPoint {
 
         OutputStream out = httpServletResponse.getOutputStream();
         ObjectMapper mapper = new ObjectMapper();
+        httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+        System.out.println(httpServletResponse.getHeaderNames());
         mapper.writeValue(out, response);
         out.flush();
     }

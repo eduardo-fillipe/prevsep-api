@@ -55,6 +55,7 @@ public class OAuth2JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
             UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            res.setHeader("Access-Control-Allow-Origin", "*");
             chain.doFilter(req, res);
         } catch (Exception e) {
             getAuthenticationEntryPoint().commence(req, res, new InternalAuthenticationServiceException("Failure during authorization.", e));

@@ -175,6 +175,7 @@ public class OAuth2JWTAuthenticationFilter extends UsernamePasswordAuthenticatio
         String body = mapper.writeValueAsString(fault);
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(fault.getStatusCode());
+        response.setHeader("Access-Control-Allow-Origin", "*");
 
         response.getWriter().write(body);
         response.getWriter().flush();
@@ -207,6 +208,8 @@ public class OAuth2JWTAuthenticationFilter extends UsernamePasswordAuthenticatio
         tokenResponse.setClaims(rolesDTO);
 
         String body = mapper.writerWithView(AccessTokenResponseView.NormalView.class).writeValueAsString(tokenResponse);
+
+        res.setHeader("Access-Control-Allow-Origin", "*");
 
         res.getWriter().write(body);
         res.getWriter().flush();
