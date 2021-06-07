@@ -2,12 +2,12 @@ package br.ufs.hu.prevsep.web.api.dto.mapper;
 
 import br.ufs.hu.prevsep.web.api.dto.doctor.DoctorRequestDTO;
 import br.ufs.hu.prevsep.web.api.dto.doctor.DoctorResponseDTO;
+import br.ufs.hu.prevsep.web.api.dto.doctor.DoctorResponseFullDTO;
+import br.ufs.hu.prevsep.web.api.dto.doctor.DoctorUpdateDTO;
 import br.ufs.hu.prevsep.web.api.dto.manager.ManagerDTO;
 import br.ufs.hu.prevsep.web.api.dto.manager.ManagerFullDTO;
 import br.ufs.hu.prevsep.web.api.dto.manager.ManagerRequestDTO;
 import br.ufs.hu.prevsep.web.api.dto.manager.ManagerUpdateDTO;
-import br.ufs.hu.prevsep.web.api.dto.doctor.DoctorResponseFullDTO;
-import br.ufs.hu.prevsep.web.api.dto.doctor.DoctorUpdateDTO;
 import br.ufs.hu.prevsep.web.api.dto.nurse.NurseDTO;
 import br.ufs.hu.prevsep.web.api.dto.nurse.NurseFullDTO;
 import br.ufs.hu.prevsep.web.api.dto.nurse.NurseRequestDTO;

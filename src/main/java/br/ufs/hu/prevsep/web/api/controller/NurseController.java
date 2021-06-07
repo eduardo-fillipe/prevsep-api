@@ -1,9 +1,9 @@
 package br.ufs.hu.prevsep.web.api.controller;
 
 import br.ufs.hu.prevsep.web.api.config.ApiRequestMappings;
+import br.ufs.hu.prevsep.web.api.dto.doctor.DoctorResponseDTO;
 import br.ufs.hu.prevsep.web.api.dto.doctor.DoctorResponseFullDTO;
 import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
-import br.ufs.hu.prevsep.web.api.dto.doctor.DoctorResponseDTO;
 import br.ufs.hu.prevsep.web.api.dto.nurse.NurseDTO;
 import br.ufs.hu.prevsep.web.api.dto.nurse.NurseFullDTO;
 import br.ufs.hu.prevsep.web.api.dto.nurse.NurseRequestDTO;

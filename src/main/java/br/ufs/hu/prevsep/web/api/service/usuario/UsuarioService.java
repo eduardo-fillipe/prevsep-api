@@ -2,7 +2,6 @@ package br.ufs.hu.prevsep.web.api.service.usuario;
 
 import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioResponseDTO;
 import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioUpdateDTO;
-import br.ufs.hu.prevsep.web.api.exception.user.CPFAlreadyRegistered;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
 
 import java.util.List;
