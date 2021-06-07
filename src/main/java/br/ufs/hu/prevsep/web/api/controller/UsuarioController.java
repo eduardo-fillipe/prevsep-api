@@ -25,7 +25,6 @@ import java.util.List;
 @RestController
 @RequestMapping(path = ApiRequestMappings.USERS, produces = {MediaType.APPLICATION_JSON_VALUE})
 @Tag(name = "Users", description = "Endpoints de gerenciamento e listagem de usuarios.")
-@PreAuthorize("hasRole('ROLE_1')")
 public class UsuarioController extends BaseController{
 
     UsuarioService usuarioService;
@@ -39,6 +38,7 @@ public class UsuarioController extends BaseController{
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = UsuarioResponseDTO.class))))})
+    @PreAuthorize("hasRole('ROLE_1')")
     public List<UsuarioResponseDTO> getUsuarios() {
         return usuarioService.getUsuarios();
     }
@@ -51,6 +51,7 @@ public class UsuarioController extends BaseController{
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
+    @PreAuthorize("#cpf == authentication.principal")
     public void updateUsuario(@PathVariable @NotEmpty @CPF String cpf, @RequestBody @Valid UsuarioUpdateDTO usuarioUpdateDTO){
         usuarioService.updateUsuario(cpf, usuarioUpdateDTO);
     }
@@ -63,6 +64,7 @@ public class UsuarioController extends BaseController{
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
+    @PreAuthorize("(#cpf == authentication.principal) or hasRole('ROLE_1')")
     public void deleteUsuario(@PathVariable @NotEmpty @CPF String cpf){
         usuarioService.deleteUsuario(cpf);
     }
