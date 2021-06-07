@@ -27,18 +27,15 @@ public class OAuth2JWTAuthorizationFilter extends BasicAuthenticationFilter {
     private final String TOKEN_PREFIX = "Bearer ";
     private final String secret;
 
-    public OAuth2JWTAuthorizationFilter(AuthenticationManager authManager, String secret) {
-        super(authManager);
-        this.secret = secret;
-    }
-
-    public OAuth2JWTAuthorizationFilter(AuthenticationManager authenticationManager, AuthenticationEntryPoint authenticationEntryPoint, String secret) {
+    public OAuth2JWTAuthorizationFilter(AuthenticationManager authenticationManager,
+                                        AuthenticationEntryPoint authenticationEntryPoint,
+                                        String secret) {
         super(authenticationManager, authenticationEntryPoint);
         this.secret = secret;
     }
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
         return !path.startsWith(ApiRequestMappings.API_BASE_ENDPOINT);
     }

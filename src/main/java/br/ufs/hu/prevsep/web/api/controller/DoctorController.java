@@ -18,6 +18,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,6 +30,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = ApiRequestMappings.DOCTORS, produces = {MediaType.APPLICATION_JSON_VALUE})
 @Tag(name = "Doctors", description = "Endpoints de gerenciamento e listagem de médicos")
+@PreAuthorize("hasAnyRole('ROLE_1', 'ROLE_2', 'ROLE_3')")
 public class DoctorController extends BaseController{
 
     private final DoctorService doctorService;
@@ -52,6 +55,7 @@ public class DoctorController extends BaseController{
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = DoctorResponseFullDTO.class)))),
             @ApiResponse(responseCode = "404", description = "Doctor not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
+    @PostAuthorize("(hasRole('ROLE_2') and returnObject.userInfo.cpf == authentication.principal) or hasAnyRole('ROLE_1', 'ROLE_3')")
     public DoctorResponseFullDTO getMedicByCRM(@Valid @Size @NotNull @PathVariable Integer crm){
         return doctorService.getMedicByCRM(crm).orElseThrow(() ->
                 new UserNotFoundException().withDetailedMessage("This doctor was not found in the System."));
@@ -65,6 +69,7 @@ public class DoctorController extends BaseController{
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
             @ApiResponse(responseCode = "409", description = "Doctor already registered", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
+    @PreAuthorize("hasRole('ROLE_1')")
     public DoctorResponseDTO createMedic(@RequestBody @Valid DoctorRequestDTO doctorRequestDTO) {
         return doctorService.createMedic(doctorRequestDTO);
     }
@@ -77,6 +82,7 @@ public class DoctorController extends BaseController{
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
             @ApiResponse(responseCode = "404", description = "Doctor not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
+    @PreAuthorize("(#cpf == authentication.principal) or hasRole('ROLE_1')")
     public void updateMedic(@PathVariable("cpf") @Valid  @CPF String cpf, @RequestBody @Valid DoctorUpdateDTO doctorUpdateDTO) {
         doctorService.updateMedico(cpf, doctorUpdateDTO);
     }

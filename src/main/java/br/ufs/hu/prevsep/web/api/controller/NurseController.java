@@ -17,8 +17,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,6 +33,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = ApiRequestMappings.NURSES, produces = {MediaType.APPLICATION_JSON_VALUE})
 @Tag(name = "Nurses", description = "Endpoints de gerenciamento e listagem de enfermeiros")
+@PreAuthorize("hasAnyRole('ROLE_1', 'ROLE_3')")
 public class NurseController extends BaseController{
 
     private final NurseService nurseService;
@@ -43,7 +47,7 @@ public class NurseController extends BaseController{
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = DoctorResponseDTO.class))))})
-    public List<NurseDTO> getMedics(){
+    public List<NurseDTO> getNurses(){
         return nurseService.getNurses();
     }
 
@@ -54,9 +58,10 @@ public class NurseController extends BaseController{
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = DoctorResponseFullDTO.class)))),
             @ApiResponse(responseCode = "404", description = "Nurse not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
-    public NurseFullDTO getMedicByCRM(@Valid @Size @NotNull @PathVariable Integer cre){
+    @PostAuthorize("(hasRole('ROLE_3') and returnObject.userInfo.cpf == authentication.principal) or hasAnyRole('ROLE_1')")
+    public NurseFullDTO getNurseByCRE(@Valid @Size @NotNull @PathVariable Integer cre){
         return nurseService.getNurseByCRE(cre).orElseThrow(() ->
-                new UserNotFoundException().withDetailedMessage("This medic was not found in the System."));
+                new UserNotFoundException().withDetailedMessage("This Nurse was not found in the System."));
     }
 
     @PostMapping
@@ -67,6 +72,7 @@ public class NurseController extends BaseController{
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
             @ApiResponse(responseCode = "409", description = "Nurse already registered", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
+    @PreAuthorize("hasRole('ROLE_1')")
     public NurseDTO createMedic(@RequestBody @Valid NurseRequestDTO medicoRequestDTO) {
         return nurseService.createNurse(medicoRequestDTO);
     }
@@ -79,7 +85,8 @@ public class NurseController extends BaseController{
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
             @ApiResponse(responseCode = "404", description = "Nurse not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
-    public void updateMedic(@PathVariable("cpf") @Valid  @Size(min = 11, max = 11) @NotEmpty String cpf, @RequestBody @Valid NurseUpdateDTO nurseUpdateDTO) {
+    @PreAuthorize("(#cpf == authentication.principal) or hasRole('ROLE_1')")
+    public void updateMedic(@PathVariable("cpf") @Valid  @CPF String cpf, @RequestBody @Valid NurseUpdateDTO nurseUpdateDTO) {
         nurseService.updateNurse(cpf, nurseUpdateDTO);
     }
 }

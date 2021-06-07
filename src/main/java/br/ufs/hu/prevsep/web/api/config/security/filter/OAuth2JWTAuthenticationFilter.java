@@ -6,7 +6,6 @@ import br.ufs.hu.prevsep.web.api.config.security.exception.MethodNotAllowedExcep
 import br.ufs.hu.prevsep.web.api.dto.fault.ErrorDetailDTO;
 import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
 import br.ufs.hu.prevsep.web.api.dto.security.authentication.AccessTokenResponse;
-import br.ufs.hu.prevsep.web.api.dto.security.authentication.views.AccessTokenResponseView;
 import br.ufs.hu.prevsep.web.api.dto.security.authorization.role.RoleDTO;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -207,7 +206,7 @@ public class OAuth2JWTAuthenticationFilter extends UsernamePasswordAuthenticatio
         tokenResponse.setToken_type("bearer");
         tokenResponse.setClaims(rolesDTO);
 
-        String body = mapper.writerWithView(AccessTokenResponseView.NormalView.class).writeValueAsString(tokenResponse);
+        String body = mapper.writeValueAsString(tokenResponse);
 
         res.setHeader("Access-Control-Allow-Origin", "*");
 

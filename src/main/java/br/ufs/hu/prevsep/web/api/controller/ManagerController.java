@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,6 +27,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = ApiRequestMappings.MANAGERS, produces = {MediaType.APPLICATION_JSON_VALUE})
 @Tag(name = "Managers", description = "Endpoints de gerenciamento e listagem de gestores")
+@PreAuthorize("hasRole('ROLE_1')")
 public class ManagerController extends BaseController{
 
     private final ManagerService managerService;
@@ -50,6 +52,7 @@ public class ManagerController extends BaseController{
                     content = @Content(schema = @Schema(implementation = ManagerFullDTO.class))),
             @ApiResponse(responseCode = "404", description = "Medic not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
+    @PreAuthorize("#cpf == authentication.principal")
     public ManagerFullDTO getManagerByCPF(@PathVariable @Valid @CPF String cpf){
         return managerService.getManager(cpf).orElseThrow(() ->
                 new UserNotFoundException().withDetailedMessage("This manager was not found in the System."));
@@ -75,6 +78,7 @@ public class ManagerController extends BaseController{
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
             @ApiResponse(responseCode = "404", description = "Manager not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
+    @PreAuthorize("#cpf == authentication.principal")
     public void updateManager(@PathVariable("cpf") @Valid @CPF String cpf, @RequestBody @Valid ManagerUpdateDTO managerUpdateDTO) {
         managerService.updateManager(cpf, managerUpdateDTO);
     }

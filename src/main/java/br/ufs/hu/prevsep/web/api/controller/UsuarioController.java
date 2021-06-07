@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,6 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = ApiRequestMappings.USERS, produces = {MediaType.APPLICATION_JSON_VALUE})
 @Tag(name = "Users", description = "Endpoints de gerenciamento e listagem de usuarios.")
+@PreAuthorize("hasRole('ROLE_1')")
 public class UsuarioController extends BaseController{
 
     UsuarioService usuarioService;
