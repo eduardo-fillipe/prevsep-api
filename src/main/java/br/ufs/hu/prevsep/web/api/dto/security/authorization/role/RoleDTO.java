@@ -1,8 +1,5 @@
 package br.ufs.hu.prevsep.web.api.dto.security.authorization.role;
 
-import br.ufs.hu.prevsep.web.api.dto.security.authentication.views.AccessTokenResponseView;
-import br.ufs.hu.prevsep.web.api.dto.security.authorization.role.views.RoleViews;
-import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.validation.annotation.Validated;
 
@@ -13,16 +10,13 @@ import java.util.Objects;
 
 @Validated
 public class RoleDTO implements GrantedAuthority {
-    @JsonView({RoleViews.NormalView.class, AccessTokenResponseView.NormalView.class})
     @NotNull(message = "Can not be null.")
     private Integer roleId;
 
-    @JsonView({RoleViews.NormalView.class, RoleViews.CreateView.class, RoleViews.Modify.class, AccessTokenResponseView.NormalView.class})
-    @NotEmpty(message = "The Role name must be provided.", groups = {RoleViews.NormalView.class, RoleViews.CreateView.class, RoleViews.Modify.class})
-    @NotNull(message = "Can not be null.", groups = {RoleViews.NormalView.class, RoleViews.CreateView.class, RoleViews.Modify.class})
+    @NotEmpty(message = "The Role name must be provided.")
+    @NotNull(message = "Can not be null.")
     private String roleName;
 
-    @JsonView({RoleViews.NormalView.class, RoleViews.CreateView.class, RoleViews.Modify.class, AccessTokenResponseView.NormalView.class})
     @Size(max = 255, message = "The description size must be between 1 and 255.")
     private String description;
 

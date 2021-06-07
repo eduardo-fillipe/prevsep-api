@@ -1,8 +1,6 @@
 package br.ufs.hu.prevsep.web.api.dto.security.authentication;
 
-import br.ufs.hu.prevsep.web.api.dto.security.authentication.views.AccessTokenResponseView;
 import br.ufs.hu.prevsep.web.api.dto.security.authorization.role.RoleDTO;
-import com.fasterxml.jackson.annotation.JsonView;
 
 import java.util.List;
 
@@ -22,7 +20,6 @@ public class AccessTokenResponse {
         this.claims = claims;
     }
 
-    @JsonView(AccessTokenResponseView.NormalView.class)
     public String getAccess_token() {
         return access_token;
     }
@@ -31,7 +28,6 @@ public class AccessTokenResponse {
         this.access_token = access_token;
     }
 
-    @JsonView(AccessTokenResponseView.NormalView.class)
     public String getToken_type() {
         return token_type;
     }
@@ -40,7 +36,6 @@ public class AccessTokenResponse {
         this.token_type = token_type;
     }
 
-    @JsonView(AccessTokenResponseView.NormalView.class)
     public Long getExpires_in() {
         return expires_in;
     }
@@ -49,7 +44,6 @@ public class AccessTokenResponse {
         this.expires_in = expires_in;
     }
 
-    @JsonView(AccessTokenResponseView.NormalView.class)
     public List<RoleDTO> getClaims() {
         return claims;
     }
