@@ -1,8 +1,6 @@
 package br.ufs.hu.prevsep.web.api.config;
 
 import br.ufs.hu.prevsep.web.api.config.security.OperationRoleDecisionVoter;
-import br.ufs.hu.prevsep.web.api.service.HelloWorldService;
-import br.ufs.hu.prevsep.web.api.service.HelloWorldServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDecisionManager;
@@ -20,11 +18,6 @@ import java.util.List;
 
 @Configuration
 public class BeanConfig {
-
-    @Bean
-    public HelloWorldService getHelloWorldService() {
-        return new HelloWorldServiceImpl();
-    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
