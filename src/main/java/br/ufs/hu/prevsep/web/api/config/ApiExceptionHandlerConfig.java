@@ -3,9 +3,12 @@ import br.ufs.hu.prevsep.web.api.dto.fault.ErrorDetailDTO;
 import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
 import br.ufs.hu.prevsep.web.api.dto.fault.FieldErrorDTO;
 import br.ufs.hu.prevsep.web.api.exception.PrevSepException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -58,6 +61,30 @@ public class ApiExceptionHandlerConfig extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(faultDTO, HttpStatus.BAD_REQUEST);
     }
 
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        FaultDTO faultDTO = new FaultDTO();
+        faultDTO.setStatusCode(HttpStatus.BAD_REQUEST.value());
+        faultDTO.setError(ex.getClass().getSimpleName());
+        faultDTO.setMessage("The request could not be read.");
+        ErrorDetailDTO errorDetailDTO = new ErrorDetailDTO();
+        errorDetailDTO.setErrorDetail(ex.getMessage());
+        faultDTO.setErrorDetail(errorDetailDTO);
+        errorDetailDTO.setExceptionClass(ex.getClass().getName());
+        if (ex.getMostSpecificCause() instanceof InvalidFormatException) {
+            InvalidFormatException cause = ((InvalidFormatException)ex.getMostSpecificCause());
+            List<FieldErrorDTO> fieldErrorDTOS = new ArrayList<>();
+            StringBuilder fieldPath = new StringBuilder(cause.getPath().get(0).getFieldName());
+            for (int i = 1; i < cause.getPath().size(); i++) {
+                fieldPath.append(".");
+                fieldPath.append(cause.getPath().get(i).getFieldName());
+            }
+            fieldErrorDTOS.add(new FieldErrorDTO(fieldPath.toString(), "Unreadable value: " + cause.getValue().toString()));
+            errorDetailDTO.setFieldErrors(fieldErrorDTOS);
+        }
+
+        return new ResponseEntity<>(faultDTO, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Object> handleAccessDeniedError(AccessDeniedException ex) {
@@ -75,7 +102,7 @@ public class ApiExceptionHandlerConfig extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleInternalError(Exception ex) {
+    public ResponseEntity<Object> handleInternalServerError(Exception ex) {
         FaultDTO fault = new FaultDTO();
         fault.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
         fault.setMessage(ex.getMessage());
