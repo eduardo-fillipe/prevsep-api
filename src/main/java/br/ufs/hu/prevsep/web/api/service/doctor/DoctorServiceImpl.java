@@ -5,6 +5,7 @@ import br.ufs.hu.prevsep.web.api.dto.doctor.DoctorResponseDTO;
 import br.ufs.hu.prevsep.web.api.dto.doctor.DoctorResponseFullDTO;
 import br.ufs.hu.prevsep.web.api.dto.doctor.DoctorUpdateDTO;
 import br.ufs.hu.prevsep.web.api.dto.mapper.UsuarioMapper;
+import br.ufs.hu.prevsep.web.api.dto.usuario.CargoEnum;
 import br.ufs.hu.prevsep.web.api.dto.usuario.StatusUsuarioEnum;
 import br.ufs.hu.prevsep.web.api.exception.user.CPFAlreadyRegistered;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
@@ -82,6 +83,7 @@ public class DoctorServiceImpl implements DoctorService {
         MedicoEntity medicoEntity = usuarioMapper.mapToDoctorEntity(medico);
 
         medicoEntity.getUserInfo().setSenha(passwordEncoder.encode(medicoEntity.getUserInfo().getSenha()));
+        medicoEntity.getUserInfo().setCargo(CargoEnum.MEDICO.getId());
 
         MedicoEntity savedEntity = doctorRepository.save(medicoEntity);
 

@@ -5,6 +5,7 @@ import br.ufs.hu.prevsep.web.api.dto.nurse.NurseDTO;
 import br.ufs.hu.prevsep.web.api.dto.nurse.NurseFullDTO;
 import br.ufs.hu.prevsep.web.api.dto.nurse.NurseRequestDTO;
 import br.ufs.hu.prevsep.web.api.dto.nurse.NurseUpdateDTO;
+import br.ufs.hu.prevsep.web.api.dto.usuario.CargoEnum;
 import br.ufs.hu.prevsep.web.api.dto.usuario.StatusUsuarioEnum;
 import br.ufs.hu.prevsep.web.api.exception.user.CPFAlreadyRegistered;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
@@ -80,7 +81,7 @@ public class NurseServiceImpl implements NurseService {
             throw new CPFAlreadyRegistered().withDetailedMessage("An user is already registered under this CPF.");
 
         EnfermeiroEntity enfermeiroEntity = usuarioMapper.mapToEnfermeiroEntity(nurse);
-
+        enfermeiroEntity.getUserInfo().setCargo(CargoEnum.ENFERMEIRO.getId());
         enfermeiroEntity.getUserInfo().setSenha(passwordEncoder.encode(enfermeiroEntity.getUserInfo().getSenha()));
 
         EnfermeiroEntity savedEntity = nurseRepository.save(enfermeiroEntity);
@@ -90,7 +91,7 @@ public class NurseServiceImpl implements NurseService {
 
     @Override
     public NurseDTO updateNurse(String cpf, NurseUpdateDTO nurseUpdateDTO) {
-        NurseDTO nurseDTO = getNurse(cpf).orElseThrow(() -> new UserNotFoundException().withDetailedMessage("Nurse not found."));
+        getNurse(cpf).orElseThrow(() -> new UserNotFoundException().withDetailedMessage("Nurse not found."));
 
         EnfermeiroEntity enfermeiroEntity = usuarioMapper.mapToEnfermeiroEntity(nurseUpdateDTO);
         enfermeiroEntity.setCpf(cpf);

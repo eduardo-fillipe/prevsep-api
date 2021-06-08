@@ -1,13 +1,16 @@
 package br.ufs.hu.prevsep.web.api.dto.doctor;
 
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class DoctorUpdateDTO {
     @NotEmpty(message = "Name can not be null")
     private String nome;
-    @NotEmpty(message = "CRM can not be null")
+    @NotNull(message = "CRM can not be null")
+    @Range(min = 1, message = "Minimum value is 1")
     private Integer crm;
     @NotEmpty
     @Length(min = 11, max = 11)

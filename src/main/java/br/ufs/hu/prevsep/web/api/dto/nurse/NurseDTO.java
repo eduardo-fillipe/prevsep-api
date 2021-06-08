@@ -6,7 +6,7 @@ public class NurseDTO {
 
     private String cpf;
     private String nome;
-    private Integer crm;
+    private Integer cre;
     private StatusUsuarioEnum statusUsuario;
 
     public String getCpf() {
@@ -25,12 +25,12 @@ public class NurseDTO {
         this.nome = nome;
     }
 
-    public Integer getCrm() {
-        return crm;
+    public Integer getCre() {
+        return cre;
     }
 
-    public void setCrm(Integer crm) {
-        this.crm = crm;
+    public void setCre(Integer cre) {
+        this.cre = cre;
     }
 
     public StatusUsuarioEnum getStatusUsuario() {

@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UsuarioServiceImpl implements UsuarioService{
+public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
@@ -37,26 +37,18 @@ public class UsuarioServiceImpl implements UsuarioService{
         BeanUtils.copyPropertiesIgnoreNulls(mappedEntity, existingUsuario, true);
 
         if (usuario.getSenha() != null) {
-            if (validatePassword(usuario.getSenha())) {
+            Optional<PasswordDoesNotHaveMinimumRequirementsException> passValidation =
+                    validatePassword(usuario.getSenha());
+            if (passValidation.isEmpty()) {
                 existingUsuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
             } else {
-                throw new PasswordDoesNotHaveMinimumRequirementsException();
+                throw passValidation.get();
             }
         }
 
         UsuarioEntity result = usuarioRepository.save(existingUsuario);
 
         return usuarioMapper.mapToUsuarioResponseDto(result);
-    }
-
-    /**
-     * Validates if a given password have the minimum requirements.
-     * @param password The password
-     * @return true if the password meet the requirements, otherwise false
-     */
-    //TODO Implementar esse método.
-    private boolean validatePassword(String password) {
-        return true;
     }
 
     @Override

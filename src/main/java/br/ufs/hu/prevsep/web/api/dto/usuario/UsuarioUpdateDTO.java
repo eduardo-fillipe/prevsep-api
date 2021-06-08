@@ -3,6 +3,7 @@ package br.ufs.hu.prevsep.web.api.dto.usuario;
 import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class UsuarioUpdateDTO {
@@ -11,6 +12,10 @@ public class UsuarioUpdateDTO {
     private String email;
     @Nullable
     @Size(min = 8, max = 32)
+    @Pattern(regexp = "(.*([a-z]|[A-Z]).*)", message = "Must have at least 1 letter.")
+    @Pattern(regexp = "(.*[@#$%^&+=].*)", message = "Must have at least 1 special character.")
+    @Pattern(regexp = "(.*[0-9].*)", message = "Must have at least 1 number.")
+    @Pattern(regexp = "(^[^\\s]*$)", message = "Cannot contain blank spaces.")
     private String senha;
     private CargoEnum cargo;
     private StatusUsuarioEnum status;

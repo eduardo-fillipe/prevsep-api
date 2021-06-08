@@ -31,6 +31,7 @@ public class ApiExceptionHandlerConfig extends ResponseEntityExceptionHandler {
         fault.setErrorDetail(detailDTO);
         detailDTO.setExceptionClass(ex.getClass().getCanonicalName());
         detailDTO.setErrorDetail(ex.getDetailedMessage());
+        detailDTO.setFieldErrors(ex.getFieldErrors());
 
         return new ResponseEntity<>(fault, ex.getHttpStatus());
     }

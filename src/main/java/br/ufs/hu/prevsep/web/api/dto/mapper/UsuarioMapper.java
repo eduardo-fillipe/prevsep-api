@@ -50,11 +50,11 @@ public interface UsuarioMapper {
 
     DoctorResponseFullDTO mapToDoctorResponseFullDto(MedicoEntity entity);
 
+    @Mapping(target = "cargo", ignore = true)
     UsuarioEntity mapToUsuarioEntity(UsuarioRequestDTO usuarioRequestDTO);
 
+    @Mapping(target = "cpf", ignore = true)
     UsuarioEntity mapToUsuarioEntity(UsuarioUpdateDTO usuarioRequestDTO);
-
-    UsuarioUpdateDTO mapUsuarioUpdateDto(UsuarioResponseDTO dto);
 
     @Mappings({
             @Mapping(target = "cpf", source = "dto.userInfo.cpf")
@@ -79,7 +79,8 @@ public interface UsuarioMapper {
     })
     ManagerEntity mapToManagerEntity(ManagerRequestDTO dto);
     @Mappings({
-            @Mapping(target = "userInfo", ignore = true)
+            @Mapping(target = "userInfo", ignore = true),
+            @Mapping(target = "cpf", ignore = true)
     })
     ManagerEntity mapToManagerEntity(ManagerUpdateDTO dto);
 

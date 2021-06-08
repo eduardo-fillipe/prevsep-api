@@ -3,9 +3,7 @@ package br.ufs.hu.prevsep.web.api.dto.usuario;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 public class UsuarioRequestDTO {
     @CPF(message = "Not a valid CPF")
@@ -16,9 +14,11 @@ public class UsuarioRequestDTO {
     private String email;
     @NotEmpty(message = "Password can not be empty")
     @Length(min = 8, max = 32)
+    @Pattern(regexp = "(.*([a-z]|[A-Z]).*)", message = "Must have at least 1 letter.")
+    @Pattern(regexp = "(.*[@#$%^&+=].*)", message = "Must have at least 1 special character.")
+    @Pattern(regexp = "(.*[0-9].*)", message = "Must have at least 1 number.")
+    @Pattern(regexp = "(^[^\\s]*$)", message = "Cannot contain blank spaces.")
     private String senha;
-    @NotNull
-    private CargoEnum cargo;
     private StatusUsuarioEnum status;
 
     public String getCpf() {
@@ -43,14 +43,6 @@ public class UsuarioRequestDTO {
 
     public void setSenha(String senha) {
         this.senha = senha;
-    }
-
-    public CargoEnum getCargo() {
-        return cargo;
-    }
-
-    public void setCargo(CargoEnum cargo) {
-        this.cargo = cargo;
     }
 
     public StatusUsuarioEnum getStatus() {

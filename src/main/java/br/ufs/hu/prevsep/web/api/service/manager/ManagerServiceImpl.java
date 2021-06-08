@@ -5,6 +5,7 @@ import br.ufs.hu.prevsep.web.api.dto.manager.ManagerFullDTO;
 import br.ufs.hu.prevsep.web.api.dto.manager.ManagerRequestDTO;
 import br.ufs.hu.prevsep.web.api.dto.manager.ManagerUpdateDTO;
 import br.ufs.hu.prevsep.web.api.dto.mapper.UsuarioMapper;
+import br.ufs.hu.prevsep.web.api.dto.usuario.CargoEnum;
 import br.ufs.hu.prevsep.web.api.dto.usuario.StatusUsuarioEnum;
 import br.ufs.hu.prevsep.web.api.exception.user.CPFAlreadyRegistered;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
@@ -65,6 +66,7 @@ public class ManagerServiceImpl implements ManagerService {
             throw new CPFAlreadyRegistered().withDetailedMessage("An user is already registered under this CPF.");
 
         ManagerEntity managerEntity = usuarioMapper.mapToManagerEntity(managerRequestDTO);
+        managerEntity.getUserInfo().setCargo(CargoEnum.GESTOR.getId());
 
         //Encodes password before saving
         managerEntity.getUserInfo().setSenha(passwordEncoder.encode(managerEntity.getUserInfo().getSenha()));

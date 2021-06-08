@@ -1,17 +1,16 @@
 package br.ufs.hu.prevsep.web.api.dto.nurse;
 
-import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class NurseUpdateDTO {
     @NotEmpty(message = "Name can not be null")
     private String nome;
-    @NotEmpty(message = "CRE can not be null")
+    @NotNull(message = "CRE can not be null")
+    @Range(min = 1, message = "Minimum value is 1")
     private Integer cre;
-    @NotEmpty
-    @Length(min = 11, max = 11)
-    private String cpf;
 
     public String getNome() {
         return nome;
@@ -29,11 +28,4 @@ public class NurseUpdateDTO {
         this.cre = cre;
     }
 
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
 }

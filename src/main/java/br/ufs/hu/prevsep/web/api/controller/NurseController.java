@@ -73,8 +73,8 @@ public class NurseController extends BaseController{
             @ApiResponse(responseCode = "409", description = "Nurse already registered", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @PreAuthorize("hasRole('ROLE_1')")
-    public NurseDTO createMedic(@RequestBody @Valid NurseRequestDTO medicoRequestDTO) {
-        return nurseService.createNurse(medicoRequestDTO);
+    public NurseDTO createMedic(@RequestBody @Valid NurseRequestDTO nurseRequestDTO) {
+        return nurseService.createNurse(nurseRequestDTO);
     }
 
     @PutMapping("/{cpf}")
