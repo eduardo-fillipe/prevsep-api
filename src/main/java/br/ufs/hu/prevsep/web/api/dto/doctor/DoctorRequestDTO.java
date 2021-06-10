@@ -7,21 +7,11 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class DoctorRequestDTO {
-    @NotEmpty(message = "Name can not be null")
-    private String nome;
     @NotNull(message = "CRM can not be null")
     private Integer crm;
     @NotNull
     @Valid
     private UsuarioRequestDTO userInfo;
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
 
     public Integer getCrm() {
         return crm;

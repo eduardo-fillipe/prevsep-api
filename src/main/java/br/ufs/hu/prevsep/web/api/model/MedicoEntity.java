@@ -8,8 +8,7 @@ public class MedicoEntity {
     @Id
     @Column(name = "cpf")
     private String cpf;
-    @Column(name = "nome")
-    private String nome;
+
     @Column(name = "crm")
     private Integer crm;
 
@@ -23,14 +22,6 @@ public class MedicoEntity {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public Integer getCrm() {

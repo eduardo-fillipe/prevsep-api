@@ -10,9 +10,6 @@ public class EnfermeiroEntity {
     @Column(name="cpf")
     private String cpf;
 
-    @Column(name = "nome")
-    private String nome;
-
     @Column(name = "cre")
     private Integer cre;
 
@@ -28,13 +25,6 @@ public class EnfermeiroEntity {
         this.cpf = cpf;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
 
     public Integer getCre() {
         return cre;

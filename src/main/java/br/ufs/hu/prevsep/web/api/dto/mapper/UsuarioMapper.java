@@ -45,7 +45,10 @@ public interface UsuarioMapper {
         return CargoEnum.fromId(value);
     }
 
-    @Mapping(target = "statusUsuario", source = "entity.userInfo.status")
+    @Mappings({
+            @Mapping(target = "statusUsuario", source = "entity.userInfo.status"),
+            @Mapping(target = "nome", source = "entity.userInfo.nome")
+    })
     DoctorResponseDTO mapToDoctorResponseDto(MedicoEntity entity);
 
     DoctorResponseFullDTO mapToDoctorResponseFullDto(MedicoEntity entity);
@@ -66,14 +69,14 @@ public interface UsuarioMapper {
     })
     MedicoEntity mapToDoctorEntity(DoctorUpdateDTO doctorUpdateDTO);
 
-    @Mapping(target = "statusUsuario", source = "entity.userInfo.status")
+    @Mappings({
+            @Mapping(target = "statusUsuario", source = "entity.userInfo.status"),
+            @Mapping(target = "nome", source = "entity.userInfo.nome")
+    })
     ManagerDTO mapToManagerDto(ManagerEntity entity);
 
     ManagerFullDTO mapToManagerFullDto(ManagerEntity entity);
 
-    ManagerRequestDTO mapToManagerRequestDto(ManagerEntity entity);
-
-    ManagerUpdateDTO mapToManagerUpdateDto(ManagerEntity entity);
     @Mappings({
             @Mapping(target = "cpf", source = "dto.userInfo.cpf")
     })
@@ -84,16 +87,17 @@ public interface UsuarioMapper {
     })
     ManagerEntity mapToManagerEntity(ManagerUpdateDTO dto);
 
-    @Mapping(target = "statusUsuario", source = "entity.userInfo.status")
+    @Mappings({
+            @Mapping(target = "statusUsuario", source = "entity.userInfo.status"),
+            @Mapping(target = "nome", source = "entity.userInfo.nome")
+    })
     NurseDTO mapToNurseDto(EnfermeiroEntity entity);
 
     NurseFullDTO mapToNurseFullDto(EnfermeiroEntity entity);
 
-    NurseRequestDTO mapToNurseRequestDto(EnfermeiroEntity entity);
-
-    NurseUpdateDTO mapToNurseUpdateDto(EnfermeiroEntity entity);
     @Mappings({
-            @Mapping(target = "userInfo", ignore = true)
+            @Mapping(target = "userInfo", ignore = true),
+            @Mapping(target = "cpf", ignore = true)
     })
     EnfermeiroEntity mapToEnfermeiroEntity(NurseUpdateDTO dto);
     @Mappings({

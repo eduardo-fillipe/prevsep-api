@@ -7,19 +7,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class ManagerRequestDTO {
-    @NotEmpty(message = "Nome cant be empty.")
-    private String nome;
     @Valid
     @NotNull
     private UsuarioRequestDTO userInfo;
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
 
     public UsuarioRequestDTO getUserInfo() {
         return userInfo;

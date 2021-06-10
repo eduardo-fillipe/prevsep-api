@@ -12,6 +12,9 @@ public class UsuarioEntity {
     @Column(name = "cpf")
     private String cpf;
 
+    @Column(name = "nome")
+    private String nome;
+
     @Column(name = "email")
     private String email;
 
@@ -58,6 +61,14 @@ public class UsuarioEntity {
 
     public Integer getStatus() {
         return status;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public void setStatus(Integer status) {

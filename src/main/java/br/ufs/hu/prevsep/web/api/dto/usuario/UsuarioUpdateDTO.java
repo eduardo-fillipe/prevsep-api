@@ -7,16 +7,19 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class UsuarioUpdateDTO {
-    @Nullable
     @Email(message = "Invalid e-mail")
     private String email;
-    @Nullable
+
+    @Size(min = 1, max = 255)
+    private String nome;
+
     @Size(min = 8, max = 32)
     @Pattern(regexp = "(.*([a-z]|[A-Z]).*)", message = "Must have at least 1 letter.")
     @Pattern(regexp = "(.*[@#$%^&+=].*)", message = "Must have at least 1 special character.")
     @Pattern(regexp = "(.*[0-9].*)", message = "Must have at least 1 number.")
     @Pattern(regexp = "(^[^\\s]*$)", message = "Cannot contain blank spaces.")
     private String senha;
+
     private CargoEnum cargo;
     private StatusUsuarioEnum status;
 
@@ -46,6 +49,14 @@ public class UsuarioUpdateDTO {
 
     public StatusUsuarioEnum getStatus() {
         return status;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public void setStatus(StatusUsuarioEnum status) {

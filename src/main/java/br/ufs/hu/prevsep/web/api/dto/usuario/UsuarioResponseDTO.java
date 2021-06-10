@@ -2,6 +2,7 @@ package br.ufs.hu.prevsep.web.api.dto.usuario;
 
 public class UsuarioResponseDTO {
     private String cpf;
+    private String nome;
     private String email;
     private CargoEnum cargo;
     private StatusUsuarioEnum status;
@@ -32,6 +33,14 @@ public class UsuarioResponseDTO {
 
     public StatusUsuarioEnum getStatus() {
         return status;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public void setStatus(StatusUsuarioEnum status) {

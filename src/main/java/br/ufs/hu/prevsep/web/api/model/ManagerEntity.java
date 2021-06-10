@@ -6,9 +6,6 @@ import javax.persistence.*;
 @Table(schema = "public", name = "gestor")
 public class ManagerEntity {
 
-    @Column(name = "nome")
-    private String nome;
-
     @Id
     @Column(name = "cpf")
     private String cpf;
@@ -16,14 +13,6 @@ public class ManagerEntity {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "cpf", referencedColumnName = "cpf")
     private UsuarioEntity userInfo;
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
 
     public String getCpf() {
         return cpf;
