@@ -65,7 +65,7 @@ public class UsuarioController extends BaseController{
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @PreAuthorize("(#cpf == authentication.principal) or hasRole('ROLE_1')")
-    public void deleteUsuario(@PathVariable @NotEmpty @CPF String cpf){
+    public void deleteUsuario(@PathVariable @Valid @NotEmpty @CPF String cpf) {
         usuarioService.deleteUsuario(cpf);
     }
 

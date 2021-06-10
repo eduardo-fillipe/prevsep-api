@@ -8,6 +8,7 @@ import br.ufs.hu.prevsep.web.api.dto.manager.ManagerRequestDTO;
 import br.ufs.hu.prevsep.web.api.dto.manager.ManagerUpdateDTO;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
 import br.ufs.hu.prevsep.web.api.service.manager.ManagerService;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -70,6 +71,7 @@ public class ManagerController extends BaseController{
         return managerService.createManager(managerRequestDTO);
     }
 
+    @Hidden
     @PutMapping("/{cpf}")
     @Operation(summary = "Updates a specific manager.")
     @ResponseStatus(HttpStatus.NO_CONTENT)

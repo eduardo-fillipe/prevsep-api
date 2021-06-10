@@ -10,9 +10,6 @@ public class DoctorUpdateDTO {
     @NotNull(message = "CRM can not be null")
     @Range(min = 1, message = "Minimum value is 1")
     private Integer crm;
-    @NotEmpty
-    @Length(min = 11, max = 11)
-    private String cpf;
 
     public Integer getCrm() {
         return crm;
@@ -20,13 +17,5 @@ public class DoctorUpdateDTO {
 
     public void setCrm(Integer crm) {
         this.crm = crm;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
     }
 }
