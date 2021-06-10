@@ -1,9 +1,9 @@
 package br.ufs.hu.prevsep.web.api.config;
+
 import br.ufs.hu.prevsep.web.api.dto.fault.ErrorDetailDTO;
 import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
 import br.ufs.hu.prevsep.web.api.dto.fault.FieldErrorDTO;
 import br.ufs.hu.prevsep.web.api.exception.PrevSepException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
