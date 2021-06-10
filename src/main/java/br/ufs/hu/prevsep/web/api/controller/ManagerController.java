@@ -26,7 +26,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = ApiRequestMappings.MANAGERS, produces = {MediaType.APPLICATION_JSON_VALUE})
-@Tag(name = "Managers", description = "Endpoints de gerenciamento e listagem de gestores")
+@Tag(name = "Managers", description = "Manage, create, list and update managers.")
 @PreAuthorize("hasRole('ROLE_1')")
 public class ManagerController extends BaseController{
 

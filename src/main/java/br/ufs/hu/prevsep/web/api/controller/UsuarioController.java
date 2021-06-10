@@ -24,7 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = ApiRequestMappings.USERS, produces = {MediaType.APPLICATION_JSON_VALUE})
-@Tag(name = "Users", description = "Endpoints de gerenciamento e listagem de usuarios.")
+@Tag(name = "Users", description = "User managing endpoints")
 public class UsuarioController extends BaseController{
 
     UsuarioService usuarioService;

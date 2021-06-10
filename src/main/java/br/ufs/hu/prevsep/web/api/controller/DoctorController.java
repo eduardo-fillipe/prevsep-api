@@ -29,7 +29,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = ApiRequestMappings.DOCTORS, produces = {MediaType.APPLICATION_JSON_VALUE})
-@Tag(name = "Doctors", description = "Endpoints de gerenciamento e listagem de médicos")
+@Tag(name = "Doctors", description = "Endpoints for managing, create and listing doctors.")
 @PreAuthorize("hasAnyRole('ROLE_1', 'ROLE_2', 'ROLE_3')")
 public class DoctorController extends BaseController{
 
