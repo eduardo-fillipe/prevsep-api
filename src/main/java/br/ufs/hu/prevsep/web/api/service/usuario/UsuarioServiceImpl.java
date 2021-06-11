@@ -76,7 +76,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public List<UsuarioResponseDTO> getUsuarios(StatusUsuarioEnum status, CargoEnum cargo, String name, String email) {
         QUsuarioEntity qUser = QUsuarioEntity.usuarioEntity;
-        BooleanBuilder filter = new BooleanBuilder();
+        BooleanBuilder filter = new BooleanBuilder(qUser.status.ne(StatusUsuarioEnum.DESATIVADO.getStatus()));
 
         if (cargo != null)
             filter.and(qUser.cargo.eq(cargo.getId()));
@@ -86,8 +86,6 @@ public class UsuarioServiceImpl implements UsuarioService {
             filter.and(qUser.nome.lower().like("%" + name.toLowerCase() + "%"));
         if (email != null)
             filter.and(qUser.email.lower().like("%" + email.toLowerCase() + "%"));
-
-        filter.and(qUser.status.ne(StatusUsuarioEnum.DESATIVADO.getStatus()));
 
         return queryFactory.selectFrom(qUser)
                 .where(filter).fetch()
