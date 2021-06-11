@@ -54,7 +54,7 @@ public interface UsuarioService {
 
     Optional<UsuarioResponseDTO> getUsuario(String cpf);
 
-    List<UsuarioResponseDTO> getUsuarios(StatusUsuarioEnum status, CargoEnum cargo, String nome, String email);
+    List<UsuarioResponseDTO> getUsuarios(StatusUsuarioEnum status, CargoEnum cargo, String name, String email);
 
     void deleteUsuario(String cpf) throws UserNotFoundException;
 }

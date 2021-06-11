@@ -44,9 +44,9 @@ public class UsuarioController extends BaseController{
     @PreAuthorize("hasRole('ROLE_1')")
     public List<UsuarioResponseDTO> getUsuarios(@RequestParam(value = "status", required = false) StatusUsuarioEnum status,
                                                 @RequestParam(value = "cargo", required = false) CargoEnum cargo,
-                                                @RequestParam(value = "nome", required = false) String nome,
+                                                @RequestParam(value = "name", required = false) String name,
                                                 @RequestParam(value = "email", required = false) @Valid @Email String email) {
-        return usuarioService.getUsuarios(status, cargo, nome, email);
+        return usuarioService.getUsuarios(status, cargo, name, email);
     }
 
     @PatchMapping("/{cpf}")
