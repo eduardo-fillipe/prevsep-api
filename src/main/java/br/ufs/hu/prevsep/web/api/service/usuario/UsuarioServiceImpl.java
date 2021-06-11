@@ -1,6 +1,7 @@
 package br.ufs.hu.prevsep.web.api.service.usuario;
 
 import br.ufs.hu.prevsep.web.api.dto.mapper.UsuarioMapper;
+import br.ufs.hu.prevsep.web.api.dto.usuario.CargoEnum;
 import br.ufs.hu.prevsep.web.api.dto.usuario.StatusUsuarioEnum;
 import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioResponseDTO;
 import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioUpdateDTO;
@@ -9,9 +10,11 @@ import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
 import br.ufs.hu.prevsep.web.api.model.UsuarioEntity;
 import br.ufs.hu.prevsep.web.api.repository.UsuarioRepository;
 import br.ufs.hu.prevsep.web.api.utils.BeanUtils;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -67,13 +70,26 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public List<UsuarioResponseDTO> getUsuarios() {
+    public List<UsuarioResponseDTO> getUsuarios(StatusUsuarioEnum status, CargoEnum cargo, String nome, String email) {
         List<UsuarioResponseDTO> result = new ArrayList<>();
 
-        usuarioRepository.findAll().forEach(usuarioEntity -> {
-            if (StatusUsuarioEnum.fromId(usuarioEntity.getStatus()) != StatusUsuarioEnum.DESATIVADO)
-                result.add(usuarioMapper.mapToUsuarioResponseDto(usuarioEntity));
-        });
+        Specification<UsuarioEntity> filter =
+                (root, criteriaQuery, criteriaBuilder) -> {
+                    ArrayList<Predicate> filters = new ArrayList<>();
+                    filters.add(criteriaBuilder.notEqual(root.get("status"), StatusUsuarioEnum.DESATIVADO.getStatus()));
+                    if (cargo != null)
+                        filters.add(criteriaBuilder.equal(root.get("cargo"), cargo.getId()));
+                    if (status != null)
+                        filters.add(criteriaBuilder.equal(root.get("status"), status.getStatus()));
+                    if (nome != null)
+                        filters.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("nome")), "%" + nome.toLowerCase() + "%"));
+                    if (email != null)
+                        filters.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("email")), "%" + email.toLowerCase() + "%"));
+
+                    return criteriaBuilder.and(filters.toArray(new Predicate[0]));
+        };
+
+        usuarioRepository.findAll(filter).forEach(usuarioEntity -> result.add(usuarioMapper.mapToUsuarioResponseDto(usuarioEntity)));
 
         return result;
     }

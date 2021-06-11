@@ -2,6 +2,8 @@ package br.ufs.hu.prevsep.web.api.controller;
 
 import br.ufs.hu.prevsep.web.api.config.ApiRequestMappings;
 import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
+import br.ufs.hu.prevsep.web.api.dto.usuario.CargoEnum;
+import br.ufs.hu.prevsep.web.api.dto.usuario.StatusUsuarioEnum;
 import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioResponseDTO;
 import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioUpdateDTO;
 import br.ufs.hu.prevsep.web.api.service.usuario.UsuarioService;
@@ -19,6 +21,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
@@ -39,8 +42,11 @@ public class UsuarioController extends BaseController{
             @ApiResponse(responseCode = "200", description = "Ok",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = UsuarioResponseDTO.class))))})
     @PreAuthorize("hasRole('ROLE_1')")
-    public List<UsuarioResponseDTO> getUsuarios() {
-        return usuarioService.getUsuarios();
+    public List<UsuarioResponseDTO> getUsuarios(@RequestParam(value = "status", required = false) StatusUsuarioEnum status,
+                                                @RequestParam(value = "cargo", required = false) CargoEnum cargo,
+                                                @RequestParam(value = "nome", required = false) String nome,
+                                                @RequestParam(value = "email", required = false) @Valid @Email String email) {
+        return usuarioService.getUsuarios(status, cargo, nome, email);
     }
 
     @PatchMapping("/{cpf}")

@@ -1,5 +1,7 @@
 package br.ufs.hu.prevsep.web.api.service.usuario;
 
+import br.ufs.hu.prevsep.web.api.dto.usuario.CargoEnum;
+import br.ufs.hu.prevsep.web.api.dto.usuario.StatusUsuarioEnum;
 import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioResponseDTO;
 import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioUpdateDTO;
 import br.ufs.hu.prevsep.web.api.exception.PasswordDoesNotHaveMinimumRequirementsException;
@@ -52,7 +54,7 @@ public interface UsuarioService {
 
     Optional<UsuarioResponseDTO> getUsuario(String cpf);
 
-    List<UsuarioResponseDTO> getUsuarios();
+    List<UsuarioResponseDTO> getUsuarios(StatusUsuarioEnum status, CargoEnum cargo, String nome, String email);
 
     void deleteUsuario(String cpf) throws UserNotFoundException;
 }
