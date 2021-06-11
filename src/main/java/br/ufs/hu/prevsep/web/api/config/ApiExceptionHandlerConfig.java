@@ -105,13 +105,14 @@ public class ApiExceptionHandlerConfig extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleInternalServerError(Exception ex) {
         FaultDTO fault = new FaultDTO();
         fault.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        fault.setMessage(ex.getMessage());
+        fault.setMessage("An error occurred during your request. Please try again later.");
         fault.setError(ex.getClass().getSimpleName());
 
         ErrorDetailDTO detailDTO = new ErrorDetailDTO();
         fault.setErrorDetail(detailDTO);
         detailDTO.setExceptionClass(ex.getClass().getCanonicalName());
-        detailDTO.setErrorDetail(ex.getLocalizedMessage());
+        detailDTO.setErrorDetail(ex.getMessage());
+        ex.printStackTrace();
 
         return new ResponseEntity<>(fault, HttpStatus.INTERNAL_SERVER_ERROR);
     }
