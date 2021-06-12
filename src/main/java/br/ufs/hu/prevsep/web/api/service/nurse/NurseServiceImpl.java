@@ -7,6 +7,7 @@ import br.ufs.hu.prevsep.web.api.dto.nurse.NurseRequestDTO;
 import br.ufs.hu.prevsep.web.api.dto.nurse.NurseUpdateDTO;
 import br.ufs.hu.prevsep.web.api.dto.usuario.CargoEnum;
 import br.ufs.hu.prevsep.web.api.dto.usuario.StatusUsuarioEnum;
+import br.ufs.hu.prevsep.web.api.exception.CREAlreadyRegisteredException;
 import br.ufs.hu.prevsep.web.api.exception.user.CPFAlreadyRegistered;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
 import br.ufs.hu.prevsep.web.api.model.EnfermeiroEntity;
@@ -81,8 +82,8 @@ public class NurseServiceImpl implements NurseService {
             throw new CPFAlreadyRegistered().withDetailedMessage("An user is already registered under this CPF.");
 
         if (getNurseByCRE(nurse.getCre()).isPresent())
-            throw new CPFAlreadyRegistered()
-                    .withDetailedMessage("A doctor with CRM '"+nurse.getCre()+"' already exists in the database.");
+            throw new CREAlreadyRegisteredException()
+                    .withDetailedMessage("A nurse with CRE '"+nurse.getCre()+"' already exists in the system's database.");
 
 
         EnfermeiroEntity enfermeiroEntity = usuarioMapper.mapToEnfermeiroEntity(nurse);
