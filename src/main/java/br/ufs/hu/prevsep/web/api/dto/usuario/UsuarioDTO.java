@@ -1,6 +1,6 @@
 package br.ufs.hu.prevsep.web.api.dto.usuario;
 
-public class UsuarioResponseDTO {
+public class UsuarioDTO {
     private String cpf;
     private String nome;
     private String email;

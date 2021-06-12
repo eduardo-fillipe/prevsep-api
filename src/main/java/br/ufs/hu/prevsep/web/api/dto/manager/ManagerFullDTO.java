@@ -1,15 +1,15 @@
 package br.ufs.hu.prevsep.web.api.dto.manager;
 
-import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioResponseDTO;
+import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioDTO;
 
 public class ManagerFullDTO {
-    private UsuarioResponseDTO userInfo;
+    private UsuarioDTO userInfo;
 
-    public UsuarioResponseDTO getUserInfo() {
+    public UsuarioDTO getUserInfo() {
         return userInfo;
     }
 
-    public void setUserInfo(UsuarioResponseDTO userInfo) {
+    public void setUserInfo(UsuarioDTO userInfo) {
         this.userInfo = userInfo;
     }
 }

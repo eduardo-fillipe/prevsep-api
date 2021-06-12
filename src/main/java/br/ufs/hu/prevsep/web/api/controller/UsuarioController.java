@@ -2,13 +2,9 @@ package br.ufs.hu.prevsep.web.api.controller;
 
 import br.ufs.hu.prevsep.web.api.config.ApiRequestMappings;
 import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
-import br.ufs.hu.prevsep.web.api.dto.usuario.CargoEnum;
-import br.ufs.hu.prevsep.web.api.dto.usuario.StatusUsuarioEnum;
-import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioResponseDTO;
-import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioUpdateDTO;
+import br.ufs.hu.prevsep.web.api.dto.usuario.*;
 import br.ufs.hu.prevsep.web.api.service.usuario.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -21,9 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import java.util.List;
 
 @RestController
 @RequestMapping(path = ApiRequestMappings.USERS, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -40,13 +34,10 @@ public class UsuarioController extends BaseController{
     @Operation(summary = "Returns all Users in the database.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = UsuarioResponseDTO.class))))})
+                    content = @Content(schema = @Schema(implementation = PageUsuarioDTO.class)))})
     @PreAuthorize("hasRole('ROLE_1')")
-    public List<UsuarioResponseDTO> getUsuarios(@RequestParam(value = "status", required = false) StatusUsuarioEnum status,
-                                                @RequestParam(value = "cargo", required = false) CargoEnum cargo,
-                                                @RequestParam(value = "name", required = false) String name,
-                                                @RequestParam(value = "email", required = false) @Valid @Email String email) {
-        return usuarioService.getUsuarios(status, cargo, name, email);
+    public PageUsuarioDTO getUsuarios(@ModelAttribute(value = "usuarioPageRequest") @Valid UsuarioDTOPageRequest usuarioPageRequest) {
+        return usuarioService.getUsuarios(usuarioPageRequest);
     }
 
     @PatchMapping("/{cpf}")

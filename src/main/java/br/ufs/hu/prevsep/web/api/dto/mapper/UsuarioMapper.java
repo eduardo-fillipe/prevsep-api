@@ -27,7 +27,7 @@ public interface UsuarioMapper {
 
     UsuarioMapper INSTANCE = Mappers.getMapper(UsuarioMapper.class);
 
-    UsuarioResponseDTO mapToUsuarioResponseDto(UsuarioEntity entity);
+    UsuarioDTO mapToUsuarioResponseDto(UsuarioEntity entity);
 
     default Integer mapStatus(StatusUsuarioEnum value) {
         return value == null ? null : value.getStatus();
@@ -65,7 +65,8 @@ public interface UsuarioMapper {
     MedicoEntity mapToDoctorEntity(DoctorRequestDTO dto);
 
     @Mappings({
-            @Mapping(target = "userInfo", ignore = true)
+            @Mapping(target = "userInfo", ignore = true),
+            @Mapping(target = "cpf", ignore = true)
     })
     MedicoEntity mapToDoctorEntity(DoctorUpdateDTO doctorUpdateDTO);
 

@@ -1,17 +1,14 @@
 package br.ufs.hu.prevsep.web.api.service.usuario;
 
+import br.ufs.hu.prevsep.web.api.dto.Page;
 import br.ufs.hu.prevsep.web.api.dto.mapper.UsuarioMapper;
-import br.ufs.hu.prevsep.web.api.dto.usuario.CargoEnum;
-import br.ufs.hu.prevsep.web.api.dto.usuario.StatusUsuarioEnum;
-import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioResponseDTO;
-import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioUpdateDTO;
+import br.ufs.hu.prevsep.web.api.dto.usuario.*;
 import br.ufs.hu.prevsep.web.api.exception.PasswordDoesNotHaveMinimumRequirementsException;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
 import br.ufs.hu.prevsep.web.api.model.QUsuarioEntity;
 import br.ufs.hu.prevsep.web.api.model.UsuarioEntity;
 import br.ufs.hu.prevsep.web.api.repository.UsuarioRepository;
 import br.ufs.hu.prevsep.web.api.utils.BeanUtils;
-import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,7 +33,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public UsuarioResponseDTO updateUsuario(String cpf, UsuarioUpdateDTO usuario) throws UserNotFoundException {
+    public UsuarioDTO updateUsuario(String cpf, UsuarioUpdateDTO usuario) throws UserNotFoundException {
         UsuarioEntity existingUsuario =  usuarioRepository.findById(cpf).orElseThrow(() ->
                 new UserNotFoundException().withDetailedMessage("This user was not found."));
 
@@ -59,7 +56,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public Optional<UsuarioResponseDTO> getUsuario(String cpf) {
+    public Optional<UsuarioDTO> getUsuario(String cpf) {
         if (cpf == null)
             return  Optional.empty();
 
@@ -74,23 +71,24 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public List<UsuarioResponseDTO> getUsuarios(StatusUsuarioEnum status, CargoEnum cargo, String name, String email) {
+    public PageUsuarioDTO getUsuarios(UsuarioDTOPageRequest usuarioDTOPageRequest) {
         QUsuarioEntity qUser = QUsuarioEntity.usuarioEntity;
-        BooleanBuilder filter = new BooleanBuilder(qUser.status.ne(StatusUsuarioEnum.DESATIVADO.getStatus()));
 
-        if (cargo != null)
-            filter.and(qUser.cargo.eq(cargo.getId()));
-        if (status != null)
-            filter.and(qUser.status.eq(status.getStatus()));
-        if (name != null)
-            filter.and(qUser.nome.lower().like("%" + name.toLowerCase() + "%"));
-        if (email != null)
-            filter.and(qUser.email.lower().like("%" + email.toLowerCase() + "%"));
+        long count = queryFactory.selectFrom(qUser)
+                .where(usuarioDTOPageRequest.getQueryPredicate(qUser))
+                .fetchCount();
 
-        return queryFactory.selectFrom(qUser)
-                .where(filter).fetch()
+        List<UsuarioDTO> content = queryFactory.selectFrom(qUser)
+                .where(usuarioDTOPageRequest.getQueryPredicate(qUser))
+                .orderBy(usuarioDTOPageRequest.getOrderSpecifiers(qUser))
+                .limit(usuarioDTOPageRequest.getPageLimit())
+                .offset((usuarioDTOPageRequest.getPageNumber() * usuarioDTOPageRequest.getPageLimit()))
+                .fetch()
                 .stream().map(usuarioMapper::mapToUsuarioResponseDto)
                 .collect(Collectors.toList());
+
+        return new PageUsuarioDTO(
+                new Page<>(content, usuarioDTOPageRequest, count));
     }
 
     @Override

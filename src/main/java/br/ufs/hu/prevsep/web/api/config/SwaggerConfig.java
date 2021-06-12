@@ -1,18 +1,42 @@
 package br.ufs.hu.prevsep.web.api.config;
 
+import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.OAuthFlow;
 import io.swagger.v3.oas.models.security.OAuthFlows;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springdoc.core.customizers.OpenApiCustomiser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SwaggerConfig {
+
+//    @Bean
+//    public OpenApiCustomiser customerGlobalHeaderOpenApiCustomiser() {
+//        return openApi -> {
+//            openApi.getPaths().values().forEach(pathItem -> pathItem.readOperations().forEach(operation -> {
+//                ApiResponses apiResponses = operation.getResponses();
+//
+//
+//                ApiResponse apiResponse = new ApiResponse()
+//                        .description("Bad Request")
+//                        .content(new Content()
+//                                .addMediaType(org.springframework.http.MediaType.APPLICATION_JSON_VALUE, new MediaType()
+//                                        .schema(new Schema<FaultDTO>()
+//
+//                                                .$ref("#/components/schemas/FaultDTO"))));
+//                apiResponses.addApiResponse("400", apiResponse);
+//            }));
+//        };
+//    }
 
     @Bean
     public OpenAPI customOpenAPI(@Value("${prevsep.api.version}") String version,

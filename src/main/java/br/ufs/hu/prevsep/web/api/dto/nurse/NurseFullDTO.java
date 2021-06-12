@@ -1,9 +1,8 @@
 package br.ufs.hu.prevsep.web.api.dto.nurse;
 
-import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioResponseDTO;
+import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioDTO;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class NurseFullDTO {
@@ -11,7 +10,7 @@ public class NurseFullDTO {
     private Integer cre;
     @NotNull
     @Valid
-    private UsuarioResponseDTO userInfo;
+    private UsuarioDTO userInfo;
 
     public Integer getCre() {
         return cre;
@@ -21,11 +20,11 @@ public class NurseFullDTO {
         this.cre = cre;
     }
 
-    public UsuarioResponseDTO getUserInfo() {
+    public UsuarioDTO getUserInfo() {
         return userInfo;
     }
 
-    public void setUserInfo(UsuarioResponseDTO userInfo) {
+    public void setUserInfo(UsuarioDTO userInfo) {
         this.userInfo = userInfo;
     }
 }
