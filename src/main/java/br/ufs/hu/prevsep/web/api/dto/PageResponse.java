@@ -6,18 +6,18 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Page <T> {
+public class PageResponse<T> {
     private List<T> content;
     private Boolean hasContent;
     private Integer pageSize;
     private Long totalPages;
     private Long pageNumber;
 
-    public Page(Page<T> page) {
-        BeanUtils.copyPropertiesIgnoreNulls(page, this, true);
+    public PageResponse(PageResponse<T> pageResponse) {
+        BeanUtils.copyPropertiesIgnoreNulls(pageResponse, this, true);
     }
 
-    public Page(List<T> content, @NotNull PageRequest<?> request, Long totalElements) {
+    public PageResponse(List<T> content, @NotNull PageRequest<?> request, Long totalElements) {
         if(content == null)
             content = new ArrayList<>();
 
@@ -28,27 +28,27 @@ public class Page <T> {
                 .pageNumber(request.getPageNumber());
     }
 
-    public Page<T> content(List<T> content){
+    public PageResponse<T> content(List<T> content){
         this.content = content;
         return this;
     }
 
-    public Page<T> hasContent(Boolean hasContent){
+    public PageResponse<T> hasContent(Boolean hasContent){
         this.hasContent = hasContent;
         return this;
     }
 
-    public Page<T> pageSize(Integer pageSize){
+    public PageResponse<T> pageSize(Integer pageSize){
         this.pageSize = pageSize;
         return this;
     }
 
-    public Page<T> pageNumber(long pageNumber){
+    public PageResponse<T> pageNumber(long pageNumber){
         this.pageNumber = pageNumber;
         return this;
     }
 
-    public Page<T> totalPages(long totalPages){
+    public PageResponse<T> totalPages(long totalPages){
         this.totalPages = totalPages;
         return this;
     }

@@ -2,7 +2,9 @@ package br.ufs.hu.prevsep.web.api.controller;
 
 import br.ufs.hu.prevsep.web.api.config.ApiRequestMappings;
 import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
-import br.ufs.hu.prevsep.web.api.dto.usuario.*;
+import br.ufs.hu.prevsep.web.api.dto.usuario.PageUsuarioDTO;
+import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioDTOPageRequest;
+import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioUpdateDTO;
 import br.ufs.hu.prevsep.web.api.service.usuario.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

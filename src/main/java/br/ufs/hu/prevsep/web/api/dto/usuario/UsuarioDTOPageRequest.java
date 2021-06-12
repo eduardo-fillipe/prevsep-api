@@ -3,13 +3,11 @@ package br.ufs.hu.prevsep.web.api.dto.usuario;
 import br.ufs.hu.prevsep.web.api.dto.PageRequest;
 import br.ufs.hu.prevsep.web.api.model.QUsuarioEntity;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.ComparableExpressionBase;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Valid
 public class UsuarioDTOPageRequest extends PageRequest<QUsuarioEntity> {
@@ -18,6 +16,14 @@ public class UsuarioDTOPageRequest extends PageRequest<QUsuarioEntity> {
     private String email;
     private CargoEnum cargo;
     private StatusUsuarioEnum status;
+
+    private static final Map<String, ComparableExpressionBase<?>> ENTITY_RELATIONSHIP = Map.of(
+            "email", QUsuarioEntity.usuarioEntity.email,
+            "cpf", QUsuarioEntity.usuarioEntity.cpf,
+            "nome", QUsuarioEntity.usuarioEntity.nome,
+            "status", QUsuarioEntity.usuarioEntity.status,
+            "cargo", QUsuarioEntity.usuarioEntity.cargo
+        );
 
     @Override
     public Predicate getQueryPredicate(QUsuarioEntity qEntity) {
@@ -36,36 +42,8 @@ public class UsuarioDTOPageRequest extends PageRequest<QUsuarioEntity> {
     }
 
     @Override
-    public OrderSpecifier<?>[] getOrderSpecifiers(QUsuarioEntity qEntity) {
-        ArrayList<OrderSpecifier<?>> orderSpecifiers = new ArrayList<>();
-        LinkedHashMap<String, Order> orderMap = getOrderMap();
-
-        orderMap.forEach((k, v) -> {
-            ComparableExpressionBase<?> p = null;
-            switch (k) {
-                case "cargo":
-                    p = qEntity.cargo;
-                    break;
-                case "status":
-                    p = qEntity.status;
-                    break;
-                case "nome":
-                    p = qEntity.nome;
-                    break;
-                case "cpf":
-                    p = qEntity.cpf;
-                    break;
-                case "email":
-                    p = qEntity.email;
-                    break;
-            }
-            if (p != null)
-                orderSpecifiers.add(v == Order.ASC ? p.asc() : p.desc());
-        });
-        if (orderSpecifiers.isEmpty())
-            orderSpecifiers.add(qEntity.nome.asc());
-
-        return orderSpecifiers.toArray(new OrderSpecifier[0]);
+    public Map<String, ComparableExpressionBase<?>> getSortFieldEntityMapping(QUsuarioEntity qEntity) {
+        return ENTITY_RELATIONSHIP;
     }
 
     public String getCpf() {

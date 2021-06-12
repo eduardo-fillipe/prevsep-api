@@ -6,7 +6,6 @@ import org.hibernate.validator.constraints.br.CPF;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 public class UsuarioRequestDTO {
     @CPF(message = "Not a valid CPF")

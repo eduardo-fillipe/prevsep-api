@@ -1,6 +1,6 @@
 package br.ufs.hu.prevsep.web.api.service.usuario;
 
-import br.ufs.hu.prevsep.web.api.dto.Page;
+import br.ufs.hu.prevsep.web.api.dto.PageResponse;
 import br.ufs.hu.prevsep.web.api.dto.mapper.UsuarioMapper;
 import br.ufs.hu.prevsep.web.api.dto.usuario.*;
 import br.ufs.hu.prevsep.web.api.exception.PasswordDoesNotHaveMinimumRequirementsException;
@@ -87,8 +87,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                 .stream().map(usuarioMapper::mapToUsuarioResponseDto)
                 .collect(Collectors.toList());
 
-        return new PageUsuarioDTO(
-                new Page<>(content, usuarioDTOPageRequest, count));
+        return PageUsuarioDTO.of(new PageResponse<>(content, usuarioDTOPageRequest, count));
     }
 
     @Override

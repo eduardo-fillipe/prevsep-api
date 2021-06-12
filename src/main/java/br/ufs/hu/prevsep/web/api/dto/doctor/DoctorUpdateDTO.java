@@ -1,9 +1,7 @@
 package br.ufs.hu.prevsep.web.api.dto.doctor;
 
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class DoctorUpdateDTO {

@@ -3,7 +3,6 @@ package br.ufs.hu.prevsep.web.api.dto.nurse;
 import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioRequestDTO;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class NurseRequestDTO {
