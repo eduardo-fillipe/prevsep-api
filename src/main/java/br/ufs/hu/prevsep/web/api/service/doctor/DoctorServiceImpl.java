@@ -7,6 +7,7 @@ import br.ufs.hu.prevsep.web.api.dto.doctor.DoctorUpdateDTO;
 import br.ufs.hu.prevsep.web.api.dto.mapper.UsuarioMapper;
 import br.ufs.hu.prevsep.web.api.dto.usuario.CargoEnum;
 import br.ufs.hu.prevsep.web.api.dto.usuario.StatusUsuarioEnum;
+import br.ufs.hu.prevsep.web.api.exception.CRMAlreadyRegisteredException;
 import br.ufs.hu.prevsep.web.api.exception.user.CPFAlreadyRegistered;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
 import br.ufs.hu.prevsep.web.api.model.MedicoEntity;
@@ -79,6 +80,10 @@ public class DoctorServiceImpl implements DoctorService {
     public DoctorResponseDTO createMedic(DoctorRequestDTO medico) throws CPFAlreadyRegistered {
         if (getMedic(medico.getUserInfo().getCpf()).isPresent())
             throw new CPFAlreadyRegistered().withDetailedMessage("An user is already registered under this CPF.");
+
+        if (getMedicByCRM(medico.getCrm()).isPresent())
+            throw new CRMAlreadyRegisteredException()
+                    .withDetailedMessage("A doctor with CRM '"+medico.getCrm()+"' already exists in the database.");
 
         MedicoEntity medicoEntity = usuarioMapper.mapToDoctorEntity(medico);
 

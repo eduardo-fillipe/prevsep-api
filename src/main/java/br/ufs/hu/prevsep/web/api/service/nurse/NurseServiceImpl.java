@@ -80,6 +80,11 @@ public class NurseServiceImpl implements NurseService {
         if (getNurse(nurse.getUserInfo().getCpf()).isPresent())
             throw new CPFAlreadyRegistered().withDetailedMessage("An user is already registered under this CPF.");
 
+        if (getNurseByCRE(nurse.getCre()).isPresent())
+            throw new CPFAlreadyRegistered()
+                    .withDetailedMessage("A doctor with CRM '"+nurse.getCre()+"' already exists in the database.");
+
+
         EnfermeiroEntity enfermeiroEntity = usuarioMapper.mapToEnfermeiroEntity(nurse);
         enfermeiroEntity.getUserInfo().setCargo(CargoEnum.ENFERMEIRO.getId());
         enfermeiroEntity.getUserInfo().setSenha(passwordEncoder.encode(enfermeiroEntity.getUserInfo().getSenha()));
