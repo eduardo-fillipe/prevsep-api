@@ -2,7 +2,7 @@ package br.ufs.hu.prevsep.web.api.service.usuario;
 
 import br.ufs.hu.prevsep.web.api.dto.usuario.PageUsuarioDTO;
 import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioDTO;
-import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioDTOPageableRequest;
+import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioPageableRequestDTO;
 import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioUpdateDTO;
 import br.ufs.hu.prevsep.web.api.exception.PasswordDoesNotHaveMinimumRequirementsException;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
@@ -53,7 +53,7 @@ public interface UsuarioService {
 
     Optional<UsuarioDTO> getUsuario(String cpf);
 
-    PageUsuarioDTO getUsuarios(UsuarioDTOPageableRequest usuarioDTOPageRequest);
+    PageUsuarioDTO getUsuarios(UsuarioPageableRequestDTO usuarioDTOPageRequest);
 
     void deleteUsuario(String cpf) throws UserNotFoundException;
 }

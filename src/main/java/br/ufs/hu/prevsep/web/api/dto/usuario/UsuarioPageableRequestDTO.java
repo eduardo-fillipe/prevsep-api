@@ -10,7 +10,7 @@ import javax.validation.Valid;
 import java.util.Map;
 
 @Valid
-public class UsuarioDTOPageableRequest extends PageableRequest<QUsuarioEntity> {
+public class UsuarioPageableRequestDTO extends PageableRequest<QUsuarioEntity> {
     private String cpf;
     private String nome;
     private String email;

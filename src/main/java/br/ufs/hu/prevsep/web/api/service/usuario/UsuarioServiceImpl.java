@@ -1,6 +1,5 @@
 package br.ufs.hu.prevsep.web.api.service.usuario;
 
-import br.ufs.hu.prevsep.web.api.dto.PageResponse;
 import br.ufs.hu.prevsep.web.api.dto.mapper.UsuarioMapper;
 import br.ufs.hu.prevsep.web.api.dto.usuario.*;
 import br.ufs.hu.prevsep.web.api.exception.PasswordDoesNotHaveMinimumRequirementsException;
@@ -66,7 +65,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public PageUsuarioDTO getUsuarios(UsuarioDTOPageableRequest usuarioDTOPageRequest) {
+    public PageUsuarioDTO getUsuarios(UsuarioPageableRequestDTO usuarioDTOPageRequest) {
         QUsuarioEntity qUser = QUsuarioEntity.usuarioEntity;
 
         Page<UsuarioDTO> page = usuarioRepository.
