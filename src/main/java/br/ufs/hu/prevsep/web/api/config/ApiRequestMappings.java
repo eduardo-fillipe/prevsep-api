@@ -13,6 +13,9 @@ public class ApiRequestMappings {
     public static final String DOCTORS = API_BASE_ENDPOINT + "/doctors";
     public static final String MANAGERS = API_BASE_ENDPOINT + "/managers";
     public static final String NURSES = API_BASE_ENDPOINT + "/nurses";
+    public static final String FORMS = API_BASE_ENDPOINT + "/forms";
+    public static final String FORMS_SEPSE = API_BASE_ENDPOINT + FORMS + "/sepse";
+
 
 
 }

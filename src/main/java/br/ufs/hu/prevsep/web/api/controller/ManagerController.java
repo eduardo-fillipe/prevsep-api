@@ -2,10 +2,10 @@ package br.ufs.hu.prevsep.web.api.controller;
 
 import br.ufs.hu.prevsep.web.api.config.ApiRequestMappings;
 import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
-import br.ufs.hu.prevsep.web.api.dto.manager.ManagerDTO;
-import br.ufs.hu.prevsep.web.api.dto.manager.ManagerFullDTO;
-import br.ufs.hu.prevsep.web.api.dto.manager.ManagerRequestDTO;
-import br.ufs.hu.prevsep.web.api.dto.manager.ManagerUpdateDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.manager.ManagerDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.manager.ManagerFullDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.manager.ManagerRequestDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.manager.ManagerUpdateDTO;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
 import br.ufs.hu.prevsep.web.api.service.manager.ManagerService;
 import io.swagger.v3.oas.annotations.Hidden;

@@ -1,6 +1,6 @@
-package br.ufs.hu.prevsep.web.api.dto.doctor;
+package br.ufs.hu.prevsep.web.api.dto.user.doctor;
 
-import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.usuario.UsuarioDTO;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;

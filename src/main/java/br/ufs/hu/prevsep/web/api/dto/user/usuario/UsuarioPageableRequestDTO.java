@@ -1,4 +1,4 @@
-package br.ufs.hu.prevsep.web.api.dto.usuario;
+package br.ufs.hu.prevsep.web.api.dto.user.usuario;
 
 import br.ufs.hu.prevsep.web.api.dto.PageableRequest;
 import br.ufs.hu.prevsep.web.api.model.QUsuarioEntity;

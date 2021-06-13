@@ -1,12 +1,12 @@
-package br.ufs.hu.prevsep.web.api.dto.doctor;
+package br.ufs.hu.prevsep.web.api.dto.user.nurse;
 
-import br.ufs.hu.prevsep.web.api.dto.usuario.StatusUsuarioEnum;
+import br.ufs.hu.prevsep.web.api.dto.user.usuario.StatusUsuarioEnum;
 
-public class DoctorResponseDTO {
+public class NurseDTO {
 
     private String cpf;
     private String nome;
-    private Integer crm;
+    private Integer cre;
     private StatusUsuarioEnum statusUsuario;
 
     public String getCpf() {
@@ -25,12 +25,12 @@ public class DoctorResponseDTO {
         this.nome = nome;
     }
 
-    public Integer getCrm() {
-        return crm;
+    public Integer getCre() {
+        return cre;
     }
 
-    public void setCrm(Integer crm) {
-        this.crm = crm;
+    public void setCre(Integer cre) {
+        this.cre = cre;
     }
 
     public StatusUsuarioEnum getStatusUsuario() {

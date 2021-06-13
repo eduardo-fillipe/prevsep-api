@@ -1,12 +1,12 @@
 package br.ufs.hu.prevsep.web.api.service.manager;
 
-import br.ufs.hu.prevsep.web.api.dto.manager.ManagerDTO;
-import br.ufs.hu.prevsep.web.api.dto.manager.ManagerFullDTO;
-import br.ufs.hu.prevsep.web.api.dto.manager.ManagerRequestDTO;
-import br.ufs.hu.prevsep.web.api.dto.manager.ManagerUpdateDTO;
-import br.ufs.hu.prevsep.web.api.dto.mapper.UsuarioMapper;
-import br.ufs.hu.prevsep.web.api.dto.usuario.CargoEnum;
-import br.ufs.hu.prevsep.web.api.dto.usuario.StatusUsuarioEnum;
+import br.ufs.hu.prevsep.web.api.dto.user.manager.ManagerDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.manager.ManagerFullDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.manager.ManagerRequestDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.manager.ManagerUpdateDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.UsuarioMapper;
+import br.ufs.hu.prevsep.web.api.dto.user.usuario.CargoEnum;
+import br.ufs.hu.prevsep.web.api.dto.user.usuario.StatusUsuarioEnum;
 import br.ufs.hu.prevsep.web.api.exception.user.CPFAlreadyRegistered;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
 import br.ufs.hu.prevsep.web.api.model.ManagerEntity;

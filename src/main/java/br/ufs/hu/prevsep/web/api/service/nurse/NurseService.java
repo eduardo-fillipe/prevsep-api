@@ -1,9 +1,9 @@
 package br.ufs.hu.prevsep.web.api.service.nurse;
 
-import br.ufs.hu.prevsep.web.api.dto.nurse.NurseDTO;
-import br.ufs.hu.prevsep.web.api.dto.nurse.NurseFullDTO;
-import br.ufs.hu.prevsep.web.api.dto.nurse.NurseRequestDTO;
-import br.ufs.hu.prevsep.web.api.dto.nurse.NurseUpdateDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.nurse.NurseDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.nurse.NurseFullDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.nurse.NurseRequestDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.nurse.NurseUpdateDTO;
 import br.ufs.hu.prevsep.web.api.exception.user.CPFAlreadyRegistered;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
 

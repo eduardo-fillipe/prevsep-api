@@ -1,4 +1,4 @@
-package br.ufs.hu.prevsep.web.api.dto.doctor;
+package br.ufs.hu.prevsep.web.api.dto.user.doctor;
 
 import org.hibernate.validator.constraints.Range;
 

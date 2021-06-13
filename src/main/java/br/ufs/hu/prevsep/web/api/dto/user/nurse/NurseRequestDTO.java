@@ -1,16 +1,16 @@
-package br.ufs.hu.prevsep.web.api.dto.nurse;
+package br.ufs.hu.prevsep.web.api.dto.user.nurse;
 
-import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.usuario.UsuarioRequestDTO;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-public class NurseFullDTO {
+public class NurseRequestDTO {
     @NotNull(message = "CRE can not be null")
     private Integer cre;
     @NotNull
     @Valid
-    private UsuarioDTO userInfo;
+    private UsuarioRequestDTO userInfo;
 
     public Integer getCre() {
         return cre;
@@ -20,11 +20,11 @@ public class NurseFullDTO {
         this.cre = cre;
     }
 
-    public UsuarioDTO getUserInfo() {
+    public UsuarioRequestDTO getUserInfo() {
         return userInfo;
     }
 
-    public void setUserInfo(UsuarioDTO userInfo) {
+    public void setUserInfo(UsuarioRequestDTO userInfo) {
         this.userInfo = userInfo;
     }
 }

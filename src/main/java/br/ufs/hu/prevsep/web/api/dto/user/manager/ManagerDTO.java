@@ -1,6 +1,6 @@
-package br.ufs.hu.prevsep.web.api.dto.manager;
+package br.ufs.hu.prevsep.web.api.dto.user.manager;
 
-import br.ufs.hu.prevsep.web.api.dto.usuario.StatusUsuarioEnum;
+import br.ufs.hu.prevsep.web.api.dto.user.usuario.StatusUsuarioEnum;
 
 public class ManagerDTO {
     private String nome;

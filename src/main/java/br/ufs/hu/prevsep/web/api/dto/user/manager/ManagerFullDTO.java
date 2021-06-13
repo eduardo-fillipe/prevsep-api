@@ -1,6 +1,6 @@
-package br.ufs.hu.prevsep.web.api.dto.manager;
+package br.ufs.hu.prevsep.web.api.dto.user.manager;
 
-import br.ufs.hu.prevsep.web.api.dto.usuario.UsuarioDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.usuario.UsuarioDTO;
 
 public class ManagerFullDTO {
     private UsuarioDTO userInfo;

@@ -1,4 +1,4 @@
-package br.ufs.hu.prevsep.web.api.dto.usuario;
+package br.ufs.hu.prevsep.web.api.dto.user.usuario;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;

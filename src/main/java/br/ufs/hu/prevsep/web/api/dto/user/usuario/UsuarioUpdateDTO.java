@@ -1,4 +1,4 @@
-package br.ufs.hu.prevsep.web.api.dto.usuario;
+package br.ufs.hu.prevsep.web.api.dto.user.usuario;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;

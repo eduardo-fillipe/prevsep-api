@@ -1,9 +1,9 @@
 package br.ufs.hu.prevsep.web.api.service.manager;
 
-import br.ufs.hu.prevsep.web.api.dto.manager.ManagerDTO;
-import br.ufs.hu.prevsep.web.api.dto.manager.ManagerFullDTO;
-import br.ufs.hu.prevsep.web.api.dto.manager.ManagerRequestDTO;
-import br.ufs.hu.prevsep.web.api.dto.manager.ManagerUpdateDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.manager.ManagerDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.manager.ManagerFullDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.manager.ManagerRequestDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.manager.ManagerUpdateDTO;
 import br.ufs.hu.prevsep.web.api.exception.user.CPFAlreadyRegistered;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
 

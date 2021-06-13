@@ -1,8 +1,8 @@
 package br.ufs.hu.prevsep.web.api.config.security;
 
 import br.ufs.hu.prevsep.web.api.dto.security.authorization.role.RoleDTO;
-import br.ufs.hu.prevsep.web.api.dto.usuario.CargoEnum;
-import br.ufs.hu.prevsep.web.api.dto.usuario.StatusUsuarioEnum;
+import br.ufs.hu.prevsep.web.api.dto.user.usuario.CargoEnum;
+import br.ufs.hu.prevsep.web.api.dto.user.usuario.StatusUsuarioEnum;
 import br.ufs.hu.prevsep.web.api.model.UsuarioEntity;
 import br.ufs.hu.prevsep.web.api.repository.UsuarioRepository;
 import org.springframework.security.core.userdetails.User;

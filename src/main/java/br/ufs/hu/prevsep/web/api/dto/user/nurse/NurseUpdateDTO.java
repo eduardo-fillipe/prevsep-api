@@ -1,4 +1,4 @@
-package br.ufs.hu.prevsep.web.api.dto.nurse;
+package br.ufs.hu.prevsep.web.api.dto.user.nurse;
 
 import org.hibernate.validator.constraints.Range;
 

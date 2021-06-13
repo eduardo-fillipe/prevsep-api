@@ -1,4 +1,4 @@
-package br.ufs.hu.prevsep.web.api.dto.usuario;
+package br.ufs.hu.prevsep.web.api.dto.user.usuario;
 
 import br.ufs.hu.prevsep.web.api.dto.PageResponse;
 import org.springframework.data.domain.Page;

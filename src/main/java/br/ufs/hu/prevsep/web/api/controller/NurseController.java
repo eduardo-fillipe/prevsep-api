@@ -1,13 +1,15 @@
 package br.ufs.hu.prevsep.web.api.controller;
 
 import br.ufs.hu.prevsep.web.api.config.ApiRequestMappings;
-import br.ufs.hu.prevsep.web.api.dto.doctor.DoctorResponseDTO;
-import br.ufs.hu.prevsep.web.api.dto.doctor.DoctorResponseFullDTO;
+import br.ufs.hu.prevsep.web.api.dto.form.sepse.NurseForm1CreateDTO;
+import br.ufs.hu.prevsep.web.api.dto.form.sepse.NurseForm1DTO;
+import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorResponseDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorResponseFullDTO;
 import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
-import br.ufs.hu.prevsep.web.api.dto.nurse.NurseDTO;
-import br.ufs.hu.prevsep.web.api.dto.nurse.NurseFullDTO;
-import br.ufs.hu.prevsep.web.api.dto.nurse.NurseRequestDTO;
-import br.ufs.hu.prevsep.web.api.dto.nurse.NurseUpdateDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.nurse.NurseDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.nurse.NurseFullDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.nurse.NurseRequestDTO;
+import br.ufs.hu.prevsep.web.api.dto.user.nurse.NurseUpdateDTO;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
 import br.ufs.hu.prevsep.web.api.service.nurse.NurseService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,6 +27,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -87,5 +90,19 @@ public class NurseController extends BaseController{
     @PreAuthorize("(#cpf == authentication.principal) or hasRole('ROLE_1')")
     public void updateMedic(@PathVariable("cpf") @Valid  @CPF String cpf, @RequestBody @Valid NurseUpdateDTO nurseUpdateDTO) {
         nurseService.updateNurse(cpf, nurseUpdateDTO);
+    }
+
+    @PostMapping("/{cre}/form/sepse")
+    @Operation(summary = "Creates a sepse form.")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Created"),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Resource not found: Patient, Nurse or Doctor", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+    })
+    @Valid
+    public NurseForm1DTO createForm(@PathVariable("cre") @Valid @Min(1) @NotNull Integer cre,
+                                    @RequestBody NurseForm1CreateDTO nurseForm1CreateDTO) {
+        return null;
     }
 }

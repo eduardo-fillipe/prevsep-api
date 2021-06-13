@@ -1,6 +1,7 @@
 package br.ufs.hu.prevsep.web.api.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(schema = "public", name = "medico")
@@ -15,6 +16,10 @@ public class MedicoEntity {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "cpf", referencedColumnName = "cpf")
     private UsuarioEntity userInfo;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "crmMedico", referencedColumnName = "crm")
+    private List<FormularioSepseMedicoEntity> formularioSepseMedicoEntities;
 
     public String getCpf() {
         return cpf;
@@ -38,5 +43,13 @@ public class MedicoEntity {
 
     public void setUserInfo(UsuarioEntity userInfo) {
         this.userInfo = userInfo;
+    }
+
+    public List<FormularioSepseMedicoEntity> getFormularioSepseMedicoEntities() {
+        return formularioSepseMedicoEntities;
+    }
+
+    public void setFormularioSepseMedicoEntities(List<FormularioSepseMedicoEntity> formularioSepseMedicoEntities) {
+        this.formularioSepseMedicoEntities = formularioSepseMedicoEntities;
     }
 }
