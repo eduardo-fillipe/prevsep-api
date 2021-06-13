@@ -1,6 +1,6 @@
 package br.ufs.hu.prevsep.web.api.dto.usuario;
 
-import br.ufs.hu.prevsep.web.api.dto.PageRequest;
+import br.ufs.hu.prevsep.web.api.dto.PageableRequest;
 import br.ufs.hu.prevsep.web.api.model.QUsuarioEntity;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
@@ -10,7 +10,7 @@ import javax.validation.Valid;
 import java.util.Map;
 
 @Valid
-public class UsuarioDTOPageRequest extends PageRequest<QUsuarioEntity> {
+public class UsuarioDTOPageableRequest extends PageableRequest<QUsuarioEntity> {
     private String cpf;
     private String nome;
     private String email;
@@ -42,7 +42,7 @@ public class UsuarioDTOPageRequest extends PageRequest<QUsuarioEntity> {
     }
 
     @Override
-    public Map<String, ComparableExpressionBase<?>> getSortFieldEntityMapping(QUsuarioEntity qEntity) {
+    public Map<String, ComparableExpressionBase<?>> getSortFieldEntityMapping() {
         return ENTITY_RELATIONSHIP;
     }
 

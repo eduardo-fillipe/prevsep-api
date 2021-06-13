@@ -85,7 +85,6 @@ public class NurseServiceImpl implements NurseService {
             throw new CREAlreadyRegisteredException()
                     .withDetailedMessage("A nurse with CRE '"+nurse.getCre()+"' already exists in the system's database.");
 
-
         EnfermeiroEntity enfermeiroEntity = usuarioMapper.mapToEnfermeiroEntity(nurse);
         enfermeiroEntity.getUserInfo().setCargo(CargoEnum.ENFERMEIRO.getId());
         enfermeiroEntity.getUserInfo().setSenha(passwordEncoder.encode(enfermeiroEntity.getUserInfo().getSenha()));

@@ -9,27 +9,22 @@ import br.ufs.hu.prevsep.web.api.model.QUsuarioEntity;
 import br.ufs.hu.prevsep.web.api.model.UsuarioEntity;
 import br.ufs.hu.prevsep.web.api.repository.UsuarioRepository;
 import br.ufs.hu.prevsep.web.api.utils.BeanUtils;
-import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JPAQueryFactory queryFactory;
     private final UsuarioMapper usuarioMapper = UsuarioMapper.INSTANCE;
 
-    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, EntityManager entityManager) {
+    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
-        this.queryFactory = new JPAQueryFactory(entityManager);
     }
 
     @Override
@@ -71,23 +66,14 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public PageUsuarioDTO getUsuarios(UsuarioDTOPageRequest usuarioDTOPageRequest) {
+    public PageUsuarioDTO getUsuarios(UsuarioDTOPageableRequest usuarioDTOPageRequest) {
         QUsuarioEntity qUser = QUsuarioEntity.usuarioEntity;
 
-        long count = queryFactory.selectFrom(qUser)
-                .where(usuarioDTOPageRequest.getQueryPredicate(qUser))
-                .fetchCount();
+        Page<UsuarioDTO> page = usuarioRepository.
+                findAll(usuarioDTOPageRequest.getQueryPredicate(qUser), usuarioDTOPageRequest)
+                .map(usuarioMapper::mapToUsuarioResponseDto);
 
-        List<UsuarioDTO> content = queryFactory.selectFrom(qUser)
-                .where(usuarioDTOPageRequest.getQueryPredicate(qUser))
-                .orderBy(usuarioDTOPageRequest.getOrderSpecifiers(qUser))
-                .limit(usuarioDTOPageRequest.getPageLimit())
-                .offset((usuarioDTOPageRequest.getPageNumber() * usuarioDTOPageRequest.getPageLimit()))
-                .fetch()
-                .stream().map(usuarioMapper::mapToUsuarioResponseDto)
-                .collect(Collectors.toList());
-
-        return PageUsuarioDTO.of(new PageResponse<>(content, usuarioDTOPageRequest, count));
+        return PageUsuarioDTO.of(page);
     }
 
     @Override

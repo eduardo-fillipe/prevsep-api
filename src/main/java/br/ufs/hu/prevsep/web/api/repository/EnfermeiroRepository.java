@@ -1,8 +1,7 @@
 package br.ufs.hu.prevsep.web.api.repository;
 
 import br.ufs.hu.prevsep.web.api.model.EnfermeiroEntity;
-import org.springframework.data.repository.CrudRepository;
 
-public interface EnfermeiroRepository extends CrudRepository<EnfermeiroEntity, String> {
+public interface EnfermeiroRepository extends PrevSepRepository<EnfermeiroEntity, String> {
     EnfermeiroEntity findFirstByCre(Integer cre);
 }

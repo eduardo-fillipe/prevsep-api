@@ -2,10 +2,12 @@ package br.ufs.hu.prevsep.web.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.querydsl.core.types.EntityPath;
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.ComparableExpressionBase;
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.lang.NonNull;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -16,14 +18,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Valid
-public abstract class PageRequest<T extends EntityPath<?>> {
+public abstract class PageableRequest<T extends EntityPath<?>> implements Pageable {
     @Min(0)
-    private Long pageNumber;
+    private Integer pageNumber;
     @Min(1)
-    private Long pageLimit;
+    private Integer pageSize;
     @Schema(description = "Ordenação da lista de dados em ordem crescente e decrescente (e.g. ['nome ASC', 'nome DESC'])")
     private List<String> pageSort;
-
 
     /**
      * Returns the Conditional Search Predicate for this PageRequest.
@@ -34,25 +35,27 @@ public abstract class PageRequest<T extends EntityPath<?>> {
      * @apiNote The conditional Search Predicate is the
      * conditional statement that goes inside of the WHERE clause in a SQL Statement.
      */
+    @JsonIgnore
     public abstract Predicate getQueryPredicate(T qEntity);
 
-    public OrderSpecifier<?>[] getOrderSpecifiers(T qEntity) {
+    @JsonIgnore
+    public Sort getOrderSpecifiers() {
         LinkedHashMap<String, Order> orderMap = getOrderMap();
-        Map<String, ComparableExpressionBase<?>> fieldMapping = getSortFieldEntityMapping(qEntity);
+        Map<String, ComparableExpressionBase<?>> fieldMapping = getSortFieldEntityMapping();
 
         if (fieldMapping != null) {
-            ArrayList<OrderSpecifier<?>> orderSpecifiers = new ArrayList<>();
+            ArrayList<Sort.Order> orderSpecifiers = new ArrayList<>();
 
             orderMap.forEach((k, v) -> {
                 ComparableExpressionBase<?> p = fieldMapping.get(k);
                 if (p != null)
-                    orderSpecifiers.add(v == Order.ASC ? p.asc() : p.desc());
+                    orderSpecifiers.add(v == Order.ASC ? Sort.Order.asc(k) : Sort.Order.desc(k));
             });
 
-            return orderSpecifiers.toArray(new OrderSpecifier[0]);
+            return Sort.by(orderSpecifiers);
         }
 
-        return new OrderSpecifier[0];
+        return Sort.unsorted();
     }
 
     /**
@@ -62,11 +65,11 @@ public abstract class PageRequest<T extends EntityPath<?>> {
      * If a field is not mapped in this map, its ignored during the sorting process.
      * @apiNote A default field for ordering can be set adding the key 'default' to the map.
      *
-     * @param qEntity The QEntity related with this PageRequest.
      * @return A Map, where the key is a string that represents the name of the field in this PageRequest
      * and the value is a field of the qEntity parameter.
      */
-    public abstract Map<String, ComparableExpressionBase<?>> getSortFieldEntityMapping(T qEntity);
+    @JsonIgnore
+    public abstract Map<String, ComparableExpressionBase<?>> getSortFieldEntityMapping();
 
     @JsonIgnore
     private LinkedHashMap<String, Order> getOrderMap(){
@@ -98,21 +101,22 @@ public abstract class PageRequest<T extends EntityPath<?>> {
         }
     }
 
-    public Long getPageNumber() {
+    @Override
+    public int getPageNumber() {
         return pageNumber == null ? 0 : pageNumber;
     }
 
-    public void setPageNumber(Long pageNumber) {
+    public void setPageNumber(Integer pageNumber) {
         this.pageNumber = pageNumber;
     }
 
-    public Long getPageLimit() {
-
-        return pageLimit == null ? Long.MAX_VALUE : pageLimit;
+    @Override
+    public int getPageSize() {
+        return pageSize == null ? Integer.MAX_VALUE : pageSize;
     }
 
-    public void setPageLimit(Long pageLimit) {
-        this.pageLimit = pageLimit;
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
     }
 
     public List<String> getPageSort() {
@@ -121,5 +125,61 @@ public abstract class PageRequest<T extends EntityPath<?>> {
 
     public void setPageSort(List<String> pageSort) {
         this.pageSort = pageSort;
+    }
+
+    @Override
+    @JsonIgnore
+    public long getOffset() {
+        return (long) getPageSize() * getPageNumber();
+    }
+
+    @Override
+    @NonNull
+    @JsonIgnore
+    public Sort getSort() {
+        return getOrderSpecifiers();
+    }
+
+    @Override
+    @NonNull
+    @JsonIgnore
+    public Pageable next() {
+        this.pageNumber++;
+        return this;
+    }
+
+    @Override
+    @NonNull
+    @JsonIgnore
+    public Pageable previousOrFirst() {
+        if(hasPrevious())
+            this.pageNumber--;
+        return this;
+    }
+
+    @Override
+    @NonNull
+    @JsonIgnore
+    public Pageable first() {
+        this.pageNumber = 0;
+        return this;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean hasPrevious() {
+        return this.pageNumber > 0;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isPaged() {
+        return true;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isUnpaged() {
+        return false;
     }
 }
