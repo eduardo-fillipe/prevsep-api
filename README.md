@@ -1,7 +1,7 @@
 
 
 # PrevSep+ Web API
-Backend da aplicação PrevSep. Desenvolvida em parceiria com o Hospital Universitário da Universidade Federal de Sergipe (HU-UFS).
+Backend da aplicação PrevSep. Desenvolvida em parceria com o Hospital Universitário da Universidade Federal de Sergipe (HU-UFS).
 
 ![image](https://user-images.githubusercontent.com/35767060/121809107-e86f3c80-cc31-11eb-80f3-682996d7f3a9.png)
 
