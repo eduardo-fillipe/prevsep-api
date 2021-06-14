@@ -1,10 +1,10 @@
-package br.ufs.hu.prevsep.web.api.service.doctor;
+package br.ufs.hu.prevsep.web.api.service.user.doctor;
 
+import br.ufs.hu.prevsep.web.api.dto.user.UsuarioMapper;
 import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorRequestDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorResponseDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorResponseFullDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorUpdateDTO;
-import br.ufs.hu.prevsep.web.api.dto.user.UsuarioMapper;
 import br.ufs.hu.prevsep.web.api.dto.user.usuario.CargoEnum;
 import br.ufs.hu.prevsep.web.api.dto.user.usuario.StatusUsuarioEnum;
 import br.ufs.hu.prevsep.web.api.exception.CRMAlreadyRegisteredException;

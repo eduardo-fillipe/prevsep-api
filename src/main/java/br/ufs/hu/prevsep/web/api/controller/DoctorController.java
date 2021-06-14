@@ -1,13 +1,13 @@
 package br.ufs.hu.prevsep.web.api.controller;
 
 import br.ufs.hu.prevsep.web.api.config.ApiRequestMappings;
+import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorRequestDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorResponseDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorResponseFullDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorUpdateDTO;
-import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
-import br.ufs.hu.prevsep.web.api.service.doctor.DoctorService;
+import br.ufs.hu.prevsep.web.api.service.user.doctor.DoctorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;

@@ -1,12 +1,13 @@
 package br.ufs.hu.prevsep.web.api.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "formularioSepseEnf2", schema = "public")
-public class FormularioSepseEnf2Entity {
+public class FormularioSepseEnf2Entity implements Serializable {
     private int idFormulario;
     private EnfermeiroEntity enfermeiro;
     private Date dtUti;

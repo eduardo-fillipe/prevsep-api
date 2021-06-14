@@ -1,11 +1,12 @@
 package br.ufs.hu.prevsep.web.api.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(schema = "public", name = "enfermeiro")
-public class EnfermeiroEntity {
+public class EnfermeiroEntity implements Serializable {
 
     @Id
     @Column(name="cpf")

@@ -1,4 +1,4 @@
-package br.ufs.hu.prevsep.web.api.service.usuario;
+package br.ufs.hu.prevsep.web.api.service.user.usuario;
 
 import br.ufs.hu.prevsep.web.api.dto.user.UsuarioMapper;
 import br.ufs.hu.prevsep.web.api.dto.user.usuario.*;

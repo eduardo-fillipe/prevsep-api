@@ -1,12 +1,13 @@
 package br.ufs.hu.prevsep.web.api.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "formularioSepseEnf1", schema = "public")
-public class FormularioSepseEnf1Entity {
+public class FormularioSepseEnf1Entity implements Serializable {
     private int idFormulario;
     private PacienteEntity paciente;
     private EnfermeiroEntity enfermeiro;
@@ -22,6 +23,7 @@ public class FormularioSepseEnf1Entity {
 
     @Id
     @Column(name = "idFormulario", nullable = false)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public int getIdFormulario() {
         return idFormulario;
     }

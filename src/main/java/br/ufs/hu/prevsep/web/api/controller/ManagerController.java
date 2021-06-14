@@ -7,7 +7,7 @@ import br.ufs.hu.prevsep.web.api.dto.user.manager.ManagerFullDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.manager.ManagerRequestDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.manager.ManagerUpdateDTO;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
-import br.ufs.hu.prevsep.web.api.service.manager.ManagerService;
+import br.ufs.hu.prevsep.web.api.service.user.manager.ManagerService;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

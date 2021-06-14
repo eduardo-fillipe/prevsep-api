@@ -1,4 +1,4 @@
-package br.ufs.hu.prevsep.web.api.service.manager;
+package br.ufs.hu.prevsep.web.api.service.user.manager;
 
 import br.ufs.hu.prevsep.web.api.dto.user.manager.ManagerDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.manager.ManagerFullDTO;

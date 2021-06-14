@@ -1,12 +1,13 @@
 package br.ufs.hu.prevsep.web.api.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "paciente", schema = "public")
-public class PacienteEntity {
+public class PacienteEntity implements Serializable {
     private int idPaciente;
     private Integer idade;
     private String sexo;
@@ -17,6 +18,7 @@ public class PacienteEntity {
     private List<FormularioSepseEnf1Entity> formularios;
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "idPaciente", nullable = false)
     public int getIdPaciente() {
         return idPaciente;

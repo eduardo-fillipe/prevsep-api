@@ -2,59 +2,59 @@ BEGIN TRANSACTION;
 
 CREATE TABLE IF NOT EXISTS public.paciente
 (
-    "idPaciente" integer NOT NULL,
+    "id_paciente" serial NOT NULL,
     idade integer,
     sexo character varying,
     leito character varying,
-    "nrAtendimento" character varying,
+    nr_atendimento character varying,
     registro character varying,
     cpf character varying,
-    PRIMARY KEY ("idPaciente")
+    PRIMARY KEY ("id_paciente")
 );
 
-CREATE TABLE IF NOT EXISTS public."formularioSepseEnf1"
+CREATE TABLE IF NOT EXISTS public.formulario_sepse_enf1
 (
-    "idFormulario" integer NOT NULL,
-    "idPaciente" integer NOT NULL,
+    id_formulario serial NOT NULL,
+    id_paciente integer NOT NULL,
     procedencia character varying,
     sirs character varying,
-    "disfOrganica" character varying,
-    "crmMedico" bigint,
-    "dtAcMedico" date,
-    "creEnfermeiro" bigint NOT NULL,
-    "dtCriacao" date NOT NULL,
+    disf_organica character varying,
+    crm_medico bigint,
+    dt_ac_medico date,
+    cre_enfermeiro bigint NOT NULL,
+    dt_criacao date NOT NULL,
     status integer NOT NULL,
-    PRIMARY KEY ("idFormulario")
+    PRIMARY KEY (id_formulario)
 );
 
-CREATE TABLE IF NOT EXISTS public."formularioSepseMedico"
+CREATE TABLE IF NOT EXISTS public.formulario_sepse_medico
 (
-    "idFormulario" integer NOT NULL,
-    "idPaciente" integer NOT NULL,
-    "focoInfeccioso" character varying,
-    "critExclusao" character varying,
-    "bundleHora1" character varying,
-    "dtDispProtocolo" date,
-    "dtColetaLactato" date,
-    "dtColetaHemocult" date,
-    "dtPrimeiraDose" date,
-    "crmMedico" bigint,
-    "dtCriacao" date NOT NULL,
+    id_formulario integer NOT NULL,
+    id_paciente integer NOT NULL,
+    foco_infeccioso character varying,
+    crit_exclusao character varying,
+    bundle_hora1 character varying,
+    dt_disp_protocolo date,
+    dt_coleta_lactato date,
+    dt_coleta_hemocult date,
+    dt_primeira_dose date,
+    crm_medico bigint,
+    dt_criacao date NOT NULL,
     status integer NOT NULL,
-    "reavaliacoesSeriadas" character varying,
-    PRIMARY KEY ("idFormulario")
+    reavaliacoes_seriadas character varying,
+    PRIMARY KEY (id_formulario)
 );
 
-CREATE TABLE IF NOT EXISTS public."formularioSepseEnf2"
+CREATE TABLE IF NOT EXISTS public.formulario_sepse_enf2
 (
-    "idFormulario" integer NOT NULL,
-    "dtUTI" date,
-    "dtAlta" date,
-    "dtObito" date,
-    "dtCriacao" date NOT NULL,
+    id_formulario integer NOT NULL,
+    dt_uti date,
+    dt_alta date,
+    dt_obito date,
+    dt_criacao date NOT NULL,
     status integer NOT NULL,
-    "creEnfermeiro" bigint,
-    PRIMARY KEY ("idFormulario")
+    cre_enfermeiro bigint,
+    PRIMARY KEY (id_formulario)
 );
 
 CREATE TABLE IF NOT EXISTS public.medico
@@ -88,21 +88,21 @@ CREATE TABLE IF NOT EXISTS public.usuario
     PRIMARY KEY (cpf)
 );
 
-ALTER TABLE public."formularioSepseEnf1"
-    ADD FOREIGN KEY ("idPaciente")
-        REFERENCES public.paciente ("idPaciente")
+ALTER TABLE public.formulario_sepse_enf1
+    ADD FOREIGN KEY (id_paciente)
+        REFERENCES public.paciente ("id_paciente")
         NOT VALID;
 
 
-ALTER TABLE public."formularioSepseMedico"
-    ADD FOREIGN KEY ("idPaciente")
-        REFERENCES public.paciente ("idPaciente")
+ALTER TABLE public.formulario_sepse_medico
+    ADD FOREIGN KEY (id_paciente)
+        REFERENCES public.paciente ("id_paciente")
         NOT VALID;
 
 
-ALTER TABLE public."formularioSepseEnf2"
-    ADD FOREIGN KEY ("idFormulario")
-        REFERENCES public."formularioSepseMedico" ("idFormulario")
+ALTER TABLE public.formulario_sepse_enf2
+    ADD FOREIGN KEY (id_formulario)
+        REFERENCES public.formulario_sepse_medico (id_formulario)
         NOT VALID;
 
 
@@ -124,39 +124,33 @@ ALTER TABLE public.gestor
         NOT VALID;
 
 
-ALTER TABLE public."formularioSepseMedico"
-    ADD FOREIGN KEY ("idFormulario")
-        REFERENCES public."formularioSepseEnf1" ("idFormulario")
+ALTER TABLE public.formulario_sepse_medico
+    ADD FOREIGN KEY (id_formulario)
+        REFERENCES public.formulario_sepse_enf1 (id_formulario)
         NOT VALID;
 
 
-ALTER TABLE public."formularioSepseEnf2"
-    ADD FOREIGN KEY ("idFormulario")
-        REFERENCES public."formularioSepseMedico" ("idFormulario")
+ALTER TABLE public.formulario_sepse_enf2
+    ADD FOREIGN KEY (id_formulario)
+        REFERENCES public.formulario_sepse_medico (id_formulario)
         NOT VALID;
 
 
-ALTER TABLE public."formularioSepseEnf1"
-    ADD FOREIGN KEY ("crmMedico")
+ALTER TABLE public.formulario_sepse_enf1
+    ADD FOREIGN KEY (crm_medico)
         REFERENCES public.medico (crm)
         NOT VALID;
 
 
-ALTER TABLE public."formularioSepseEnf1"
-    ADD FOREIGN KEY ("creEnfermeiro")
+ALTER TABLE public.formulario_sepse_enf1
+    ADD FOREIGN KEY (cre_enfermeiro)
         REFERENCES public.enfermeiro (cre)
         NOT VALID;
 
 
-ALTER TABLE public."formularioSepseMedico"
-    ADD FOREIGN KEY ("crmMedico")
+ALTER TABLE public.formulario_sepse_medico
+    ADD FOREIGN KEY (crm_medico)
         REFERENCES public.medico (crm)
-        NOT VALID;
-
-
-ALTER TABLE public."formularioSepseEnf2"
-    ADD FOREIGN KEY ("creEnfermeiro")
-        REFERENCES public."enfermeiro" ("cre")
         NOT VALID;
 
 COMMIT;

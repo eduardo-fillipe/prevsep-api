@@ -1,4 +1,4 @@
-package br.ufs.hu.prevsep.web.api.service.doctor;
+package br.ufs.hu.prevsep.web.api.service.user.doctor;
 
 import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorRequestDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorResponseDTO;

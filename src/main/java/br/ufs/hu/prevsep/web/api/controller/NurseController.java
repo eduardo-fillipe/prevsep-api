@@ -1,17 +1,18 @@
 package br.ufs.hu.prevsep.web.api.controller;
 
 import br.ufs.hu.prevsep.web.api.config.ApiRequestMappings;
+import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
 import br.ufs.hu.prevsep.web.api.dto.form.sepse.NurseForm1CreateDTO;
 import br.ufs.hu.prevsep.web.api.dto.form.sepse.NurseForm1DTO;
 import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorResponseDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorResponseFullDTO;
-import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.nurse.NurseDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.nurse.NurseFullDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.nurse.NurseRequestDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.nurse.NurseUpdateDTO;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
-import br.ufs.hu.prevsep.web.api.service.nurse.NurseService;
+import br.ufs.hu.prevsep.web.api.service.form.sepse.SepseFormService;
+import br.ufs.hu.prevsep.web.api.service.user.nurse.NurseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -39,9 +40,11 @@ import java.util.List;
 public class NurseController extends BaseController{
 
     private final NurseService nurseService;
+    private final SepseFormService sepseFormService;
 
-    public NurseController(NurseService nurseService) {
+    public NurseController(NurseService nurseService, SepseFormService sepseFormService) {
         this.nurseService = nurseService;
+        this.sepseFormService = sepseFormService;
     }
 
     @GetMapping
@@ -102,7 +105,7 @@ public class NurseController extends BaseController{
     })
     @Valid
     public NurseForm1DTO createForm(@PathVariable("cre") @Valid @Min(1) @NotNull Integer cre,
-                                    @RequestBody NurseForm1CreateDTO nurseForm1CreateDTO) {
-        return null;
+                                    @RequestBody @Valid NurseForm1CreateDTO nurseForm1CreateDTO) {
+        return sepseFormService.createForm(cre, nurseForm1CreateDTO);
     }
 }

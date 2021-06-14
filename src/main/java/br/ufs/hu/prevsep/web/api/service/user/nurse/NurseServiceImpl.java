@@ -1,4 +1,4 @@
-package br.ufs.hu.prevsep.web.api.service.nurse;
+package br.ufs.hu.prevsep.web.api.service.user.nurse;
 
 import br.ufs.hu.prevsep.web.api.dto.user.UsuarioMapper;
 import br.ufs.hu.prevsep.web.api.dto.user.nurse.NurseDTO;
