@@ -1,0 +1,33 @@
+package br.ufs.hu.prevsep.web.api.dto.form;
+
+public enum FormStatus {
+    SAVED(1), CREATED(2), PENDING(3), FINISHED(4);
+
+    private final int value;
+
+    FormStatus(int value) {
+        this.value = value;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public static FormStatus fromValue(Integer value) {
+        if (value == null)
+            return null;
+
+        switch (value){
+            case 1:
+                return SAVED;
+            case 2:
+                return CREATED;
+            case 3:
+                return PENDING;
+            case 4:
+                return FINISHED;
+            default:
+                return null;
+        }
+    }
+}

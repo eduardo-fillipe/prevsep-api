@@ -9,6 +9,7 @@ import java.util.Objects;
 @Table(name = "formularioSepseMedico", schema = "public")
 public class FormularioSepseMedicoEntity implements Serializable {
     private PacienteEntity paciente;
+    private int crmMedico;
     private int idFormulario;
     private String focoInfeccioso;
     private String critExclusao;
@@ -50,6 +51,16 @@ public class FormularioSepseMedicoEntity implements Serializable {
 
     public void setFocoInfeccioso(String focoInfeccioso) {
         this.focoInfeccioso = focoInfeccioso;
+    }
+
+    @Basic
+    @Column(name = "crmMedico", nullable = false)
+    public int getCrmMedico() {
+        return crmMedico;
+    }
+
+    public void setCrmMedico(int crmMedico) {
+        this.crmMedico = crmMedico;
     }
 
     @Basic

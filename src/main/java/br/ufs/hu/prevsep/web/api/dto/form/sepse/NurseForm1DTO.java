@@ -1,7 +1,9 @@
 package br.ufs.hu.prevsep.web.api.dto.form.sepse;
 
+import br.ufs.hu.prevsep.web.api.dto.form.FormStatus;
 import br.ufs.hu.prevsep.web.api.dto.form.PatientDTO;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class NurseForm1DTO {
@@ -11,8 +13,9 @@ public class NurseForm1DTO {
     private String procedencia;
     private String sirs;
     private String disfOrganica;
-    private LocalDateTime dtAcMedico;
-    private LocalDateTime dtCriacao;
+    private LocalDate dtAcMedico;
+    private LocalDate dtCriacao;
+    private FormStatus status;
 
     public int getIdFormulario() {
         return idFormulario;
@@ -62,19 +65,27 @@ public class NurseForm1DTO {
         this.disfOrganica = disfOrganica;
     }
 
-    public LocalDateTime getDtAcMedico() {
+    public LocalDate getDtAcMedico() {
         return dtAcMedico;
     }
 
-    public void setDtAcMedico(LocalDateTime dtAcMedico) {
+    public void setDtAcMedico(LocalDate dtAcMedico) {
         this.dtAcMedico = dtAcMedico;
     }
 
-    public LocalDateTime getDtCriacao() {
+    public LocalDate getDtCriacao() {
         return dtCriacao;
     }
 
-    public void setDtCriacao(LocalDateTime dtCriacao) {
+    public void setDtCriacao(LocalDate dtCriacao) {
         this.dtCriacao = dtCriacao;
+    }
+
+    public FormStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(FormStatus status) {
+        this.status = status;
     }
 }

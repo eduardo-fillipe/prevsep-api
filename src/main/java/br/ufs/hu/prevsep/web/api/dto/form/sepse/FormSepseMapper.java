@@ -1,5 +1,6 @@
 package br.ufs.hu.prevsep.web.api.dto.form.sepse;
 
+import br.ufs.hu.prevsep.web.api.dto.form.FormStatus;
 import br.ufs.hu.prevsep.web.api.dto.form.PatientCreateDTO;
 import br.ufs.hu.prevsep.web.api.dto.form.PatientDTO;
 import br.ufs.hu.prevsep.web.api.model.FormularioSepseEnf1Entity;
@@ -9,9 +10,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
+import java.time.LocalDate;
+import java.sql.Date;
 
 @Mapper
 public interface FormSepseMapper {
@@ -25,13 +25,11 @@ public interface FormSepseMapper {
 
     PatientDTO mapToPatientDto(PacienteEntity entity);
 
-    @Mapping(target = "crmMedico", source = "medico.crm")
     NurseForm1DTO mapNurseForm1Dto(FormularioSepseEnf1Entity entity);
 
     @Mappings({
-            @Mapping(target = "enfermeiro", ignore = true),
-            @Mapping(target = "medico.crm", source = "crmMedico"),
-            @Mapping(target = "medico", ignore = true),
+            @Mapping(target = "creEnfermeiro", ignore = true),
+            @Mapping(target = "crmMedico", source = "crmMedico"),
             @Mapping(target = "formularioSepseEnf2", ignore = true),
             @Mapping(target = "formularioSepseMedico", ignore = true),
             @Mapping(target = "idFormulario", ignore = true),
@@ -39,7 +37,17 @@ public interface FormSepseMapper {
     })
     FormularioSepseEnf1Entity mapToFormularioSepseEnf1Entity(NurseForm1CreateDTO dto);
 
-    default Date map(LocalDateTime localDateTime) {
-        return new Date(localDateTime.atZone(ZoneId.of("America/Sao_Paulo")).toInstant().toEpochMilli());
+    default FormStatus map(Integer value) {
+        return FormStatus.fromValue(value);
+    }
+
+    default int map(FormStatus status) {
+        if (status != null)
+            return status.getValue();
+        return 0;
+    }
+
+    default Date map(LocalDate localDate) {
+        return Date.valueOf(localDate);
     }
 }

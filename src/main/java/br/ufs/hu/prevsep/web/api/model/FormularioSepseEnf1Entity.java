@@ -10,8 +10,8 @@ import java.util.Objects;
 public class FormularioSepseEnf1Entity implements Serializable {
     private int idFormulario;
     private PacienteEntity paciente;
-    private EnfermeiroEntity enfermeiro;
-    private MedicoEntity medico;
+    private int creEnfermeiro;
+    private int crmMedico;
     private String procedencia;
     private String sirs;
     private String disfOrganica;
@@ -42,24 +42,22 @@ public class FormularioSepseEnf1Entity implements Serializable {
         this.paciente = paciente;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "creEnfermeiro", referencedColumnName = "cre")
-    public EnfermeiroEntity getEnfermeiro() {
-        return enfermeiro;
+    @Column(name = "creEnfermeiro")
+    public int getCreEnfermeiro() {
+        return creEnfermeiro;
     }
 
-    public void setEnfermeiro(EnfermeiroEntity enfermeiro) {
-        this.enfermeiro = enfermeiro;
+    public void setCreEnfermeiro(int creEnfermeiro) {
+        this.creEnfermeiro = creEnfermeiro;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "crmMedico", referencedColumnName = "crm")
-    public MedicoEntity getMedico() {
-        return medico;
+    @Column(name = "crmMedico")
+    public int getCrmMedico() {
+        return crmMedico;
     }
 
-    public void setMedico(MedicoEntity medico) {
-        this.medico = medico;
+    public void setCrmMedico(int crmMedico) {
+        this.crmMedico = crmMedico;
     }
 
     @Basic

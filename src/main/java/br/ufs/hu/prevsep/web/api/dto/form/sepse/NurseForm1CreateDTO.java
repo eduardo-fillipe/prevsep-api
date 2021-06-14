@@ -1,11 +1,13 @@
 package br.ufs.hu.prevsep.web.api.dto.form.sepse;
 
+import br.ufs.hu.prevsep.web.api.dto.form.FormStatus;
 import br.ufs.hu.prevsep.web.api.dto.form.PatientCreateDTO;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class NurseForm1CreateDTO {
@@ -23,9 +25,10 @@ public class NurseForm1CreateDTO {
     @NotEmpty
     private String disfOrganica;
     @NotNull
-    private LocalDateTime dtAcMedico;
+    private LocalDate dtAcMedico;
     @NotNull
-    private LocalDateTime dtCriacao;
+    private LocalDate dtCriacao;
+
 
     public PatientCreateDTO getPaciente() {
         return paciente;
@@ -67,19 +70,19 @@ public class NurseForm1CreateDTO {
         this.disfOrganica = disfOrganica;
     }
 
-    public LocalDateTime getDtAcMedico() {
+    public LocalDate getDtAcMedico() {
         return dtAcMedico;
     }
 
-    public void setDtAcMedico(LocalDateTime dtAcMedico) {
+    public void setDtAcMedico(LocalDate dtAcMedico) {
         this.dtAcMedico = dtAcMedico;
     }
 
-    public LocalDateTime getDtCriacao() {
+    public LocalDate getDtCriacao() {
         return dtCriacao;
     }
 
-    public void setDtCriacao(LocalDateTime dtCriacao) {
+    public void setDtCriacao(LocalDate dtCriacao) {
         this.dtCriacao = dtCriacao;
     }
 }
