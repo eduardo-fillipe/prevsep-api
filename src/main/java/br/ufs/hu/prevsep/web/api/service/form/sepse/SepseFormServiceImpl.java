@@ -12,8 +12,6 @@ import br.ufs.hu.prevsep.web.api.repository.DoctorRepository;
 import br.ufs.hu.prevsep.web.api.repository.EnfermeiroRepository;
 import br.ufs.hu.prevsep.web.api.repository.NurseForm1Repository;
 import br.ufs.hu.prevsep.web.api.repository.PatientRepository;
-import br.ufs.hu.prevsep.web.api.service.user.doctor.DoctorService;
-import br.ufs.hu.prevsep.web.api.service.user.nurse.NurseService;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -21,20 +19,16 @@ import javax.transaction.Transactional;
 @Service
 public class SepseFormServiceImpl implements SepseFormService {
 
-    private final NurseService nurseService;
     private final EnfermeiroRepository enfermeiroRepository;
     private final DoctorRepository doctorRepository;
-    private final DoctorService doctorService;
     private final FormSepseMapper formSepseMapper = FormSepseMapper.INSTANCE;
     private final NurseForm1Repository nurseForm1Repository;
     private final PatientRepository patientRepository;
 
 
-    public SepseFormServiceImpl(NurseService nurseService, EnfermeiroRepository enfermeiroRepository, DoctorRepository doctorRepository, DoctorService doctorService, NurseForm1Repository nurseForm1Repository, PatientRepository patientRepository) {
-        this.nurseService = nurseService;
+    public SepseFormServiceImpl(EnfermeiroRepository enfermeiroRepository, DoctorRepository doctorRepository, NurseForm1Repository nurseForm1Repository, PatientRepository patientRepository) {
         this.enfermeiroRepository = enfermeiroRepository;
         this.doctorRepository = doctorRepository;
-        this.doctorService = doctorService;
         this.nurseForm1Repository = nurseForm1Repository;
         this.patientRepository = patientRepository;
     }
