@@ -9,7 +9,7 @@ import java.util.Objects;
 @Table(name = "formularioSepseEnf2", schema = "public")
 public class FormularioSepseEnf2Entity implements Serializable {
     private int idFormulario;
-    private EnfermeiroEntity enfermeiro;
+    private int creEnfermeiro;
     private Date dtUti;
     private Date dtAlta;
     private Date dtObito;
@@ -26,14 +26,13 @@ public class FormularioSepseEnf2Entity implements Serializable {
         this.idFormulario = idFormulario;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creEnfermeiro", referencedColumnName = "cre")
-    public EnfermeiroEntity getEnfermeiro() {
-        return enfermeiro;
+    @Column(name = "creEnfermeiro")
+    public int getCreEnfermeiro() {
+        return creEnfermeiro;
     }
 
-    public void setEnfermeiro(EnfermeiroEntity enfermeiro) {
-        this.enfermeiro = enfermeiro;
+    public void setCreEnfermeiro(int creEnfermeiro) {
+        this.creEnfermeiro = creEnfermeiro;
     }
 
     @Basic

@@ -4,9 +4,11 @@ import br.ufs.hu.prevsep.web.api.dto.form.FormStatus;
 import br.ufs.hu.prevsep.web.api.dto.form.PatientCreateDTO;
 import br.ufs.hu.prevsep.web.api.dto.form.PatientDTO;
 import br.ufs.hu.prevsep.web.api.model.FormularioSepseEnf1Entity;
+import br.ufs.hu.prevsep.web.api.model.FormularioSepseMedicoEntity;
 import br.ufs.hu.prevsep.web.api.model.PacienteEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
@@ -36,6 +38,21 @@ public interface FormSepseMapper {
             @Mapping(target = "status", ignore = true)
     })
     FormularioSepseEnf1Entity mapToFormularioSepseEnf1Entity(NurseForm1CreateDTO dto);
+
+    @Mappings({
+            @Mapping(target = "crmMedico", ignore = true),
+            @Mapping(target = "idFormulario", ignore = true),
+            @Mapping(target = "idPaciente", ignore = true)
+    })
+    FormularioSepseMedicoEntity mapToFormularioSepseMedicoEntity(DoctorFormUpdateDTO dto);
+
+    @Mappings({
+            @Mapping(target = "paciente", ignore = true),
+            @Mapping(target = "paciente.idPaciente", source = "idPaciente")
+    })
+    DoctorFormDTO mapToDoctorFormDto(FormularioSepseMedicoEntity entity);
+
+    void copyFormularioSepseMedicoEntity(FormularioSepseMedicoEntity src, @MappingTarget FormularioSepseMedicoEntity target);
 
     default FormStatus map(Integer value) {
         return FormStatus.fromValue(value);

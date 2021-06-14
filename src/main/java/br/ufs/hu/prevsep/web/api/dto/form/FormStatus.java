@@ -1,7 +1,7 @@
 package br.ufs.hu.prevsep.web.api.dto.form;
 
 public enum FormStatus {
-    SAVED(1), CREATED(2), PENDING(3), FINISHED(4);
+    SAVED(1), CREATED(2), PENDING(3), FINISHED(4), CANCELLED(5);
 
     private final int value;
 
@@ -26,6 +26,8 @@ public enum FormStatus {
                 return PENDING;
             case 4:
                 return FINISHED;
+            case 5:
+                return CANCELLED;
             default:
                 return null;
         }

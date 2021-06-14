@@ -8,7 +8,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "formularioSepseMedico", schema = "public")
 public class FormularioSepseMedicoEntity implements Serializable {
-    private PacienteEntity paciente;
+    private int idPaciente;
     private int crmMedico;
     private int idFormulario;
     private String focoInfeccioso;
@@ -21,17 +21,6 @@ public class FormularioSepseMedicoEntity implements Serializable {
     private Date dtCriacao;
     private int status;
     private String reavaliacoesSeriadas;
-    private FormularioSepseEnf2Entity formularioSepseEnf2ByIdFormulario;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idPaciente", referencedColumnName = "idPaciente")
-    public PacienteEntity getPaciente() {
-        return paciente;
-    }
-
-    public void setPaciente(PacienteEntity paciente) {
-        this.paciente = paciente;
-    }
 
     @Id
     @Column(name = "idFormulario", nullable = false)
@@ -41,6 +30,16 @@ public class FormularioSepseMedicoEntity implements Serializable {
 
     public void setIdFormulario(int idFormulario) {
         this.idFormulario = idFormulario;
+    }
+
+    @Basic
+    @Column(name = "idPaciente")
+    public int getIdPaciente() {
+        return idPaciente;
+    }
+
+    public void setIdPaciente(int idPaciente) {
+        this.idPaciente = idPaciente;
     }
 
     @Basic
@@ -164,15 +163,5 @@ public class FormularioSepseMedicoEntity implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(idFormulario, focoInfeccioso, critExclusao, bundleHora1, dtDispProtocolo, dtColetaLactato, dtColetaHemocult, dtPrimeiraDose, dtCriacao, status, reavaliacoesSeriadas);
-    }
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idFormulario", referencedColumnName = "idFormulario")
-    public FormularioSepseEnf2Entity getFormularioSepseEnf2ByIdFormulario() {
-        return formularioSepseEnf2ByIdFormulario;
-    }
-
-    public void setFormularioSepseEnf2ByIdFormulario(FormularioSepseEnf2Entity formularioSepseEnf2ByIdFormulario) {
-        this.formularioSepseEnf2ByIdFormulario = formularioSepseEnf2ByIdFormulario;
     }
 }

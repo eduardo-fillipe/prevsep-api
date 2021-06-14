@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS public.medico
     PRIMARY KEY (cpf)
 );
 
-CREATE TABLE IF NOT EXISTS public.enfermeiro
+CREATE TABLE IF NOT EXISTS public.creEnfermeiro
 (
     cpf character varying NOT NULL,
     cre bigint NOT NULL UNIQUE,
@@ -106,7 +106,7 @@ ALTER TABLE public.formulario_sepse_enf2
         NOT VALID;
 
 
-ALTER TABLE public.enfermeiro
+ALTER TABLE public.creEnfermeiro
     ADD FOREIGN KEY (cpf)
         REFERENCES public.usuario (cpf)
         NOT VALID;
@@ -144,7 +144,7 @@ ALTER TABLE public.formulario_sepse_enf1
 
 ALTER TABLE public.formulario_sepse_enf1
     ADD FOREIGN KEY (cre_enfermeiro)
-        REFERENCES public.enfermeiro (cre)
+        REFERENCES public.creEnfermeiro (cre)
         NOT VALID;
 
 

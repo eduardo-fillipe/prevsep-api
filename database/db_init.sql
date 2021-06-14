@@ -33,7 +33,7 @@ INSERT INTO usuario (cpf, nome, email, cargo, senha, status) VALUES
 ('09951729002', 'Joana Pereira Silva', 'joanapereira@prevsep.com', 3, '$2y$10$HI7.rV14eRMyuuvAGVjvF.leE0hxnagyWLgjcxdo68Z4RHHXGMHye', 1),
 ('22475524049', 'Maria Carla Santos', 'mariacarla@prevsep.com', 3, '$2y$10$HI7.rV14eRMyuuvAGVjvF.leE0hxnagyWLgjcxdo68Z4RHHXGMHye', 1);
 
-INSERT INTO enfermeiro (cpf, cre) VALUES
+INSERT INTO creEnfermeiro (cpf, cre) VALUES
 ('09951729002', 12345),
 ('22475524049', 12346);
 
