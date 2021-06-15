@@ -4,6 +4,8 @@ import br.ufs.hu.prevsep.web.api.config.ApiRequestMappings;
 import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
 import br.ufs.hu.prevsep.web.api.dto.form.sepse.NurseForm1CreateDTO;
 import br.ufs.hu.prevsep.web.api.dto.form.sepse.NurseForm1DTO;
+import br.ufs.hu.prevsep.web.api.dto.form.sepse.NurseForm2DTO;
+import br.ufs.hu.prevsep.web.api.dto.form.sepse.NurseForm2UpdateDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorResponseDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorResponseFullDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.nurse.NurseDTO;
@@ -95,8 +97,8 @@ public class NurseController extends BaseController{
         nurseService.updateNurse(cpf, nurseUpdateDTO);
     }
 
-    @PostMapping("/{cre}/form/sepse")
-    @Operation(summary = "Creates a sepse form.")
+    @PostMapping("/{cre}/forms/sepse")
+    @Operation(summary = "Creates a Sepse form.")
     @ResponseStatus(HttpStatus.CREATED)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Created"),
@@ -107,5 +109,64 @@ public class NurseController extends BaseController{
     public NurseForm1DTO createForm(@PathVariable("cre") @Valid @Min(1) @NotNull Integer cre,
                                     @RequestBody @Valid NurseForm1CreateDTO nurseForm1CreateDTO) {
         return sepseFormService.createForm(cre, nurseForm1CreateDTO);
+    }
+
+    @PutMapping("/{cre}/forms/sepse/{idForm}/form1")
+    @Operation(summary = "Saves the state of the Nurse's sepse form (2nd part).")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Ok"),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Resource not found: Patient, Nurse or Doctor", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "409", description = "Conflict: Illegal user or form state", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+    })
+    @Valid
+    public void saveForm1(@PathVariable("cre") @Valid @Min(1) @NotNull Integer cre, @PathVariable("idForm") @Valid @Min(1) Integer idForm,
+                          @RequestBody @Valid NurseForm2UpdateDTO nurseForm2UpdateDTO) {
+        throw new UnsupportedOperationException("Not implemented");
+    }
+
+    @PostMapping("/{cre}/forms/sepse/{idForm}/form1")
+    @Operation(summary = "Finishes filling and activate a Sepse form")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Created"),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Resource not found: Patient, Nurse or Doctor", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+    })
+    @Valid
+    public NurseForm1DTO finishForm1(@PathVariable("cre") @Valid @Min(1) @NotNull Integer cre,
+                                     @RequestBody @Valid NurseForm1CreateDTO nurseForm1CreateDTO, @PathVariable @Valid @Min(1) String idForm) {
+        return null;
+    }
+
+    @PostMapping("/{cre}/forms/sepse/{idForm}/form2")
+    @Operation(summary = "Finishes filling a sepse form.")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok", content = @Content(schema = @Schema(implementation = NurseForm2DTO.class))),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Resource not found: Patient, Nurse or Doctor", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "409", description = "Conflict: Illegal user or form state", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+    })
+    @Valid
+    public NurseForm2DTO finishForm2(@PathVariable("cre") @Valid @Min(1) @NotNull Integer cre, @PathVariable("idForm") @Valid @Min(1) Integer idForm,
+                                     @RequestBody @Valid NurseForm2UpdateDTO nurseForm2UpdateDTO) {
+        return sepseFormService.finishNurseForm2(cre, idForm, nurseForm2UpdateDTO);
+    }
+
+    @PutMapping("/{cre}/forms/sepse/{idForm}/form2")
+    @Operation(summary = "Saves the state of the Nurse's sepse form (2nd part).")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Ok"),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Resource not found: Patient, Nurse or Doctor", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "409", description = "Conflict: Illegal user or form state", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+    })
+    @Valid
+    public void saveForm2(@PathVariable("cre") @Valid @Min(1) @NotNull Integer cre, @PathVariable("idForm") @Valid @Min(1) Integer idForm,
+                                     @RequestBody @Valid NurseForm2UpdateDTO nurseForm2UpdateDTO) {
+        throw new UnsupportedOperationException("Not implemented");
     }
 }

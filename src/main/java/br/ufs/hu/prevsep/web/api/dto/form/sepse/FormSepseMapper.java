@@ -4,6 +4,7 @@ import br.ufs.hu.prevsep.web.api.dto.form.FormStatus;
 import br.ufs.hu.prevsep.web.api.dto.form.PatientCreateDTO;
 import br.ufs.hu.prevsep.web.api.dto.form.PatientDTO;
 import br.ufs.hu.prevsep.web.api.model.FormularioSepseEnf1Entity;
+import br.ufs.hu.prevsep.web.api.model.FormularioSepseEnf2Entity;
 import br.ufs.hu.prevsep.web.api.model.FormularioSepseMedicoEntity;
 import br.ufs.hu.prevsep.web.api.model.PacienteEntity;
 import org.mapstruct.Mapper;
@@ -42,7 +43,8 @@ public interface FormSepseMapper {
     @Mappings({
             @Mapping(target = "crmMedico", ignore = true),
             @Mapping(target = "idFormulario", ignore = true),
-            @Mapping(target = "idPaciente", ignore = true)
+            @Mapping(target = "idPaciente", ignore = true),
+            @Mapping(target = "dtCriacao", ignore = true)
     })
     FormularioSepseMedicoEntity mapToFormularioSepseMedicoEntity(DoctorFormUpdateDTO dto);
 
@@ -52,7 +54,18 @@ public interface FormSepseMapper {
     })
     DoctorFormDTO mapToDoctorFormDto(FormularioSepseMedicoEntity entity);
 
-    void copyFormularioSepseMedicoEntity(FormularioSepseMedicoEntity src, @MappingTarget FormularioSepseMedicoEntity target);
+    @Mappings({
+            @Mapping(target = "status", ignore = true),
+            @Mapping(target = "idFormulario", ignore = true),
+            @Mapping(target = "dtCriacao", ignore = true),
+            @Mapping(target = "creEnfermeiro", ignore = true)
+    })
+    FormularioSepseEnf2Entity mapToFormularioSepseEnf2Entity(NurseForm2UpdateDTO dto);
+
+    @Mappings({
+            @Mapping(target = "patientDTO", ignore = true)
+    })
+    NurseForm2DTO mapToNurseForm2Dto(FormularioSepseEnf2Entity entity);
 
     default FormStatus map(Integer value) {
         return FormStatus.fromValue(value);
