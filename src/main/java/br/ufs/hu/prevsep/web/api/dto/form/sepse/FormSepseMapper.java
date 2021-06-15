@@ -41,6 +41,15 @@ public interface FormSepseMapper {
     FormularioSepseEnf1Entity mapToFormularioSepseEnf1Entity(NurseForm1CreateDTO dto);
 
     @Mappings({
+            @Mapping(target = "creEnfermeiro", ignore = true),
+            @Mapping(target = "formularioSepseEnf2", ignore = true),
+            @Mapping(target = "formularioSepseMedico", ignore = true),
+            @Mapping(target = "idFormulario", ignore = true),
+            @Mapping(target = "status", ignore = true)
+    })
+    FormularioSepseEnf1Entity mapToFormularioSepseEnf1Entity(NurseForm1UpdateDTO dto);
+
+    @Mappings({
             @Mapping(target = "crmMedico", ignore = true),
             @Mapping(target = "idFormulario", ignore = true),
             @Mapping(target = "idPaciente", ignore = true),

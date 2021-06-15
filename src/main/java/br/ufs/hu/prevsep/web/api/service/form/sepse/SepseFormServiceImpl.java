@@ -1,13 +1,11 @@
 package br.ufs.hu.prevsep.web.api.service.form.sepse;
 
 import br.ufs.hu.prevsep.web.api.dto.form.FormStatus;
+import br.ufs.hu.prevsep.web.api.dto.form.PatientCreateDTO;
 import br.ufs.hu.prevsep.web.api.dto.form.sepse.*;
 import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorResponseFullDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.usuario.StatusUsuarioEnum;
-import br.ufs.hu.prevsep.web.api.exception.FormNotFoundException;
-import br.ufs.hu.prevsep.web.api.exception.FormValidationException;
-import br.ufs.hu.prevsep.web.api.exception.InvalidDoctorState;
-import br.ufs.hu.prevsep.web.api.exception.InvalidFormStateException;
+import br.ufs.hu.prevsep.web.api.exception.*;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
 import br.ufs.hu.prevsep.web.api.model.FormularioSepseEnf1Entity;
 import br.ufs.hu.prevsep.web.api.model.FormularioSepseEnf2Entity;
@@ -19,6 +17,7 @@ import br.ufs.hu.prevsep.web.api.repository.NurseForm2Repository;
 import br.ufs.hu.prevsep.web.api.repository.PatientRepository;
 import br.ufs.hu.prevsep.web.api.service.user.doctor.DoctorService;
 import br.ufs.hu.prevsep.web.api.service.user.nurse.NurseService;
+import br.ufs.hu.prevsep.web.api.utils.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -70,10 +69,49 @@ public class SepseFormServiceImpl implements SepseFormService {
 
         formularioSepseEnf1Entity.setPaciente(pacienteEntity);
         formularioSepseEnf1Entity.setCreEnfermeiro(cre);
-        formularioSepseEnf1Entity.setStatus(FormStatus.CREATED.getValue());
+
+        formularioSepseEnf1Entity.setStatus(nurseForm1CreateDTO.getFinalizado() ?
+                FormStatus.CREATED.getValue() : FormStatus.SAVED.getValue());
+
         FormularioSepseEnf1Entity formSepse1 = nurseForm1Repository.save(formularioSepseEnf1Entity);
 
-        createDoctorForm(formSepse1);
+        if (nurseForm1CreateDTO.getFinalizado())
+            createDoctorForm(formSepse1);
+
+        return formSepseMapper.mapNurseForm1Dto(formSepse1);
+    }
+
+    @Override
+    public NurseForm1DTO saveForm1(Integer idForm, Integer cre, NurseForm1UpdateDTO nurseForm1UpdateDTO) {
+        return saveForm1(idForm, cre, nurseForm1UpdateDTO, false);
+    }
+
+    @Override
+    public NurseForm1DTO finishForm1(Integer idForm, Integer cre, NurseForm1UpdateDTO nurseForm1CreateDTO) {
+        return saveForm1(idForm, cre, nurseForm1CreateDTO, true);
+    }
+
+    private NurseForm1DTO saveForm1(Integer idForm, Integer cre, NurseForm1UpdateDTO nurseForm1UpdateDTO, boolean finish) {
+        FormularioSepseEnf1Entity formularioSepseEnf1Entity = nurseForm1Repository
+                .findById(idForm).orElseThrow(FormNotFoundException::new);
+        PacienteEntity pacienteEntity = formularioSepseEnf1Entity.getPaciente();
+
+        if (pacienteEntity == null)
+            throw new PatientNotFoundException()
+                    .withDetailedMessage("The data flow of this form is probably corrupted. Please contact the PrevSep Team.");
+
+        if (!FormStatus.SAVED.equals(FormStatus.fromValue(formularioSepseEnf1Entity.getStatus())))
+            throw new InvalidFormStateException()
+                    .withMessage("This form can't be modified.")
+                    .withDetailedMessage("Form with state " + FormStatus.fromValue(formularioSepseEnf1Entity.getStatus()) + " can not be modified.");
+
+        mergeEntity(formularioSepseEnf1Entity, nurseForm1UpdateDTO);
+        formularioSepseEnf1Entity.setStatus(finish ? FormStatus.CREATED.getValue() : FormStatus.SAVED.getValue());
+
+        FormularioSepseEnf1Entity formSepse1 = nurseForm1Repository.save(formularioSepseEnf1Entity);
+
+        if (finish)
+            createDoctorForm(formSepse1);
 
         return formSepseMapper.mapNurseForm1Dto(formSepse1);
     }
@@ -94,26 +132,36 @@ public class SepseFormServiceImpl implements SepseFormService {
     }
 
     @Override
+    public DoctorFormDTO saveDoctorForm(Integer idForm, DoctorFormUpdateDTO doctorFormUpdateDTO) throws FormNotFoundException, InvalidFormStateException {
+        return saveDoctorForm(idForm, doctorFormUpdateDTO, false);
+    }
+
+    @Override
     @Transactional
     public DoctorFormDTO finishDoctorForm(Integer idForm, DoctorFormUpdateDTO doctorFormUpdateDTO)
             throws FormNotFoundException, InvalidFormStateException {
-         FormularioSepseMedicoEntity doctorFormEntity = doctorFormRepository
-                 .findById(idForm)
-                 .orElseThrow(FormNotFoundException::new);
+         return saveDoctorForm(idForm, doctorFormUpdateDTO, true);
+    }
 
-         if (FormStatus.FINISHED.equals(FormStatus.fromValue(doctorFormEntity.getStatus())))
-             throw new InvalidFormStateException()
-                     .withMessage("This form can't be modified.")
-                     .withDetailedMessage("Form with state " + FormStatus.fromValue(doctorFormEntity.getStatus()) + "can not be modified.");
+    private DoctorFormDTO saveDoctorForm(Integer idForm, DoctorFormUpdateDTO doctorFormUpdateDTO, boolean finished) throws FormNotFoundException, InvalidFormStateException {
+        FormularioSepseMedicoEntity doctorFormEntity = doctorFormRepository
+                .findById(idForm)
+                .orElseThrow(FormNotFoundException::new);
 
-         mergeEntity(doctorFormEntity, doctorFormUpdateDTO);
-         doctorFormEntity.setStatus(FormStatus.FINISHED.getValue());
+        if (FormStatus.FINISHED.equals(FormStatus.fromValue(doctorFormEntity.getStatus())))
+            throw new InvalidFormStateException()
+                    .withMessage("This form can't be modified.")
+                    .withDetailedMessage("Form with state " + FormStatus.fromValue(doctorFormEntity.getStatus()) + "can not be modified.");
+
+        mergeEntity(doctorFormEntity, doctorFormUpdateDTO);
+        doctorFormEntity.setStatus(finished ? FormStatus.FINISHED.getValue() : FormStatus.SAVED.getValue());
 
         doctorFormEntity = doctorFormRepository.save(doctorFormEntity);
 
-        createNurseForm2(doctorFormEntity);
+        if(finished)
+            createNurseForm2(doctorFormEntity);
 
-         return formSepseMapper.mapToDoctorFormDto(doctorFormEntity);
+        return formSepseMapper.mapToDoctorFormDto(doctorFormEntity);
     }
 
     private void mergeEntity(FormularioSepseMedicoEntity entity, DoctorFormUpdateDTO doctorFormUpdateDTO) {
@@ -125,6 +173,19 @@ public class SepseFormServiceImpl implements SepseFormService {
         entity.setDtColetaHemocult(Date.valueOf(doctorFormUpdateDTO.getDtColetaHemocult()));
         entity.setDtPrimeiraDose(Date.valueOf(doctorFormUpdateDTO.getDtPrimeiraDose()));
         entity.setReavaliacoesSeriadas(doctorFormUpdateDTO.getReavaliacoesSeriadas());
+    }
+
+    private void mergeEntity(FormularioSepseEnf1Entity entity, NurseForm1UpdateDTO nurseFormUpdateDTO) {
+        entity.setCrmMedico(nurseFormUpdateDTO.getCrmMedico());
+        entity.setProcedencia(nurseFormUpdateDTO.getProcedencia());
+        entity.setSirs(nurseFormUpdateDTO.getSirs());
+        entity.setDisfOrganica(nurseFormUpdateDTO.getDisfOrganica());
+        entity.setDtAcMedico(Date.valueOf(nurseFormUpdateDTO.getDtAcMedico()));
+
+        if (nurseFormUpdateDTO.getPaciente() == null)
+            nurseFormUpdateDTO.setPaciente(new PatientCreateDTO());
+
+        BeanUtils.copyPropertiesIgnoreNulls(entity.getPaciente(), nurseFormUpdateDTO.getPaciente(), false);
     }
 
     private void createNurseForm2(FormularioSepseMedicoEntity formularioSepseMedicoEntity) {
@@ -142,6 +203,18 @@ public class SepseFormServiceImpl implements SepseFormService {
     @Transactional
     public NurseForm2DTO finishNurseForm2(Integer cre, Integer idForm, NurseForm2UpdateDTO nurseForm2UpdateDTO)
             throws FormNotFoundException, InvalidFormStateException, UserNotFoundException {
+        return saveNurseForm2(cre, idForm, nurseForm2UpdateDTO, true);
+    }
+
+    @Override
+    public NurseForm2DTO saveNurseForm2(Integer cre, Integer idForm, NurseForm2UpdateDTO nurseForm2UpdateDTO)
+            throws FormNotFoundException, InvalidFormStateException, UserNotFoundException {
+        return saveNurseForm2(cre, idForm, nurseForm2UpdateDTO, false);
+    }
+
+    public NurseForm2DTO saveNurseForm2(Integer cre, Integer idForm, NurseForm2UpdateDTO nurseForm2UpdateDTO, boolean finish)
+            throws FormNotFoundException, InvalidFormStateException, UserNotFoundException {
+
         Optional<FormularioSepseEnf2Entity> nurseForm2EntityOptional = nurseForm2Repository
                 .findById(idForm);
 
@@ -163,18 +236,24 @@ public class SepseFormServiceImpl implements SepseFormService {
                     .withMessage("This form can't be modified.")
                     .withDetailedMessage("Form with state " + FormStatus.fromValue(nurseForm2Entity.getStatus()) + "can not be modified.");
 
-        nurseForm2Entity.setStatus(FormStatus.FINISHED.getValue());
         mergeEntity(nurseForm2Entity, nurseForm2UpdateDTO);
+        nurseForm2Entity.setStatus(finish ? FormStatus.FINISHED.getValue() : FormStatus.SAVED.getValue());
 
-        if (!validateNurseForm2(nurseForm2Entity))
-            throw new FormValidationException().withMessage("The form isn't correctly filled.")
-                    .withDetailedMessage("The following fields are conflicting: ")
-                    .withFieldError("dtAlta", "")
-                    .withFieldError("dtObito", "");
+        FormularioSepseEnf1Entity formularioSepseEnf1Entity = null;
+        if (finish) {
+            if (!validateNurseForm2(nurseForm2Entity))
+                throw new FormValidationException().withMessage("The form isn't correctly filled.")
+                        .withDetailedMessage("The following fields are conflicting: ")
+                        .withFieldError("dtAlta", "")
+                        .withFieldError("dtObito", "");
 
-        nurseForm2Entity = nurseForm2Repository.save(nurseForm2Entity);
-
-        FormularioSepseEnf1Entity formularioSepseEnf1Entity = updateStatusNurseForm1(nurseForm2Entity);
+            nurseForm2Entity = nurseForm2Repository.save(nurseForm2Entity);
+            formularioSepseEnf1Entity = updateStatusNurseForm1(nurseForm2Entity);
+        } else {
+            nurseForm2Entity = nurseForm2Repository.save(nurseForm2Entity);
+            formularioSepseEnf1Entity = nurseForm1Repository.findById(nurseForm2Entity.getIdFormulario())
+                    .orElseThrow(FormNotFoundException::new);
+        }
 
         NurseForm2DTO result = formSepseMapper.mapToNurseForm2Dto(nurseForm2Entity);
         result.setPatientDTO(formSepseMapper.mapToPatientDto(formularioSepseEnf1Entity.getPaciente()));

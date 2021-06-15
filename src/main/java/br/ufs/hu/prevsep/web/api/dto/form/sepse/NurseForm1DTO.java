@@ -4,7 +4,6 @@ import br.ufs.hu.prevsep.web.api.dto.form.FormStatus;
 import br.ufs.hu.prevsep.web.api.dto.form.PatientDTO;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class NurseForm1DTO {
     private int idFormulario;

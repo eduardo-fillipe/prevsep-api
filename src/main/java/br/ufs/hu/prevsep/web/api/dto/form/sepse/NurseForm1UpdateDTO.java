@@ -8,7 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-public class NurseForm1CreateDTO {
+public class NurseForm1UpdateDTO {
 
     @NotNull
     @Valid
@@ -26,8 +26,6 @@ public class NurseForm1CreateDTO {
     private LocalDate dtAcMedico;
     @NotNull
     private LocalDate dtCriacao;
-    @NotNull
-    private Boolean finalizado;
 
 
     public PatientCreateDTO getPaciente() {
@@ -86,11 +84,4 @@ public class NurseForm1CreateDTO {
         this.dtCriacao = dtCriacao;
     }
 
-    public Boolean getFinalizado() {
-        return finalizado;
-    }
-
-    public void setFinalizado(Boolean finalizado) {
-        this.finalizado = finalizado;
-    }
 }

@@ -107,4 +107,19 @@ public class DoctorController extends BaseController{
                                            @PathVariable("crm") @Valid @Min(1) Integer crmDoctor) {
         return sepseFormService.finishDoctorForm(idForm, doctorFormUpdateDTO);
     }
+
+    @PutMapping("/{crm}/forms/sepse/{idForm}")
+    @Operation(summary = "Saves the state of a given form in the system.")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok", content = @Content(schema = @Schema(implementation = DoctorFormDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Resource not found", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+    })
+    public void saveForm(@RequestBody DoctorFormUpdateDTO doctorFormUpdateDTO,
+                                           @PathVariable("idForm") @Valid @Min(1) Integer idForm,
+                                           @PathVariable("crm") @Valid @Min(1) Integer crmDoctor) {
+        sepseFormService.saveDoctorForm(idForm, doctorFormUpdateDTO);
+    }
 }

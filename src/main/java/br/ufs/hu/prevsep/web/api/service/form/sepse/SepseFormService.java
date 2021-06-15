@@ -8,14 +8,27 @@ import br.ufs.hu.prevsep.web.api.repository.DoctorFormRepository;
 import br.ufs.hu.prevsep.web.api.repository.NurseForm1Repository;
 
 public interface SepseFormService {
+
     /**
-     * This method creates a Sepse Form in the system. The main flow is: Create a form in the {@link NurseForm1Repository}
-     * and then the Doctor form associated to it in the {@link DoctorFormRepository}.
-     * @param cre The CRE number of the Nurse responsible for create this form.
+     * This method creates a Sepse Form in the system. And, depending on the flag {@code finalizado} on the request object,
+     * finishes the form filling, otherwise just saves the form state
+     * @param cre The CRE number of the Nurse responsible for create this form
      * @param nurseForm1CreateDTO The form object
-     * @return The form object created on the system, containing the generated Patient and Form Ids.
+     * @return The form object created on the system, containing the generated Patient and Form Ids
      */
     NurseForm1DTO createForm(Integer cre, NurseForm1CreateDTO nurseForm1CreateDTO);
+
+    /**
+     * This method creates a Sepse Form in the system. The main flow is: Finishes a form in the {@link NurseForm1Repository}
+     * and then creates the Doctor form associated to it in the {@link DoctorFormRepository}
+     * @param cre The CRE number of the Nurse responsible for create this form
+     * @param nurseForm1CreateDTO The form object
+     * @param idForm The Form's id
+     * @return The form object created on the system, containing the generated Patient and Form Ids
+     */
+    NurseForm1DTO finishForm1(Integer idForm, Integer cre, NurseForm1UpdateDTO nurseForm1CreateDTO);
+
+    NurseForm1DTO saveForm1(Integer idForm, Integer cre, NurseForm1UpdateDTO nurseForm1CreateDTO);
 
     /**
      * This method finishes filling an existing Doctor Form. To do so, first is necessary to check if the form isn't
@@ -27,6 +40,10 @@ public interface SepseFormService {
      * @return The updated form.
      */
     DoctorFormDTO finishDoctorForm(Integer idForm, DoctorFormUpdateDTO doctorFormUpdateDTO)
+            throws FormNotFoundException, InvalidFormStateException;
+
+
+    DoctorFormDTO saveDoctorForm(Integer idForm, DoctorFormUpdateDTO doctorFormUpdateDTO)
             throws FormNotFoundException, InvalidFormStateException;
 
     /**
@@ -44,5 +61,9 @@ public interface SepseFormService {
      * @throws UserNotFoundException if the given nurse do not existes
      */
     NurseForm2DTO finishNurseForm2(Integer cre, Integer idForm, NurseForm2UpdateDTO nurseForm2UpdateDTO)
+            throws FormNotFoundException, InvalidFormStateException, UserNotFoundException;
+
+
+    NurseForm2DTO saveNurseForm2(Integer cre, Integer idForm, NurseForm2UpdateDTO nurseForm2UpdateDTO)
             throws FormNotFoundException, InvalidFormStateException, UserNotFoundException;
 }
