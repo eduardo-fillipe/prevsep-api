@@ -104,7 +104,7 @@ public class NurseController extends BaseController {
     })
     @Valid
     public NurseForm1DTO createForm(@PathVariable("cre") @Valid @Min(1) @NotNull Integer cre,
-                                    @RequestBody @Valid NurseForm1CreateDTO nurseForm1CreateDTO) {
+                                    @RequestBody NurseForm1CreateDTO nurseForm1CreateDTO) {
         return sepseFormService.createForm(cre, nurseForm1CreateDTO);
     }
 

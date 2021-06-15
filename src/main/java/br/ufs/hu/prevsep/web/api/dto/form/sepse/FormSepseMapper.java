@@ -9,12 +9,11 @@ import br.ufs.hu.prevsep.web.api.model.FormularioSepseMedicoEntity;
 import br.ufs.hu.prevsep.web.api.model.PacienteEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
-import java.time.LocalDate;
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Mapper
 public interface FormSepseMapper {

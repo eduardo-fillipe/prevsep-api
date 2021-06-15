@@ -36,7 +36,7 @@ public class FormularioSepseEnf2Entity implements Serializable {
     }
 
     @Basic
-    @Column(name = "dtUTI", nullable = true)
+    @Column(name = "dtUti", nullable = true)
     public Date getDtUti() {
         return dtUti;
     }

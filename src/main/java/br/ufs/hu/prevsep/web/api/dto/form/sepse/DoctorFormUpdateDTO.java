@@ -1,8 +1,6 @@
 package br.ufs.hu.prevsep.web.api.dto.form.sepse;
 
 
-import br.ufs.hu.prevsep.web.api.dto.form.FormStatus;
-
 import java.time.LocalDate;
 
 public class DoctorFormUpdateDTO {
@@ -13,7 +11,6 @@ public class DoctorFormUpdateDTO {
     private LocalDate dtColetaLactato;
     private LocalDate dtColetaHemocult;
     private LocalDate dtPrimeiraDose;
-    private FormStatus status;
     private String reavaliacoesSeriadas;
 
     public String getFocoInfeccioso() {
@@ -70,14 +67,6 @@ public class DoctorFormUpdateDTO {
 
     public void setDtPrimeiraDose(LocalDate dtPrimeiraDose) {
         this.dtPrimeiraDose = dtPrimeiraDose;
-    }
-
-    public FormStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(FormStatus status) {
-        this.status = status;
     }
 
     public String getReavaliacoesSeriadas() {

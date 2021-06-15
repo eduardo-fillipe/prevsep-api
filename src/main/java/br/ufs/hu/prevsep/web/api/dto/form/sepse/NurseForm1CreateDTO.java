@@ -3,30 +3,18 @@ package br.ufs.hu.prevsep.web.api.dto.form.sepse;
 import br.ufs.hu.prevsep.web.api.dto.form.PatientCreateDTO;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class NurseForm1CreateDTO {
 
-    @NotNull
     @Valid
     private PatientCreateDTO paciente;
-    @Min(1)
-    @NotNull
     private Integer crmMedico;
-    @NotEmpty
     private String procedencia;
-    @NotEmpty
     private String sirs;
-    @NotEmpty
     private String disfOrganica;
-    @NotNull
     private LocalDate dtAcMedico;
-    @NotNull
     private LocalDate dtCriacao;
-    @NotNull
     private Boolean finalizado;
 
 

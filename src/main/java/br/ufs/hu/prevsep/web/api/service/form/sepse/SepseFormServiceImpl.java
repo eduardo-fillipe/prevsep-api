@@ -65,6 +65,8 @@ public class SepseFormServiceImpl implements SepseFormService {
         FormularioSepseEnf1Entity formularioSepseEnf1Entity =
                 formSepseMapper.mapToFormularioSepseEnf1Entity(nurseForm1CreateDTO);
 
+        validateForm1(formularioSepseEnf1Entity);
+
         PacienteEntity pacienteEntity = patientRepository.save(formularioSepseEnf1Entity.getPaciente());
 
         formularioSepseEnf1Entity.setPaciente(pacienteEntity);
@@ -78,7 +80,41 @@ public class SepseFormServiceImpl implements SepseFormService {
         if (nurseForm1CreateDTO.getFinalizado())
             createDoctorForm(formSepse1);
 
-        return formSepseMapper.mapNurseForm1Dto(formSepse1);
+        return formSepseMapper.mapNurseForm1Dto(formularioSepseEnf1Entity);
+    }
+
+    private void validateForm1(FormularioSepseEnf1Entity formularioSepseEnf1Entity) {
+        FormValidationException ex = new FormValidationException();
+
+        if (formularioSepseEnf1Entity.getPaciente() == null){
+            ex.withFieldError("paciente", "Can't be null");
+        } else {
+            PacienteEntity patient = formularioSepseEnf1Entity.getPaciente();
+            if(patient.getCpf() == null)
+                ex.withFieldError("paciente.cpf", "Can't be null");
+            if (patient.getIdade() <= 0)
+                ex.withFieldError("paciente.idade", "Must be higher then 0");
+            if(patient.getLeito() == null)
+                ex.withFieldError("paciente.leito", "Can't be null");
+            if(patient.getNrAtendimento() == null)
+                ex.withFieldError("paciente.nrAtendimento", "Can't be null");
+            if(patient.getRegistro() == null)
+                ex.withFieldError("paciente.registro", "Can't be null");
+            if(patient.getSexo() == null)
+                ex.withFieldError("paciente.sexo", "Can't be null");
+        }
+
+        if (formularioSepseEnf1Entity.getDisfOrganica() == null)
+            ex.withFieldError("paciente.disfOrganica", "Can't be null");
+        if (formularioSepseEnf1Entity.getDtAcMedico() == null)
+            ex.withFieldError("paciente.dtAcMedico", "Can't be null");
+        if (formularioSepseEnf1Entity.getProcedencia() == null)
+            ex.withFieldError("paciente.procedencia", "Can't be null");
+        if (formularioSepseEnf1Entity.getSirs() == null)
+            ex.withFieldError("paciente.sirs", "Can't be null");
+
+        if (ex.getFieldErrors() != null)
+            throw ex;
     }
 
     @Override
@@ -161,7 +197,9 @@ public class SepseFormServiceImpl implements SepseFormService {
         if(finished)
             createNurseForm2(doctorFormEntity);
 
-        return formSepseMapper.mapToDoctorFormDto(doctorFormEntity);
+        DoctorFormDTO result = formSepseMapper.mapToDoctorFormDto(doctorFormEntity);
+        result.setPaciente(formSepseMapper.mapToPatientDto(patientRepository.findById(doctorFormEntity.getIdPaciente()).orElseThrow()));
+        return result;
     }
 
     private void mergeEntity(FormularioSepseMedicoEntity entity, DoctorFormUpdateDTO doctorFormUpdateDTO) {
@@ -269,9 +307,9 @@ public class SepseFormServiceImpl implements SepseFormService {
     }
 
     private void mergeEntity(FormularioSepseEnf2Entity entity, NurseForm2UpdateDTO dto) {
-        entity.setDtAlta(Date.valueOf(dto.getDtAlta()));
-        entity.setDtObito(Date.valueOf(dto.getDtObito()));
-        entity.setDtUti(Date.valueOf(dto.getDtUti()));
+        entity.setDtAlta(dto.getDtAlta() == null ? null : Date.valueOf(dto.getDtAlta()));
+        entity.setDtObito(dto.getDtObito() == null ? null : Date.valueOf(dto.getDtObito()));
+        entity.setDtUti(dto.getDtUti() == null ? null : Date.valueOf(dto.getDtUti()));
     }
 
     private boolean validateNurseForm2(FormularioSepseEnf2Entity nurseForm) {

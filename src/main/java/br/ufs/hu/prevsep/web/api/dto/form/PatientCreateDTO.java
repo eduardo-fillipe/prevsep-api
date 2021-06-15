@@ -3,21 +3,15 @@ package br.ufs.hu.prevsep.web.api.dto.form;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 
 public class PatientCreateDTO {
-    @Min(value = 1, message = "Min age: 1")
+    @Min(1)
     private Integer idade;
-    @NotEmpty
     private String sexo;
-    @NotEmpty
     private String leito;
-    @NotEmpty
     private String nrAtendimento;
-    @NotEmpty
     private String registro;
     @CPF
-    @NotEmpty
     private String cpf;
 
     public Integer getIdade() {
