@@ -47,7 +47,7 @@ public class DoctorServiceImpl implements DoctorService {
 
 
     @Override
-    public Optional<DoctorResponseDTO> getMedic(String cpf) throws UserNotFoundException{
+    public Optional<DoctorResponseFullDTO> getMedic(String cpf) throws UserNotFoundException{
         if (cpf == null)
             return  Optional.empty();
 
@@ -55,7 +55,7 @@ public class DoctorServiceImpl implements DoctorService {
 
         if (medico.isPresent()
                 && StatusUsuarioEnum.fromId(medico.get().getUserInfo().getStatus()) != StatusUsuarioEnum.DESATIVADO) {
-            return Optional.ofNullable(usuarioMapper.mapToDoctorResponseDto(medico.get()));
+            return Optional.ofNullable(usuarioMapper.mapToDoctorResponseFullDto(medico.get()));
         }
 
         return Optional.empty();
@@ -97,7 +97,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public DoctorResponseDTO updateMedico(String cpf, DoctorUpdateDTO medico) {
-        DoctorResponseDTO doctorResponseDTO = getMedic(cpf).orElseThrow(() -> new UserNotFoundException().withDetailedMessage("Medic not found."));
+        getMedic(cpf).orElseThrow(() -> new UserNotFoundException().withDetailedMessage("Medic not found."));
 
         MedicoEntity medicoEntity = usuarioMapper.mapToDoctorEntity(medico);
         medicoEntity.setCpf(cpf);

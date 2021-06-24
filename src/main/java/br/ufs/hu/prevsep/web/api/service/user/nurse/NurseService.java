@@ -16,7 +16,7 @@ public interface NurseService {
 
     Optional<NurseFullDTO> getNurseByCRE(Integer CRE);
 
-    Optional<NurseDTO> getNurse(String cpf) throws UserNotFoundException;
+    Optional<NurseFullDTO> getNurse(String cpf) throws UserNotFoundException;
 
     NurseDTO createNurse(NurseRequestDTO nurse) throws CPFAlreadyRegistered;
 

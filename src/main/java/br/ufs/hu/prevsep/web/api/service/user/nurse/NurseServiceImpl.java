@@ -47,7 +47,7 @@ public class NurseServiceImpl implements NurseService {
 
 
     @Override
-    public Optional<NurseDTO> getNurse(String cpf) throws UserNotFoundException{
+    public Optional<NurseFullDTO> getNurse(String cpf) throws UserNotFoundException{
         if (cpf == null)
             return  Optional.empty();
 
@@ -55,7 +55,7 @@ public class NurseServiceImpl implements NurseService {
 
         if (nurse.isPresent()
                 && StatusUsuarioEnum.fromId(nurse.get().getUserInfo().getStatus()) != StatusUsuarioEnum.DESATIVADO) {
-            return Optional.ofNullable(usuarioMapper.mapToNurseDto(nurse.get()));
+            return Optional.ofNullable(usuarioMapper.mapToNurseFullDto(nurse.get()));
         }
 
         return Optional.empty();

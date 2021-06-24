@@ -16,7 +16,7 @@ public interface DoctorService {
 
     Optional<DoctorResponseFullDTO> getMedicByCRM(Integer CRM);
 
-    Optional<DoctorResponseDTO> getMedic(String cpf) throws UserNotFoundException;
+    Optional<DoctorResponseFullDTO> getMedic(String cpf) throws UserNotFoundException;
 
     DoctorResponseDTO createMedic(DoctorRequestDTO medico) throws CPFAlreadyRegistered;
 

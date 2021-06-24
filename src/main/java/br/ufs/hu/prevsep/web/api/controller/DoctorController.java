@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.List;
 
 @RestController
@@ -54,16 +53,16 @@ public class DoctorController extends BaseController{
         return doctorService.getMedics();
     }
 
-    @GetMapping("/{crm}")
-    @Operation(summary = "Returns info about a doctor by a given CRM")
+    @GetMapping("/{cpf}")
+    @Operation(summary = "Returns info about a doctor by a given CPF")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = DoctorResponseFullDTO.class)))),
             @ApiResponse(responseCode = "404", description = "Doctor not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
-    @PostAuthorize("(hasRole('ROLE_2') and returnObject.userInfo.cpf == authentication.principal) or hasAnyRole('ROLE_1', 'ROLE_3')")
-    public DoctorResponseFullDTO getMedicByCRM(@Valid @Size @NotNull @PathVariable Integer crm){
-        return doctorService.getMedicByCRM(crm).orElseThrow(() ->
+    @PostAuthorize("(hasRole('ROLE_2') and #cpf == authentication.principal == authentication.principal) or hasAnyRole('ROLE_1', 'ROLE_3')")
+    public DoctorResponseFullDTO getMedicByCRM(@Valid @CPF @NotNull @PathVariable String cpf) {
+        return doctorService.getMedic(cpf).orElseThrow(() ->
                 new UserNotFoundException().withDetailedMessage("This doctor was not found in the System."));
     }
 

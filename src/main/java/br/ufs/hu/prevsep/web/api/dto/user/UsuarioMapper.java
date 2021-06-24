@@ -60,13 +60,15 @@ public interface UsuarioMapper {
     UsuarioEntity mapToUsuarioEntity(UsuarioUpdateDTO usuarioRequestDTO);
 
     @Mappings({
-            @Mapping(target = "cpf", source = "dto.userInfo.cpf")
+            @Mapping(target = "cpf", source = "dto.userInfo.cpf"),
+            @Mapping(target = "formularioSepseMedicoEntities", ignore = true)
     })
     MedicoEntity mapToDoctorEntity(DoctorRequestDTO dto);
 
     @Mappings({
             @Mapping(target = "userInfo", ignore = true),
-            @Mapping(target = "cpf", ignore = true)
+            @Mapping(target = "cpf", ignore = true),
+            @Mapping(target = "formularioSepseMedicoEntities", ignore = true)
     })
     MedicoEntity mapToDoctorEntity(DoctorUpdateDTO doctorUpdateDTO);
 
@@ -98,11 +100,15 @@ public interface UsuarioMapper {
 
     @Mappings({
             @Mapping(target = "userInfo", ignore = true),
-            @Mapping(target = "cpf", ignore = true)
+            @Mapping(target = "cpf", ignore = true),
+            @Mapping(target = "formularioSepseEnf1Entities", ignore = true),
+            @Mapping(target = "formularioSepseEnf2Entities", ignore = true)
     })
     EnfermeiroEntity mapToEnfermeiroEntity(NurseUpdateDTO dto);
     @Mappings({
-            @Mapping(target = "cpf", source = "dto.userInfo.cpf")
+            @Mapping(target = "cpf", source = "dto.userInfo.cpf"),
+            @Mapping(target = "formularioSepseEnf1Entities", ignore = true),
+            @Mapping(target = "formularioSepseEnf2Entities", ignore = true)
     })
     EnfermeiroEntity mapToEnfermeiroEntity(NurseRequestDTO dto);
 

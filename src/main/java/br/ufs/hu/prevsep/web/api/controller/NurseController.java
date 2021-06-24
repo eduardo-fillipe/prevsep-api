@@ -4,7 +4,6 @@ import br.ufs.hu.prevsep.web.api.config.ApiRequestMappings;
 import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
 import br.ufs.hu.prevsep.web.api.dto.form.sepse.*;
 import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorResponseDTO;
-import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorResponseFullDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.nurse.NurseDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.nurse.NurseFullDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.nurse.NurseRequestDTO;
@@ -29,7 +28,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.List;
 
 @RestController
@@ -50,21 +48,21 @@ public class NurseController extends BaseController {
     @Operation(summary = "Returns all nurses in the database.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = DoctorResponseDTO.class))))})
-    public List<NurseDTO> getNurses(){
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = NurseDTO.class))))})
+    public List<NurseDTO> getNurses() {
         return nurseService.getNurses();
     }
 
-    @GetMapping("/{cre}")
-    @Operation(summary = "Returns info about a Nurse by a given CRE")
+    @GetMapping("/{cpf}")
+    @Operation(summary = "Returns info about a Nurse by a given CPF")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = DoctorResponseFullDTO.class)))),
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = NurseFullDTO.class)))),
             @ApiResponse(responseCode = "404", description = "Nurse not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
-    @PostAuthorize("(hasRole('ROLE_3') and returnObject.userInfo.cpf == authentication.principal) or hasAnyRole('ROLE_1')")
-    public NurseFullDTO getNurseByCRE(@Valid @Size @NotNull @PathVariable Integer cre){
-        return nurseService.getNurseByCRE(cre).orElseThrow(() ->
+    @PostAuthorize("(hasRole('ROLE_3') and #cpf == authentication.principal) or hasAnyRole('ROLE_1')")
+    public NurseFullDTO getNurseByCRE(@Valid @CPF @NotNull @PathVariable String cpf) {
+        return nurseService.getNurse(cpf).orElseThrow(() ->
                 new UserNotFoundException().withDetailedMessage("This Nurse was not found in the System."));
     }
 
