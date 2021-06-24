@@ -19,7 +19,7 @@ public class MedicoEntity implements Serializable {
     private UsuarioEntity userInfo;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "crmMedico", referencedColumnName = "crm")
+    @JoinColumn(name = "crm_medico", referencedColumnName = "crm")
     private List<FormularioSepseMedicoEntity> formularioSepseMedicoEntities;
 
     public String getCpf() {

@@ -19,7 +19,7 @@ public class PacienteEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "idPaciente", nullable = false)
+    @Column(name = "id_paciente", nullable = false)
     public int getIdPaciente() {
         return idPaciente;
     }
@@ -59,7 +59,7 @@ public class PacienteEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "nrAtendimento", nullable = true, length = -1)
+    @Column(name = "nr_atendimento", nullable = true, length = -1)
     public String getNrAtendimento() {
         return nrAtendimento;
     }
@@ -89,7 +89,7 @@ public class PacienteEntity implements Serializable {
     }
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "idPaciente", referencedColumnName = "idPaciente")
+    @JoinColumn(name = "id_paciente", referencedColumnName = "id_paciente")
     public List<FormularioSepseEnf1Entity> getFormularios() {
         return formularios;
     }

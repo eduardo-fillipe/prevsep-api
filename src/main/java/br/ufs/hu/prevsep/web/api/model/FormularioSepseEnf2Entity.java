@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "formularioSepseEnf2", schema = "public")
+@Table(name = "formulario_sepse_enf2", schema = "public")
 public class FormularioSepseEnf2Entity implements Serializable {
     private int idFormulario;
     private int creEnfermeiro;
@@ -17,7 +17,7 @@ public class FormularioSepseEnf2Entity implements Serializable {
     private int status;
 
     @Id
-    @Column(name = "idFormulario", nullable = false)
+    @Column(name = "id_formulario", nullable = false)
     public int getIdFormulario() {
         return idFormulario;
     }
@@ -26,7 +26,7 @@ public class FormularioSepseEnf2Entity implements Serializable {
         this.idFormulario = idFormulario;
     }
 
-    @Column(name = "creEnfermeiro")
+    @Column(name = "cre_enfermeiro")
     public int getCreEnfermeiro() {
         return creEnfermeiro;
     }
@@ -36,7 +36,7 @@ public class FormularioSepseEnf2Entity implements Serializable {
     }
 
     @Basic
-    @Column(name = "dtUti", nullable = true)
+    @Column(name = "dt_uti", nullable = true)
     public Date getDtUti() {
         return dtUti;
     }
@@ -46,7 +46,7 @@ public class FormularioSepseEnf2Entity implements Serializable {
     }
 
     @Basic
-    @Column(name = "dtAlta", nullable = true)
+    @Column(name = "dt_alta", nullable = true)
     public Date getDtAlta() {
         return dtAlta;
     }
@@ -56,7 +56,7 @@ public class FormularioSepseEnf2Entity implements Serializable {
     }
 
     @Basic
-    @Column(name = "dtObito", nullable = true)
+    @Column(name = "dt_obito", nullable = true)
     public Date getDtObito() {
         return dtObito;
     }
@@ -66,7 +66,7 @@ public class FormularioSepseEnf2Entity implements Serializable {
     }
 
     @Basic
-    @Column(name = "dtCriacao", nullable = false)
+    @Column(name = "dt_criacao", nullable = false)
     public Date getDtCriacao() {
         return dtCriacao;
     }

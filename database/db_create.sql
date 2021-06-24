@@ -15,13 +15,11 @@ CREATE TABLE IF NOT EXISTS public.paciente
 CREATE TABLE IF NOT EXISTS public.formulario_sepse_enf1
 (
     id_formulario serial NOT NULL,
+    cre_enfermeiro bigint NOT NULL,
     id_paciente integer NOT NULL,
-    procedencia character varying,
-    sirs character varying,
-    disf_organica character varying,
+    procedencia integer,
     crm_medico bigint,
     dt_ac_medico date,
-    cre_enfermeiro bigint NOT NULL,
     dt_criacao date NOT NULL,
     status integer NOT NULL,
     PRIMARY KEY (id_formulario)
@@ -64,7 +62,7 @@ CREATE TABLE IF NOT EXISTS public.medico
     PRIMARY KEY (cpf)
 );
 
-CREATE TABLE IF NOT EXISTS public.creEnfermeiro
+CREATE TABLE IF NOT EXISTS public.enfermeiro
 (
     cpf character varying NOT NULL,
     cre bigint NOT NULL UNIQUE,
@@ -88,6 +86,26 @@ CREATE TABLE IF NOT EXISTS public.usuario
     PRIMARY KEY (cpf)
 );
 
+CREATE TABLE IF NOT EXISTS public.formulario_sepse_enf1_sirs
+(
+    id_formulario integer NOT NULL,
+    febre_hipotemia boolean,
+    leucocitose_leucopenia boolean,
+    taquicardia boolean,
+    taquipneia boolean,
+    PRIMARY KEY (id_formulario)
+);
+
+CREATE TABLE IF NOT EXISTS public.formulario_sepse_enf1_dinsf_org
+(
+    id_formulario integer NOT NULL,
+    diurese boolean,
+    hipotensao boolean,
+    snlc_conf_agtc_coma boolean,
+    saturacao_dispneia boolean,
+    PRIMARY KEY (id_formulario)
+);
+
 ALTER TABLE public.formulario_sepse_enf1
     ADD FOREIGN KEY (id_paciente)
         REFERENCES public.paciente ("id_paciente")
@@ -106,7 +124,7 @@ ALTER TABLE public.formulario_sepse_enf2
         NOT VALID;
 
 
-ALTER TABLE public.creEnfermeiro
+ALTER TABLE public.enfermeiro
     ADD FOREIGN KEY (cpf)
         REFERENCES public.usuario (cpf)
         NOT VALID;
@@ -144,13 +162,24 @@ ALTER TABLE public.formulario_sepse_enf1
 
 ALTER TABLE public.formulario_sepse_enf1
     ADD FOREIGN KEY (cre_enfermeiro)
-        REFERENCES public.creEnfermeiro (cre)
+        REFERENCES public.enfermeiro (cre)
         NOT VALID;
 
 
 ALTER TABLE public.formulario_sepse_medico
     ADD FOREIGN KEY (crm_medico)
         REFERENCES public.medico (crm)
+        NOT VALID;
+
+ALTER TABLE public.formulario_sepse_enf1_sirs
+    ADD FOREIGN KEY (id_formulario)
+        REFERENCES public.formulario_sepse_enf1 (id_formulario)
+        NOT VALID;
+
+
+ALTER TABLE public.formulario_sepse_enf1_dinsf_org
+    ADD FOREIGN KEY (id_formulario)
+        REFERENCES public.formulario_sepse_enf1 (id_formulario)
         NOT VALID;
 
 COMMIT;

@@ -7,14 +7,8 @@ import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorResponseFullDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.usuario.StatusUsuarioEnum;
 import br.ufs.hu.prevsep.web.api.exception.*;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
-import br.ufs.hu.prevsep.web.api.model.FormularioSepseEnf1Entity;
-import br.ufs.hu.prevsep.web.api.model.FormularioSepseEnf2Entity;
-import br.ufs.hu.prevsep.web.api.model.FormularioSepseMedicoEntity;
-import br.ufs.hu.prevsep.web.api.model.PacienteEntity;
-import br.ufs.hu.prevsep.web.api.repository.DoctorFormRepository;
-import br.ufs.hu.prevsep.web.api.repository.NurseForm1Repository;
-import br.ufs.hu.prevsep.web.api.repository.NurseForm2Repository;
-import br.ufs.hu.prevsep.web.api.repository.PatientRepository;
+import br.ufs.hu.prevsep.web.api.model.*;
+import br.ufs.hu.prevsep.web.api.repository.*;
 import br.ufs.hu.prevsep.web.api.service.user.doctor.DoctorService;
 import br.ufs.hu.prevsep.web.api.service.user.nurse.NurseService;
 import br.ufs.hu.prevsep.web.api.utils.BeanUtils;
@@ -32,6 +26,8 @@ public class SepseFormServiceImpl implements SepseFormService {
     private final NurseForm1Repository nurseForm1Repository;
     private final DoctorFormRepository doctorFormRepository;
     private final NurseForm2Repository nurseForm2Repository;
+    private final NurseForm1SirsRepository nurseForm1SirsRepository;
+    private final NurseForm1DisnfOrgRepository nurseForm1DisnfOrgRepository;
     private final PatientRepository patientRepository;
     private final NurseService nurseService;
     private final DoctorService doctorService;
@@ -39,13 +35,17 @@ public class SepseFormServiceImpl implements SepseFormService {
 
     public SepseFormServiceImpl(NurseForm1Repository nurseForm1Repository, PatientRepository patientRepository,
                                 NurseService nurseService, DoctorService doctorService,
-                                DoctorFormRepository doctorFormRepository, NurseForm2Repository nurseForm2Repository) {
+                                DoctorFormRepository doctorFormRepository, NurseForm2Repository nurseForm2Repository,
+                                NurseForm1SirsRepository nurseForm1SirsRepository,
+                                NurseForm1DisnfOrgRepository nurseForm1DisnfOrgRepository) {
         this.nurseForm1Repository = nurseForm1Repository;
         this.patientRepository = patientRepository;
         this.nurseService = nurseService;
         this.doctorService = doctorService;
         this.doctorFormRepository = doctorFormRepository;
         this.nurseForm2Repository = nurseForm2Repository;
+        this.nurseForm1SirsRepository = nurseForm1SirsRepository;
+        this.nurseForm1DisnfOrgRepository = nurseForm1DisnfOrgRepository;
     }
 
 
@@ -65,22 +65,30 @@ public class SepseFormServiceImpl implements SepseFormService {
         FormularioSepseEnf1Entity formularioSepseEnf1Entity =
                 formSepseMapper.mapToFormularioSepseEnf1Entity(nurseForm1CreateDTO);
 
-        validateForm1(formularioSepseEnf1Entity);
+        if (nurseForm1CreateDTO.getFinalizado())
+            validateForm1(formularioSepseEnf1Entity);
 
         PacienteEntity pacienteEntity = patientRepository.save(formularioSepseEnf1Entity.getPaciente());
-
         formularioSepseEnf1Entity.setPaciente(pacienteEntity);
         formularioSepseEnf1Entity.setCreEnfermeiro(cre);
-
         formularioSepseEnf1Entity.setStatus(nurseForm1CreateDTO.getFinalizado() ?
                 FormStatus.CREATED.getValue() : FormStatus.SAVED.getValue());
 
         FormularioSepseEnf1Entity formSepse1 = nurseForm1Repository.save(formularioSepseEnf1Entity);
 
+        FormularioSepseEnf1SirsEntity sirsEntity = saveSirs(formSepse1.getIdFormulario(),
+                nurseForm1CreateDTO.getSirs());
+        FormularioSepseEnf1DinsfOrgEntity dinsfOrgEntity = saveDinsfOrg(formSepse1.getIdFormulario(),
+                nurseForm1CreateDTO.getDisfOrganica());
+
         if (nurseForm1CreateDTO.getFinalizado())
             createDoctorForm(formSepse1);
 
-        return formSepseMapper.mapNurseForm1Dto(formularioSepseEnf1Entity);
+        NurseForm1DTO result = formSepseMapper.mapNurseForm1Dto(formularioSepseEnf1Entity);
+        result.setDisfOrganica(formSepseMapper.mapToFormularioSepseEnf1DinsfOrgDto(dinsfOrgEntity));
+        result.setSirs(formSepseMapper.mapToFormularioSepseEnf1SirsDto(sirsEntity));
+
+        return result;
     }
 
     private void validateForm1(FormularioSepseEnf1Entity formularioSepseEnf1Entity) {
@@ -104,14 +112,10 @@ public class SepseFormServiceImpl implements SepseFormService {
                 ex.withFieldError("paciente.sexo", "Can't be null");
         }
 
-        if (formularioSepseEnf1Entity.getDisfOrganica() == null)
-            ex.withFieldError("paciente.disfOrganica", "Can't be null");
         if (formularioSepseEnf1Entity.getDtAcMedico() == null)
             ex.withFieldError("paciente.dtAcMedico", "Can't be null");
         if (formularioSepseEnf1Entity.getProcedencia() == null)
             ex.withFieldError("paciente.procedencia", "Can't be null");
-        if (formularioSepseEnf1Entity.getSirs() == null)
-            ex.withFieldError("paciente.sirs", "Can't be null");
 
         if (ex.getFieldErrors() != null)
             throw ex;
@@ -146,10 +150,46 @@ public class SepseFormServiceImpl implements SepseFormService {
 
         FormularioSepseEnf1Entity formSepse1 = nurseForm1Repository.save(formularioSepseEnf1Entity);
 
+        FormularioSepseEnf1DinsfOrgEntity dinsfOrgEntity = saveDinsfOrg(formSepse1.getIdFormulario(),
+                nurseForm1UpdateDTO.getDisfOrganica());
+        FormularioSepseEnf1SirsEntity sirsEntity = saveSirs(formSepse1.getIdFormulario(),
+                nurseForm1UpdateDTO.getSirs());
+
         if (finish)
             createDoctorForm(formSepse1);
 
-        return formSepseMapper.mapNurseForm1Dto(formSepse1);
+        NurseForm1DTO result = formSepseMapper.mapNurseForm1Dto(formSepse1);
+        result.setDisfOrganica(formSepseMapper.mapToFormularioSepseEnf1DinsfOrgDto(dinsfOrgEntity));
+        result.setSirs(formSepseMapper.mapToFormularioSepseEnf1SirsDto(sirsEntity));
+
+        return result;
+    }
+
+    private FormularioSepseEnf1SirsEntity saveSirs(Integer idForm, FormularioSepseEnf1SirsDTO sirs) {
+        if (sirs == null)
+            sirs = new FormularioSepseEnf1SirsDTO();
+
+        FormularioSepseEnf1SirsEntity sirsEntity = formSepseMapper
+                .mapToFormularioSepseEnf1SirsEntity(sirs);
+
+        sirsEntity.setIdFormulario(idForm);
+
+        sirsEntity = nurseForm1SirsRepository.save(sirsEntity);
+
+        return sirsEntity;
+    }
+
+    private FormularioSepseEnf1DinsfOrgEntity saveDinsfOrg(Integer idForm, FormularioSepseEnf1DinsfOrgDTO dinsf) {
+        if (dinsf ==null)
+            dinsf = new FormularioSepseEnf1DinsfOrgDTO();
+
+        FormularioSepseEnf1DinsfOrgEntity dinsfOrgEntity = formSepseMapper.
+                mapToFormularioSepseEnf1DinsfOrgEntity(dinsf);
+
+        dinsfOrgEntity.setIdFormulario(idForm);
+
+        dinsfOrgEntity = nurseForm1DisnfOrgRepository.save(dinsfOrgEntity);
+        return dinsfOrgEntity;
     }
 
     /**
@@ -215,13 +255,15 @@ public class SepseFormServiceImpl implements SepseFormService {
 
     private void mergeEntity(FormularioSepseEnf1Entity entity, NurseForm1UpdateDTO nurseFormUpdateDTO) {
         entity.setCrmMedico(nurseFormUpdateDTO.getCrmMedico());
-        entity.setProcedencia(nurseFormUpdateDTO.getProcedencia());
-        entity.setSirs(nurseFormUpdateDTO.getSirs());
-        entity.setDisfOrganica(nurseFormUpdateDTO.getDisfOrganica());
+        entity.setProcedencia(ProcedenciaDTO.toValue(nurseFormUpdateDTO.getProcedencia()));
         entity.setDtAcMedico(Date.valueOf(nurseFormUpdateDTO.getDtAcMedico()));
 
         if (nurseFormUpdateDTO.getPaciente() == null)
             nurseFormUpdateDTO.setPaciente(new PatientCreateDTO());
+        if (nurseFormUpdateDTO.getDisfOrganica() == null)
+            nurseFormUpdateDTO.setDisfOrganica(new FormularioSepseEnf1DinsfOrgDTO());
+        if (nurseFormUpdateDTO.getSirs() == null)
+            nurseFormUpdateDTO.setSirs(new FormularioSepseEnf1SirsDTO());
 
         BeanUtils.copyPropertiesIgnoreNulls(entity.getPaciente(), nurseFormUpdateDTO.getPaciente(), false);
     }

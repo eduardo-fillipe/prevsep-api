@@ -17,11 +17,11 @@ public class NurseForm1UpdateDTO {
     @NotNull
     private Integer crmMedico;
     @NotEmpty
-    private String procedencia;
+    private ProcedenciaDTO procedencia;
     @NotEmpty
-    private String sirs;
+    private FormularioSepseEnf1SirsDTO sirs;
     @NotEmpty
-    private String disfOrganica;
+    private FormularioSepseEnf1DinsfOrgDTO disfOrganica;
     @NotNull
     private LocalDate dtAcMedico;
     @NotNull
@@ -44,27 +44,27 @@ public class NurseForm1UpdateDTO {
         this.crmMedico = crmMedico;
     }
 
-    public String getProcedencia() {
+    public ProcedenciaDTO getProcedencia() {
         return procedencia;
     }
 
-    public void setProcedencia(String procedencia) {
+    public void setProcedencia(ProcedenciaDTO procedencia) {
         this.procedencia = procedencia;
     }
 
-    public String getSirs() {
+    public FormularioSepseEnf1SirsDTO getSirs() {
         return sirs;
     }
 
-    public void setSirs(String sirs) {
+    public void setSirs(FormularioSepseEnf1SirsDTO sirs) {
         this.sirs = sirs;
     }
 
-    public String getDisfOrganica() {
+    public FormularioSepseEnf1DinsfOrgDTO getDisfOrganica() {
         return disfOrganica;
     }
 
-    public void setDisfOrganica(String disfOrganica) {
+    public void setDisfOrganica(FormularioSepseEnf1DinsfOrgDTO disfOrganica) {
         this.disfOrganica = disfOrganica;
     }
 

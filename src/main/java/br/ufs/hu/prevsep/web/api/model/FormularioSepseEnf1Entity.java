@@ -6,15 +6,13 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "formularioSepseEnf1", schema = "public")
+@Table(name = "formulario_sepse_enf1", schema = "public")
 public class FormularioSepseEnf1Entity implements Serializable {
     private int idFormulario;
     private PacienteEntity paciente;
     private int creEnfermeiro;
     private int crmMedico;
-    private String procedencia;
-    private String sirs;
-    private String disfOrganica;
+    private int procedencia;
     private Date dtAcMedico;
     private Date dtCriacao;
     private int status;
@@ -22,7 +20,7 @@ public class FormularioSepseEnf1Entity implements Serializable {
     private FormularioSepseMedicoEntity formularioSepseMedico;
 
     @Id
-    @Column(name = "idFormulario", nullable = false)
+    @Column(name = "id_formulario", nullable = false)
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     public int getIdFormulario() {
         return idFormulario;
@@ -33,7 +31,7 @@ public class FormularioSepseEnf1Entity implements Serializable {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idPaciente", referencedColumnName = "idPaciente")
+    @JoinColumn(name = "id_paciente", referencedColumnName = "id_paciente")
     public PacienteEntity getPaciente() {
         return paciente;
     }
@@ -42,7 +40,7 @@ public class FormularioSepseEnf1Entity implements Serializable {
         this.paciente = paciente;
     }
 
-    @Column(name = "creEnfermeiro")
+    @Column(name = "cre_enfermeiro")
     public int getCreEnfermeiro() {
         return creEnfermeiro;
     }
@@ -51,7 +49,7 @@ public class FormularioSepseEnf1Entity implements Serializable {
         this.creEnfermeiro = creEnfermeiro;
     }
 
-    @Column(name = "crmMedico")
+    @Column(name = "crm_medico")
     public int getCrmMedico() {
         return crmMedico;
     }
@@ -62,36 +60,16 @@ public class FormularioSepseEnf1Entity implements Serializable {
 
     @Basic
     @Column(name = "procedencia", nullable = true, length = -1)
-    public String getProcedencia() {
+    public Integer getProcedencia() {
         return procedencia;
     }
 
-    public void setProcedencia(String procedencia) {
+    public void setProcedencia(Integer procedencia) {
         this.procedencia = procedencia;
     }
 
     @Basic
-    @Column(name = "sirs", nullable = true, length = -1)
-    public String getSirs() {
-        return sirs;
-    }
-
-    public void setSirs(String sirs) {
-        this.sirs = sirs;
-    }
-
-    @Basic
-    @Column(name = "disfOrganica", nullable = true, length = -1)
-    public String getDisfOrganica() {
-        return disfOrganica;
-    }
-
-    public void setDisfOrganica(String disfOrganica) {
-        this.disfOrganica = disfOrganica;
-    }
-
-    @Basic
-    @Column(name = "dtAcMedico", nullable = true)
+    @Column(name = "dt_ac_medico", nullable = true)
     public Date getDtAcMedico() {
         return dtAcMedico;
     }
@@ -101,7 +79,7 @@ public class FormularioSepseEnf1Entity implements Serializable {
     }
 
     @Basic
-    @Column(name = "dtCriacao", nullable = false)
+    @Column(name = "dt_criacao", nullable = false)
     public Date getDtCriacao() {
         return dtCriacao;
     }
@@ -121,7 +99,7 @@ public class FormularioSepseEnf1Entity implements Serializable {
     }
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idFormulario", referencedColumnName = "idFormulario")
+    @JoinColumn(name = "id_formulario", referencedColumnName = "id_formulario")
     public FormularioSepseEnf2Entity getFormularioSepseEnf2() {
         return formularioSepseEnf2;
     }
@@ -131,25 +109,12 @@ public class FormularioSepseEnf1Entity implements Serializable {
     }
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idFormulario", referencedColumnName = "idFormulario")
+    @JoinColumn(name = "id_formulario", referencedColumnName = "id_formulario")
     public FormularioSepseMedicoEntity getFormularioSepseMedico() {
         return formularioSepseMedico;
     }
 
     public void setFormularioSepseMedico(FormularioSepseMedicoEntity formularioSepseMedico) {
         this.formularioSepseMedico = formularioSepseMedico;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        FormularioSepseEnf1Entity that = (FormularioSepseEnf1Entity) o;
-        return idFormulario == that.idFormulario && status == that.status && Objects.equals(procedencia, that.procedencia) && Objects.equals(sirs, that.sirs) && Objects.equals(disfOrganica, that.disfOrganica) && Objects.equals(dtAcMedico, that.dtAcMedico) && Objects.equals(dtCriacao, that.dtCriacao);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idFormulario, procedencia, sirs, disfOrganica, dtAcMedico, dtCriacao, status);
     }
 }

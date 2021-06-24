@@ -3,12 +3,10 @@ package br.ufs.hu.prevsep.web.api.dto.form.sepse;
 import br.ufs.hu.prevsep.web.api.dto.form.FormStatus;
 import br.ufs.hu.prevsep.web.api.dto.form.PatientCreateDTO;
 import br.ufs.hu.prevsep.web.api.dto.form.PatientDTO;
-import br.ufs.hu.prevsep.web.api.model.FormularioSepseEnf1Entity;
-import br.ufs.hu.prevsep.web.api.model.FormularioSepseEnf2Entity;
-import br.ufs.hu.prevsep.web.api.model.FormularioSepseMedicoEntity;
-import br.ufs.hu.prevsep.web.api.model.PacienteEntity;
+import br.ufs.hu.prevsep.web.api.model.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
@@ -28,6 +26,28 @@ public interface FormSepseMapper {
     PatientDTO mapToPatientDto(PacienteEntity entity);
 
     NurseForm1DTO mapNurseForm1Dto(FormularioSepseEnf1Entity entity);
+
+    FormularioSepseEnf1DinsfOrgDTO mapToFormularioSepseEnf1DinsfOrgDto(FormularioSepseEnf1DinsfOrgEntity entity);
+
+    default ProcedenciaDTO mapToProcedenciaDto(Integer value) {
+        return ProcedenciaDTO.fromValue(value);
+    }
+
+    default Integer mapToValue(ProcedenciaDTO procedenciaDTO) {
+        return ProcedenciaDTO.toValue(procedenciaDTO);
+    }
+
+    @Mappings({
+            @Mapping(target = "idFormulario", ignore = true)
+    })
+    FormularioSepseEnf1DinsfOrgEntity mapToFormularioSepseEnf1DinsfOrgEntity(FormularioSepseEnf1DinsfOrgDTO dto);
+
+    FormularioSepseEnf1SirsDTO mapToFormularioSepseEnf1SirsDto(FormularioSepseEnf1SirsEntity entity);
+
+    @Mappings({
+            @Mapping(target = "idFormulario", ignore = true)
+    })
+    FormularioSepseEnf1SirsEntity mapToFormularioSepseEnf1SirsEntity(FormularioSepseEnf1SirsDTO dto);
 
     @Mappings({
             @Mapping(target = "creEnfermeiro", ignore = true),

@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "formularioSepseMedico", schema = "public")
+@Table(name = "formulario_sepse_medico", schema = "public")
 public class FormularioSepseMedicoEntity implements Serializable {
     private int idPaciente;
     private int crmMedico;
@@ -23,7 +23,7 @@ public class FormularioSepseMedicoEntity implements Serializable {
     private String reavaliacoesSeriadas;
 
     @Id
-    @Column(name = "idFormulario", nullable = false)
+    @Column(name = "id_formulario", nullable = false)
     public int getIdFormulario() {
         return idFormulario;
     }
@@ -33,7 +33,7 @@ public class FormularioSepseMedicoEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "idPaciente")
+    @Column(name = "id_paciente")
     public int getIdPaciente() {
         return idPaciente;
     }
@@ -43,7 +43,7 @@ public class FormularioSepseMedicoEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "focoInfeccioso", nullable = true, length = -1)
+    @Column(name = "foco_infeccioso", nullable = true, length = -1)
     public String getFocoInfeccioso() {
         return focoInfeccioso;
     }
@@ -53,7 +53,7 @@ public class FormularioSepseMedicoEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "crmMedico", nullable = false)
+    @Column(name = "crm_medico", nullable = false)
     public int getCrmMedico() {
         return crmMedico;
     }
@@ -63,7 +63,7 @@ public class FormularioSepseMedicoEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "critExclusao", nullable = true, length = -1)
+    @Column(name = "crit_exclusao", nullable = true, length = -1)
     public String getCritExclusao() {
         return critExclusao;
     }
@@ -73,7 +73,7 @@ public class FormularioSepseMedicoEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "bundleHora1", nullable = true, length = -1)
+    @Column(name = "bundle_hora1", nullable = true, length = -1)
     public String getBundleHora1() {
         return bundleHora1;
     }
@@ -83,7 +83,7 @@ public class FormularioSepseMedicoEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "dtDispProtocolo", nullable = true)
+    @Column(name = "dt_disp_protocolo", nullable = true)
     public Date getDtDispProtocolo() {
         return dtDispProtocolo;
     }
@@ -93,7 +93,7 @@ public class FormularioSepseMedicoEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "dtColetaLactato", nullable = true)
+    @Column(name = "dt_coleta_lactato", nullable = true)
     public Date getDtColetaLactato() {
         return dtColetaLactato;
     }
@@ -103,7 +103,7 @@ public class FormularioSepseMedicoEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "dtColetaHemocult", nullable = true)
+    @Column(name = "dt_coleta_hemocult", nullable = true)
     public Date getDtColetaHemocult() {
         return dtColetaHemocult;
     }
@@ -113,7 +113,7 @@ public class FormularioSepseMedicoEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "dtPrimeiraDose", nullable = true)
+    @Column(name = "dt_primeira_dose", nullable = true)
     public Date getDtPrimeiraDose() {
         return dtPrimeiraDose;
     }
@@ -123,7 +123,7 @@ public class FormularioSepseMedicoEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "dtCriacao", nullable = false)
+    @Column(name = "dt_criacao", nullable = false)
     public Date getDtCriacao() {
         return dtCriacao;
     }
@@ -143,7 +143,7 @@ public class FormularioSepseMedicoEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "reavaliacoesSeriadas", nullable = true, length = -1)
+    @Column(name = "reavaliacoes_seriadas", nullable = true, length = -1)
     public String getReavaliacoesSeriadas() {
         return reavaliacoesSeriadas;
     }

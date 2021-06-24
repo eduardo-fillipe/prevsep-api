@@ -20,11 +20,11 @@ public class EnfermeiroEntity implements Serializable {
     private UsuarioEntity userInfo;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creEnfermeiro", referencedColumnName = "cre")
+    @JoinColumn(name = "cre_enfermeiro", referencedColumnName = "cre")
     private List<FormularioSepseEnf1Entity> formularioSepseEnf1Entities;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creEnfermeiro", referencedColumnName = "cre")
+    @JoinColumn(name = "cre_enfermeiro", referencedColumnName = "cre")
     private List<FormularioSepseEnf2Entity> formularioSepseEnf2Entities;
 
     public String getCpf() {

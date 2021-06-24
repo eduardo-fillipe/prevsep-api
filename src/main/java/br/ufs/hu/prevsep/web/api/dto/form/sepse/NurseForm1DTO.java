@@ -9,9 +9,9 @@ public class NurseForm1DTO {
     private int idFormulario;
     private PatientDTO paciente;
     private Integer crmMedico;
-    private String procedencia;
-    private String sirs;
-    private String disfOrganica;
+    private ProcedenciaDTO procedencia;
+    private FormularioSepseEnf1SirsDTO sirs;
+    private FormularioSepseEnf1DinsfOrgDTO disfOrganica;
     private LocalDate dtAcMedico;
     private LocalDate dtCriacao;
     private FormStatus status;
@@ -40,27 +40,27 @@ public class NurseForm1DTO {
         this.crmMedico = crmMedico;
     }
 
-    public String getProcedencia() {
+    public ProcedenciaDTO getProcedencia() {
         return procedencia;
     }
 
-    public void setProcedencia(String procedencia) {
+    public void setProcedencia(ProcedenciaDTO procedencia) {
         this.procedencia = procedencia;
     }
 
-    public String getSirs() {
+    public FormularioSepseEnf1SirsDTO getSirs() {
         return sirs;
     }
 
-    public void setSirs(String sirs) {
+    public void setSirs(FormularioSepseEnf1SirsDTO sirs) {
         this.sirs = sirs;
     }
 
-    public String getDisfOrganica() {
+    public FormularioSepseEnf1DinsfOrgDTO getDisfOrganica() {
         return disfOrganica;
     }
 
-    public void setDisfOrganica(String disfOrganica) {
+    public void setDisfOrganica(FormularioSepseEnf1DinsfOrgDTO disfOrganica) {
         this.disfOrganica = disfOrganica;
     }
 
