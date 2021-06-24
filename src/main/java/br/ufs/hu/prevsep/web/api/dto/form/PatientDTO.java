@@ -3,6 +3,7 @@ package br.ufs.hu.prevsep.web.api.dto.form;
 public class PatientDTO {
 
     private Integer idPaciente;
+    private String nome;
     private Integer idade;
     private String sexo;
     private String leito;
@@ -16,6 +17,14 @@ public class PatientDTO {
 
     public void setIdade(Integer idade) {
         this.idade = idade;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public Integer getIdPaciente() {

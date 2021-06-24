@@ -6,7 +6,6 @@ import br.ufs.hu.prevsep.web.api.dto.form.PatientDTO;
 import br.ufs.hu.prevsep.web.api.model.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 

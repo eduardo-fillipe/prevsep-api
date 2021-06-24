@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.br.CPF;
 import javax.validation.constraints.Min;
 
 public class PatientCreateDTO {
+    private String nome;
     @Min(1)
     private Integer idade;
     private String sexo;
@@ -60,5 +61,13 @@ public class PatientCreateDTO {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }

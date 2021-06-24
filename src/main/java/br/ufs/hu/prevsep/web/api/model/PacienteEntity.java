@@ -9,6 +9,7 @@ import java.util.Objects;
 @Table(name = "paciente", schema = "public")
 public class PacienteEntity implements Serializable {
     private int idPaciente;
+    private String nome;
     private Integer idade;
     private String sexo;
     private String leito;
@@ -36,6 +37,16 @@ public class PacienteEntity implements Serializable {
 
     public void setIdade(Integer idade) {
         this.idade = idade;
+    }
+
+    @Basic
+    @Column(name = "nome")
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     @Basic

@@ -3,6 +3,7 @@ BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS public.paciente
 (
     "id_paciente" serial NOT NULL,
+    nome character varying,
     idade integer,
     sexo character varying,
     leito character varying,
