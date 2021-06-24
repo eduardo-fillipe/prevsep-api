@@ -60,7 +60,7 @@ public class DoctorController extends BaseController{
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = DoctorResponseFullDTO.class)))),
             @ApiResponse(responseCode = "404", description = "Doctor not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
-    @PostAuthorize("(hasRole('ROLE_2') and #cpf == authentication.principal == authentication.principal) or hasAnyRole('ROLE_1', 'ROLE_3')")
+    @PostAuthorize("(hasRole('ROLE_2') and #cpf == authentication.principal) or hasAnyRole('ROLE_1', 'ROLE_3')")
     public DoctorResponseFullDTO getMedicByCRM(@Valid @CPF @NotNull @PathVariable String cpf) {
         return doctorService.getMedic(cpf).orElseThrow(() ->
                 new UserNotFoundException().withDetailedMessage("This doctor was not found in the System."));
