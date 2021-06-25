@@ -111,7 +111,7 @@ public class DoctorController extends BaseController{
     @Operation(summary = "Saves the state of a given form in the system.")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Ok", content = @Content(schema = @Schema(implementation = DoctorFormDTO.class))),
+            @ApiResponse(responseCode = "204", description = "Ok"),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
             @ApiResponse(responseCode = "404", description = "Resource not found", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
             @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
