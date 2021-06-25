@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Optional;
 
 @Service
@@ -32,12 +33,12 @@ public class SepseFormServiceImpl implements SepseFormService {
     private final NurseService nurseService;
     private final DoctorService doctorService;
 
-
     public SepseFormServiceImpl(NurseForm1Repository nurseForm1Repository, PatientRepository patientRepository,
                                 NurseService nurseService, DoctorService doctorService,
                                 DoctorFormRepository doctorFormRepository, NurseForm2Repository nurseForm2Repository,
                                 NurseForm1SirsRepository nurseForm1SirsRepository,
                                 NurseForm1DisnfOrgRepository nurseForm1DisnfOrgRepository) {
+
         this.nurseForm1Repository = nurseForm1Repository;
         this.patientRepository = patientRepository;
         this.nurseService = nurseService;
@@ -199,6 +200,10 @@ public class SepseFormServiceImpl implements SepseFormService {
      */
     private void createDoctorForm(FormularioSepseEnf1Entity formSepse1) {
         FormularioSepseMedicoEntity doctorFormEntity = new FormularioSepseMedicoEntity();
+        doctorFormEntity.setFocoInfeccioso(new FormularioSepseMedicoFocoInfecciosoEntity());
+        doctorFormEntity.setBundleHora1(new FormularioSepseMedicoBundleEntity());
+        doctorFormEntity.setCriterioExclusao(new FormularioSepseMedicoCriterioExclusaoEntity());
+        doctorFormEntity.setReavaliacoesSeriadas(new FormularioSepseMedicoReavaliacoesSeriadasEntity());
         doctorFormEntity.setIdFormulario(formSepse1.getIdFormulario());
         doctorFormEntity.setIdPaciente(formSepse1.getPaciente().getIdPaciente());
         doctorFormEntity.setStatus(FormStatus.PENDING.getValue());
@@ -239,18 +244,15 @@ public class SepseFormServiceImpl implements SepseFormService {
 
         DoctorFormDTO result = formSepseMapper.mapToDoctorFormDto(doctorFormEntity);
         result.setPaciente(formSepseMapper.mapToPatientDto(patientRepository.findById(doctorFormEntity.getIdPaciente()).orElseThrow()));
+
         return result;
     }
 
     private void mergeEntity(FormularioSepseMedicoEntity entity, DoctorFormUpdateDTO doctorFormUpdateDTO) {
-        entity.setFocoInfeccioso(doctorFormUpdateDTO.getFocoInfeccioso());
-        entity.setCritExclusao(doctorFormUpdateDTO.getCritExclusao());
-        entity.setBundleHora1(doctorFormUpdateDTO.getBundleHora1());
-        entity.setDtDispProtocolo(Date.valueOf(doctorFormUpdateDTO.getDtDispProtocolo()));
-        entity.setDtColetaLactato(Date.valueOf(doctorFormUpdateDTO.getDtColetaLactato()));
-        entity.setDtColetaHemocult(Date.valueOf(doctorFormUpdateDTO.getDtColetaHemocult()));
-        entity.setDtPrimeiraDose(Date.valueOf(doctorFormUpdateDTO.getDtPrimeiraDose()));
-        entity.setReavaliacoesSeriadas(doctorFormUpdateDTO.getReavaliacoesSeriadas());
+        BeanUtils.copyPropertiesIgnoreNulls(doctorFormUpdateDTO.getBundleHora1(), entity.getBundleHora1(), false);
+        BeanUtils.copyPropertiesIgnoreNulls(doctorFormUpdateDTO.getCriterioExclusao(), entity.getCriterioExclusao(), false);
+        BeanUtils.copyPropertiesIgnoreNulls(doctorFormUpdateDTO.getFocoInfeccioso(), entity.getFocoInfeccioso(), false);
+        BeanUtils.copyPropertiesIgnoreNulls(doctorFormUpdateDTO.getReavaliacoesSeriadas(), entity.getReavaliacoesSeriadas(), false);
     }
 
     private void mergeEntity(FormularioSepseEnf1Entity entity, NurseForm1UpdateDTO nurseFormUpdateDTO) {
@@ -272,7 +274,7 @@ public class SepseFormServiceImpl implements SepseFormService {
         FormularioSepseEnf1Entity nurseForm1 = nurseForm1Repository.findById(formularioSepseMedicoEntity.getIdFormulario())
                 .orElseThrow(FormNotFoundException::new);
         FormularioSepseEnf2Entity nurseForm2 = new FormularioSepseEnf2Entity();
-        nurseForm2.setDtCriacao(new Date(System.currentTimeMillis()));
+        nurseForm2.setDtCriacao(new Timestamp(System.currentTimeMillis()));
         nurseForm2.setIdFormulario(nurseForm1.getIdFormulario());
         nurseForm2.setCreEnfermeiro(nurseForm1.getCreEnfermeiro());
         nurseForm2.setStatus(FormStatus.PENDING.getValue());
@@ -349,9 +351,9 @@ public class SepseFormServiceImpl implements SepseFormService {
     }
 
     private void mergeEntity(FormularioSepseEnf2Entity entity, NurseForm2UpdateDTO dto) {
-        entity.setDtAlta(dto.getDtAlta() == null ? null : Date.valueOf(dto.getDtAlta()));
-        entity.setDtObito(dto.getDtObito() == null ? null : Date.valueOf(dto.getDtObito()));
-        entity.setDtUti(dto.getDtUti() == null ? null : Date.valueOf(dto.getDtUti()));
+        entity.setDtAlta(dto.getDtAlta() == null ? null : dto.getDtAlta());
+        entity.setDtObito(dto.getDtObito() == null ? null : dto.getDtObito());
+        entity.setDtUti(dto.getDtUti() == null ? null : dto.getDtUti());
     }
 
     private boolean validateNurseForm2(FormularioSepseEnf2Entity nurseForm) {

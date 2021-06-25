@@ -89,6 +89,35 @@ public interface FormSepseMapper {
     })
     FormularioSepseEnf2Entity mapToFormularioSepseEnf2Entity(NurseForm2UpdateDTO dto);
 
+    FormularioSepseMedicoBundleDTO mapToFormularioSepseMedicoBundleDto(FormularioSepseMedicoBundleEntity entity);
+
+    @Mappings({
+            @Mapping(target = "idFormulario", ignore = true)
+    })
+    FormularioSepseMedicoBundleEntity mapToFormularioSepseMedicoBundleEntity(FormularioSepseMedicoBundleDTO dto);
+
+    FormularioSepseMedicoCriterioExclusaoDTO mapToFormularioSepseMedicoCrierioExclusaoDto(FormularioSepseMedicoCriterioExclusaoEntity entity);
+
+    @Mappings({
+            @Mapping(target = "idFormulario", ignore = true)
+    })
+    FormularioSepseMedicoFocoInfecciosoEntity mapToFormularioSepseMedicoFocoInfecciosoEntity(FormularioSepseMedicoFocoInfecciosoDTO dto);
+
+    FormularioSepseMedicoFocoInfecciosoDTO mapToFormularioSepseMedicoFocoInfecciosoDto(FormularioSepseMedicoFocoInfecciosoEntity entity);
+
+    @Mappings({
+            @Mapping(target = "idFormulario", ignore = true)
+    })
+    FormularioSepseMedicoReavaliacoesSeriadasEntity mapToFormularioSepseMedicoReavaliacoesSeriadasEntity(FormularioSepseMedicoReavaliacoesSeriadasDTO dto);
+
+    FormularioSepseMedicoReavaliacoesSeriadasDTO mapToFormularioSepseMedicoReavaliacoesSeriadasDto(FormularioSepseMedicoReavaliacoesSeriadasEntity entity);
+
+    @Mappings({
+            @Mapping(target = "idFormulario", ignore = true)
+    })
+    FormularioSepseMedicoCriterioExclusaoEntity mapToFormularioSepseMedicoCriterioExclusaoEntity(FormularioSepseMedicoCriterioExclusaoDTO dto);
+
+
     @Mappings({
             @Mapping(target = "patientDTO", ignore = true)
     })

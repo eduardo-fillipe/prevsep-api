@@ -9,16 +9,12 @@ public class DoctorFormDTO {
     private int idFormulario;
     private PatientDTO paciente;
     private int crmMedico;
-    private String focoInfeccioso;
-    private String critExclusao;
-    private String bundleHora1;
-    private LocalDate dtDispProtocolo;
-    private LocalDate dtColetaLactato;
-    private LocalDate dtColetaHemocult;
-    private LocalDate dtPrimeiraDose;
     private LocalDate dtCriacao;
     private FormStatus status;
-    private String reavaliacoesSeriadas;
+    private FormularioSepseMedicoFocoInfecciosoDTO focoInfeccioso;
+    private FormularioSepseMedicoCriterioExclusaoDTO criterioExclusao;
+    private FormularioSepseMedicoBundleDTO bundleHora1;
+    private FormularioSepseMedicoReavaliacoesSeriadasDTO reavaliacoesSeriadas;
 
     public int getIdFormulario() {
         return idFormulario;
@@ -44,30 +40,6 @@ public class DoctorFormDTO {
         this.crmMedico = crmMedico;
     }
 
-    public String getFocoInfeccioso() {
-        return focoInfeccioso;
-    }
-
-    public void setFocoInfeccioso(String focoInfeccioso) {
-        this.focoInfeccioso = focoInfeccioso;
-    }
-
-    public String getCritExclusao() {
-        return critExclusao;
-    }
-
-    public void setCritExclusao(String critExclusao) {
-        this.critExclusao = critExclusao;
-    }
-
-    public String getBundleHora1() {
-        return bundleHora1;
-    }
-
-    public void setBundleHora1(String bundleHora1) {
-        this.bundleHora1 = bundleHora1;
-    }
-
     public FormStatus getStatus() {
         return status;
     }
@@ -76,51 +48,43 @@ public class DoctorFormDTO {
         this.status = status;
     }
 
-    public String getReavaliacoesSeriadas() {
-        return reavaliacoesSeriadas;
-    }
-
-    public void setReavaliacoesSeriadas(String reavaliacoesSeriadas) {
-        this.reavaliacoesSeriadas = reavaliacoesSeriadas;
-    }
-
-    public LocalDate getDtDispProtocolo() {
-        return dtDispProtocolo;
-    }
-
-    public void setDtDispProtocolo(LocalDate dtDispProtocolo) {
-        this.dtDispProtocolo = dtDispProtocolo;
-    }
-
-    public LocalDate getDtColetaLactato() {
-        return dtColetaLactato;
-    }
-
-    public void setDtColetaLactato(LocalDate dtColetaLactato) {
-        this.dtColetaLactato = dtColetaLactato;
-    }
-
-    public LocalDate getDtColetaHemocult() {
-        return dtColetaHemocult;
-    }
-
-    public void setDtColetaHemocult(LocalDate dtColetaHemocult) {
-        this.dtColetaHemocult = dtColetaHemocult;
-    }
-
-    public LocalDate getDtPrimeiraDose() {
-        return dtPrimeiraDose;
-    }
-
-    public void setDtPrimeiraDose(LocalDate dtPrimeiraDose) {
-        this.dtPrimeiraDose = dtPrimeiraDose;
-    }
-
     public LocalDate getDtCriacao() {
         return dtCriacao;
     }
 
     public void setDtCriacao(LocalDate dtCriacao) {
         this.dtCriacao = dtCriacao;
+    }
+
+    public FormularioSepseMedicoBundleDTO getBundleHora1() {
+        return bundleHora1;
+    }
+
+    public void setBundleHora1(FormularioSepseMedicoBundleDTO bundleHora1) {
+        this.bundleHora1 = bundleHora1;
+    }
+
+    public FormularioSepseMedicoFocoInfecciosoDTO getFocoInfeccioso() {
+        return focoInfeccioso;
+    }
+
+    public void setFocoInfeccioso(FormularioSepseMedicoFocoInfecciosoDTO focoInfeccioso) {
+        this.focoInfeccioso = focoInfeccioso;
+    }
+
+    public FormularioSepseMedicoCriterioExclusaoDTO getCriterioExclusao() {
+        return criterioExclusao;
+    }
+
+    public void setCriterioExclusao(FormularioSepseMedicoCriterioExclusaoDTO criterioExclusao) {
+        this.criterioExclusao = criterioExclusao;
+    }
+
+    public FormularioSepseMedicoReavaliacoesSeriadasDTO getReavaliacoesSeriadas() {
+        return reavaliacoesSeriadas;
+    }
+
+    public void setReavaliacoesSeriadas(FormularioSepseMedicoReavaliacoesSeriadasDTO reavaliacoesSeriadas) {
+        this.reavaliacoesSeriadas = reavaliacoesSeriadas;
     }
 }

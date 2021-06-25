@@ -30,27 +30,23 @@ CREATE TABLE IF NOT EXISTS public.formulario_sepse_medico
 (
     id_formulario integer NOT NULL,
     id_paciente integer NOT NULL,
-    foco_infeccioso character varying,
-    crit_exclusao character varying,
-    bundle_hora1 character varying,
-    dt_disp_protocolo date,
-    dt_coleta_lactato date,
-    dt_coleta_hemocult date,
-    dt_primeira_dose date,
     crm_medico bigint,
     dt_criacao date NOT NULL,
     status integer NOT NULL,
-    reavaliacoes_seriadas character varying,
+    foco_infeccioso_id integer,
+    crit_exclusao_id integer,
+    bundle_id integer,
+    reavaliacao_seriada_id integer,
     PRIMARY KEY (id_formulario)
 );
 
 CREATE TABLE IF NOT EXISTS public.formulario_sepse_enf2
 (
     id_formulario integer NOT NULL,
-    dt_uti date,
-    dt_alta date,
-    dt_obito date,
-    dt_criacao date NOT NULL,
+    dt_uti timestamp without time zone,
+    dt_alta timestamp without time zone,
+    dt_obito timestamp without time zone,
+    dt_criacao timestamp without time zone NOT NULL,
     status integer NOT NULL,
     cre_enfermeiro bigint,
     PRIMARY KEY (id_formulario)
@@ -105,6 +101,62 @@ CREATE TABLE IF NOT EXISTS public.formulario_sepse_enf1_dinsf_org
     snlc_conf_agtc_coma boolean,
     saturacao_dispneia boolean,
     PRIMARY KEY (id_formulario)
+);
+
+CREATE TABLE IF NOT EXISTS public.formulario_sepse_medico_foco_infeccioso
+(
+    id serial NOT NULL,
+    pneumonia_empema boolean,
+    infeccao_urinaria boolean,
+    infeccao_abdominal boolean,
+    menigite boolean,
+    endocardite boolean,
+    pele_partes_moles boolean,
+    infeccao_protese boolean,
+    infeccao_ossea boolean,
+    infeccao_ferida_operatoria boolean,
+    infeccao_sanguinea_cateter boolean,
+    sem_foco_definido boolean,
+    outras_infeccoes character varying,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public.formulario_sepse_medico_criterio_exclusao
+(
+    id serial NOT NULL,
+    apresenta_criterio_exclusao boolean,
+    fim_de_vida boolean,
+    doenca_atipica boolean,
+    probabilidade_sepse_baixa boolean,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public.formulario_sepse_medico_bundle
+(
+    id serial NOT NULL,
+    iniciado boolean,
+    dt_disparo timestamp without time zone,
+    lacto_dt_coleta timestamp without time zone,
+    hemocultura_dt_coleta timestamp without time zone,
+    antibiotico_amplo_aspectro timestamp without time zone,
+    cristaloides boolean,
+    vasopressores boolean,
+    justificativa_nao character varying,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public.formulario_sepse_medico_reavaliacoes_seriadas
+(
+    id serial NOT NULL,
+    q_sofa boolean,
+    pas_100_mmghg boolean,
+    fr_22_rpm boolean,
+    rebaixamento_nivel_consiencia boolean,
+    lacto_inicialmente_alto boolean,
+    outros character varying,
+    justificativa_nao character varying,
+    aplicada boolean,
+    PRIMARY KEY (id)
 );
 
 ALTER TABLE public.formulario_sepse_enf1
@@ -181,6 +233,28 @@ ALTER TABLE public.formulario_sepse_enf1_sirs
 ALTER TABLE public.formulario_sepse_enf1_dinsf_org
     ADD FOREIGN KEY (id_formulario)
         REFERENCES public.formulario_sepse_enf1 (id_formulario)
+        NOT VALID;
+
+ALTER TABLE public.formulario_sepse_medico
+    ADD FOREIGN KEY (foco_infeccioso_id)
+        REFERENCES public.formulario_sepse_medico_foco_infeccioso (id)
+        NOT VALID;
+
+ALTER TABLE public.formulario_sepse_medico
+    ADD FOREIGN KEY (crit_exclusao_id)
+        REFERENCES public.formulario_sepse_medico_criterio_exclusao (id)
+        NOT VALID;
+
+
+ALTER TABLE public.formulario_sepse_medico
+    ADD FOREIGN KEY (bundle_id)
+        REFERENCES public.formulario_sepse_medico_bundle (id)
+        NOT VALID;
+
+
+ALTER TABLE public.formulario_sepse_medico
+    ADD FOREIGN KEY (reavaliacao_seriada_id)
+        REFERENCES public.formulario_sepse_medico_reavaliacoes_seriadas (id)
         NOT VALID;
 
 COMMIT;

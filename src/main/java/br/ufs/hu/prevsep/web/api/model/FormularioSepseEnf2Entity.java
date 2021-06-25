@@ -3,6 +3,7 @@ package br.ufs.hu.prevsep.web.api.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
@@ -10,10 +11,10 @@ import java.util.Objects;
 public class FormularioSepseEnf2Entity implements Serializable {
     private int idFormulario;
     private int creEnfermeiro;
-    private Date dtUti;
-    private Date dtAlta;
-    private Date dtObito;
-    private Date dtCriacao;
+    private Timestamp dtUti;
+    private Timestamp dtAlta;
+    private Timestamp dtObito;
+    private Timestamp dtCriacao;
     private int status;
 
     @Id
@@ -37,41 +38,41 @@ public class FormularioSepseEnf2Entity implements Serializable {
 
     @Basic
     @Column(name = "dt_uti", nullable = true)
-    public Date getDtUti() {
+    public Timestamp getDtUti() {
         return dtUti;
     }
 
-    public void setDtUti(Date dtUti) {
+    public void setDtUti(Timestamp dtUti) {
         this.dtUti = dtUti;
     }
 
     @Basic
     @Column(name = "dt_alta", nullable = true)
-    public Date getDtAlta() {
+    public Timestamp getDtAlta() {
         return dtAlta;
     }
 
-    public void setDtAlta(Date dtAlta) {
+    public void setDtAlta(Timestamp dtAlta) {
         this.dtAlta = dtAlta;
     }
 
     @Basic
     @Column(name = "dt_obito", nullable = true)
-    public Date getDtObito() {
+    public Timestamp getDtObito() {
         return dtObito;
     }
 
-    public void setDtObito(Date dtObito) {
+    public void setDtObito(Timestamp dtObito) {
         this.dtObito = dtObito;
     }
 
     @Basic
     @Column(name = "dt_criacao", nullable = false)
-    public Date getDtCriacao() {
+    public Timestamp getDtCriacao() {
         return dtCriacao;
     }
 
-    public void setDtCriacao(Date dtCriacao) {
+    public void setDtCriacao(Timestamp dtCriacao) {
         this.dtCriacao = dtCriacao;
     }
 

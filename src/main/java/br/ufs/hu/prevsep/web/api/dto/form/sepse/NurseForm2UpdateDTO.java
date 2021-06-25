@@ -1,33 +1,34 @@
 package br.ufs.hu.prevsep.web.api.dto.form.sepse;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 public class NurseForm2UpdateDTO {
-    private LocalDate dtUti;
-    private LocalDate dtAlta;
-    private LocalDate dtObito;
+    private Timestamp dtUti;
+    private Timestamp dtAlta;
+    private Timestamp dtObito;
 
-    public LocalDate getDtUti() {
+    public Timestamp getDtUti() {
         return dtUti;
     }
 
-    public void setDtUti(LocalDate dtUti) {
+    public void setDtUti(Timestamp dtUti) {
         this.dtUti = dtUti;
     }
 
-    public LocalDate getDtAlta() {
+    public Timestamp getDtAlta() {
         return dtAlta;
     }
 
-    public void setDtAlta(LocalDate dtAlta) {
+    public void setDtAlta(Timestamp dtAlta) {
         this.dtAlta = dtAlta;
     }
 
-    public LocalDate getDtObito() {
+    public Timestamp getDtObito() {
         return dtObito;
     }
 
-    public void setDtObito(LocalDate dtObito) {
+    public void setDtObito(Timestamp dtObito) {
         this.dtObito = dtObito;
     }
 }
