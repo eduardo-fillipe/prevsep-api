@@ -225,6 +225,12 @@ public class SepseFormServiceImpl implements SepseFormService {
     }
 
     private DoctorFormDTO saveDoctorForm(Integer idForm, DoctorFormUpdateDTO doctorFormUpdateDTO, boolean finished) throws FormNotFoundException, InvalidFormStateException {
+
+        if (finished)
+            validateDoctorForm(doctorFormUpdateDTO).ifPresent(e -> {
+                throw e;
+            });
+
         FormularioSepseMedicoEntity doctorFormEntity = doctorFormRepository
                 .findById(idForm)
                 .orElseThrow(FormNotFoundException::new);
@@ -246,6 +252,110 @@ public class SepseFormServiceImpl implements SepseFormService {
         result.setPaciente(formSepseMapper.mapToPatientDto(patientRepository.findById(doctorFormEntity.getIdPaciente()).orElseThrow()));
 
         return result;
+    }
+
+    private Optional<PrevSepException> validateDoctorForm(DoctorFormUpdateDTO form) {
+        if (form == null)
+            return Optional.of(new FormValidationException().withDetailedMessage("The form can not be null."));
+
+        // Criterio de exclusão
+        if (form.getCriterioExclusao() != null) {
+            if (form.getCriterioExclusao().getApresentaCriterioExclusao()) {
+                if (!(form.getCriterioExclusao().getDoencaAtipica() || form.getCriterioExclusao().getFimDeVida() || form.getCriterioExclusao().getProbabilidadeSepseBaixa())) {
+                    return Optional.of(new FormValidationException()
+                            .withMessage("This form is invalid.")
+                            .withDetailedMessage("The patient presents a exclusion criteria, but none is selected."));
+                }
+            } else {
+                if (form.getCriterioExclusao().getDoencaAtipica() || form.getCriterioExclusao().getFimDeVida() || form.getCriterioExclusao().getProbabilidadeSepseBaixa()) {
+                    return Optional.of(new FormValidationException()
+                            .withMessage("This form is invalid.")
+                            .withDetailedMessage("The patient do not presents a exclusion criteria, but a criteria is selected."));
+                }
+            }
+        }
+
+        // Bundle Hora 1
+        if (form.getBundleHora1() != null) {
+            if (form.getBundleHora1().getIniciado()) {
+                if (form.getBundleHora1().getJustificativaNao() != null && !form.getBundleHora1().getJustificativaNao().isBlank())
+                    return Optional.of(new FormValidationException().withDetailedMessage("The protocol was initiated, but the field 'justificaNao' was filled."));
+
+                if (checkIfAllFieldsAreFalse(form.getBundleHora1())) {
+                    return Optional.of(new FormValidationException()
+                            .withDetailedMessage("The protocol was initiated, but no action was selected in the form."));
+                }
+            } else {
+                if (form.getBundleHora1().getJustificativaNao() == null || form.getBundleHora1().getJustificativaNao().isBlank()) {
+                    return Optional.of(new FormValidationException()
+                            .withDetailedMessage("The protocol was not initiated, but the justification is empty."));
+                }
+                if (!checkIfAllFieldsAreFalse(form.getBundleHora1())) {
+                    return Optional.of(new FormValidationException()
+                            .withDetailedMessage("The protocol was not initiated, but one or more fields are filled."));
+                }
+            }
+        } else {
+            return Optional.of(new FormValidationException()
+                    .withDetailedMessage("The First Hour Bundle can not be null. It must have, at least, an justification, if the protocol was not initiated."));
+        }
+
+        // Reavaliações Seriadas
+        if (form.getReavaliacoesSeriadas() != null) {
+            if (form.getReavaliacoesSeriadas().getAplicada()) {
+                if (form.getReavaliacoesSeriadas().getJustificativaNao() != null && !form.getReavaliacoesSeriadas().getJustificativaNao().isBlank())
+                    return Optional.of(new FormValidationException().withDetailedMessage("The revalidations were applied, but the field 'justificaNao' was filled."));
+
+                if (checkIfAllFieldsAreFalse(form.getReavaliacoesSeriadas()))
+                    return Optional.of(new FormValidationException().withDetailedMessage("The revalidations were applied, but no action was selected in the form."));
+
+                if (form.getReavaliacoesSeriadas().getqSofa()) {
+                    if (checkIfAllFieldsAreFalseQSofa(form.getReavaliacoesSeriadas())) {
+                        return Optional.of(new FormValidationException().withDetailedMessage("The field qSofa was marked as true, but no related fields (pas, fr, rebaixamentoConsiencia) were marked as true."));
+                    }
+                } else {
+                    if (checkIfAllFieldsAreFalseQSofa(form.getReavaliacoesSeriadas())) {
+                        return Optional.of(new FormValidationException().withDetailedMessage("The field qSofa was marked as false, but related fields (pas, fr, rebaixamentoConsiencia) were marked as true."));
+                    }
+                }
+            } else {
+                if (form.getReavaliacoesSeriadas().getJustificativaNao() == null || form.getReavaliacoesSeriadas().getJustificativaNao().isBlank()) {
+                    return Optional.of(new FormValidationException().withDetailedMessage("The revalidations were not applied, but the justification is empty."));
+                }
+                if (!checkIfAllFieldsAreFalse(form.getReavaliacoesSeriadas())) {
+                    return Optional.of(new FormValidationException().withDetailedMessage("The revalidations were not applied, but one or more fields were selected as applied."));
+                }
+
+            }
+        } else {
+            return Optional.of(new FormValidationException()
+                    .withDetailedMessage("The revalidations can not be null. It must have, at least, an justification, if it was not applied."));
+        }
+
+        return Optional.empty();
+    }
+
+    private boolean checkIfAllFieldsAreFalseQSofa(FormularioSepseMedicoReavaliacoesSeriadasDTO reavaliacoesSeriadasDTO) {
+        return !(reavaliacoesSeriadasDTO.getPas100Mmghg() ||
+                reavaliacoesSeriadasDTO.getFr22Rpm() ||
+                reavaliacoesSeriadasDTO.getRebaixamentoNivelConsiencia());
+    }
+
+    private boolean checkIfAllFieldsAreFalse(FormularioSepseMedicoBundleDTO bundleDTO) {
+        return bundleDTO.getDtDisparo() == null &&
+                bundleDTO.getAntibioticoAmploAspectro() == null &&
+                bundleDTO.getHemoculturaDtColeta() == null &&
+                bundleDTO.getLactoDtColeta() == null &&
+                !bundleDTO.getCristaloides() && !bundleDTO.getVasopressores();
+    }
+
+    private boolean checkIfAllFieldsAreFalse(FormularioSepseMedicoReavaliacoesSeriadasDTO reavaliacoesSeriadasDTO) {
+        return !reavaliacoesSeriadasDTO.getqSofa() &&
+                !reavaliacoesSeriadasDTO.getPas100Mmghg() &&
+                !reavaliacoesSeriadasDTO.getFr22Rpm() &&
+                !reavaliacoesSeriadasDTO.getRebaixamentoNivelConsiencia() &&
+                !reavaliacoesSeriadasDTO.getLactoInicialmenteAlto() &&
+                reavaliacoesSeriadasDTO.getOutros() == null;
     }
 
     private void mergeEntity(FormularioSepseMedicoEntity entity, DoctorFormUpdateDTO doctorFormUpdateDTO) {
@@ -321,7 +431,7 @@ public class SepseFormServiceImpl implements SepseFormService {
         mergeEntity(nurseForm2Entity, nurseForm2UpdateDTO);
         nurseForm2Entity.setStatus(finish ? FormStatus.FINISHED.getValue() : FormStatus.SAVED.getValue());
 
-        FormularioSepseEnf1Entity formularioSepseEnf1Entity = null;
+        FormularioSepseEnf1Entity formularioSepseEnf1Entity;
         if (finish) {
             if (!validateNurseForm2(nurseForm2Entity))
                 throw new FormValidationException().withMessage("The form isn't correctly filled.")
