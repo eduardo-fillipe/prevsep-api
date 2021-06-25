@@ -436,8 +436,8 @@ public class SepseFormServiceImpl implements SepseFormService {
             if (!validateNurseForm2(nurseForm2Entity))
                 throw new FormValidationException().withMessage("The form isn't correctly filled.")
                         .withDetailedMessage("The following fields are conflicting: ")
-                        .withFieldError("dtAlta", "")
-                        .withFieldError("dtObito", "");
+                        .withFieldError("dtAlta", "Can't have the same value of the field 'dtObito'")
+                        .withFieldError("dtObito", "Can't have the same value of the field 'dtAlta'");
 
             nurseForm2Entity = nurseForm2Repository.save(nurseForm2Entity);
             formularioSepseEnf1Entity = updateStatusNurseForm1(nurseForm2Entity);
