@@ -134,6 +134,6 @@ public interface FormSepseMapper {
     }
 
     default Date map(LocalDate localDate) {
-        return Date.valueOf(localDate);
+        return localDate == null ? null : Date.valueOf(localDate);
     }
 }
