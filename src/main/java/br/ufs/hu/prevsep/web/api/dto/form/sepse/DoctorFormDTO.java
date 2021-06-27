@@ -1,13 +1,12 @@
 package br.ufs.hu.prevsep.web.api.dto.form.sepse;
 
 import br.ufs.hu.prevsep.web.api.dto.form.FormStatus;
-import br.ufs.hu.prevsep.web.api.dto.form.PatientDTO;
 
 import java.time.LocalDate;
 
 public class DoctorFormDTO {
     private int idFormulario;
-    private PatientDTO paciente;
+    private int idPaciente;
     private int crmMedico;
     private LocalDate dtCriacao;
     private FormStatus status;
@@ -24,12 +23,12 @@ public class DoctorFormDTO {
         this.idFormulario = idFormulario;
     }
 
-    public PatientDTO getPaciente() {
-        return paciente;
+    public int getIdPaciente() {
+        return idPaciente;
     }
 
-    public void setPaciente(PatientDTO paciente) {
-        this.paciente = paciente;
+    public void setIdPaciente(int idPaciente) {
+        this.idPaciente = idPaciente;
     }
 
     public int getCrmMedico() {

@@ -22,10 +22,6 @@ public class NurseForm1UpdateDTO {
     private FormularioSepseEnf1SirsDTO sirs;
     @NotEmpty
     private FormularioSepseEnf1DinsfOrgDTO disfOrganica;
-    @NotNull
-    private LocalDate dtAcMedico;
-    @NotNull
-    private LocalDate dtCriacao;
 
 
     public PatientCreateDTO getPaciente() {
@@ -66,22 +62,6 @@ public class NurseForm1UpdateDTO {
 
     public void setDisfOrganica(FormularioSepseEnf1DinsfOrgDTO disfOrganica) {
         this.disfOrganica = disfOrganica;
-    }
-
-    public LocalDate getDtAcMedico() {
-        return dtAcMedico;
-    }
-
-    public void setDtAcMedico(LocalDate dtAcMedico) {
-        this.dtAcMedico = dtAcMedico;
-    }
-
-    public LocalDate getDtCriacao() {
-        return dtCriacao;
-    }
-
-    public void setDtCriacao(LocalDate dtCriacao) {
-        this.dtCriacao = dtCriacao;
     }
 
 }
