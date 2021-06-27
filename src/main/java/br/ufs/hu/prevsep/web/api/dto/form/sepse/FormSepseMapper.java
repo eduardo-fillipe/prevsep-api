@@ -54,7 +54,9 @@ public interface FormSepseMapper {
             @Mapping(target = "formularioSepseEnf2", ignore = true),
             @Mapping(target = "formularioSepseMedico", ignore = true),
             @Mapping(target = "idFormulario", ignore = true),
-            @Mapping(target = "status", ignore = true)
+            @Mapping(target = "status", ignore = true),
+            @Mapping(target = "dtAcMedico", ignore = true),
+            @Mapping(target = "dtCriacao", ignore = true)
     })
     FormularioSepseEnf1Entity mapToFormularioSepseEnf1Entity(NurseForm1CreateDTO dto);
 
@@ -63,7 +65,9 @@ public interface FormSepseMapper {
             @Mapping(target = "formularioSepseEnf2", ignore = true),
             @Mapping(target = "formularioSepseMedico", ignore = true),
             @Mapping(target = "idFormulario", ignore = true),
-            @Mapping(target = "status", ignore = true)
+            @Mapping(target = "status", ignore = true),
+            @Mapping(target = "dtAcMedico", ignore = true),
+            @Mapping(target = "dtCriacao", ignore = true)
     })
     FormularioSepseEnf1Entity mapToFormularioSepseEnf1Entity(NurseForm1UpdateDTO dto);
 
@@ -71,14 +75,12 @@ public interface FormSepseMapper {
             @Mapping(target = "crmMedico", ignore = true),
             @Mapping(target = "idFormulario", ignore = true),
             @Mapping(target = "idPaciente", ignore = true),
-            @Mapping(target = "dtCriacao", ignore = true)
+            @Mapping(target = "dtCriacao", ignore = true),
+            @Mapping(target = "status", ignore = true)
     })
     FormularioSepseMedicoEntity mapToFormularioSepseMedicoEntity(DoctorFormUpdateDTO dto);
 
-    @Mappings({
-            @Mapping(target = "paciente", ignore = true),
-            @Mapping(target = "paciente.idPaciente", source = "idPaciente")
-    })
+
     DoctorFormDTO mapToDoctorFormDto(FormularioSepseMedicoEntity entity);
 
     @Mappings({

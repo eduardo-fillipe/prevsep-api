@@ -51,6 +51,16 @@ public class SepseFormServiceImpl implements SepseFormService {
 
 
     @Override
+    public PageDoctorFormDTO getDoctorForms(PageableDoctorFormDTO request) {
+        if (request == null)
+            request = new PageableDoctorFormDTO();
+
+        return PageDoctorFormDTO.of(doctorFormRepository.findAll(
+                request.getQueryPredicate(QFormularioSepseMedicoEntity.formularioSepseMedicoEntity),
+                request).map(formSepseMapper::mapToDoctorFormDto));
+    }
+
+    @Override
     @Transactional
     public NurseForm1DTO createForm(Integer cre, NurseForm1CreateDTO nurseForm1CreateDTO) {
         nurseService.getNurseByCRE(cre)
@@ -66,8 +76,11 @@ public class SepseFormServiceImpl implements SepseFormService {
         FormularioSepseEnf1Entity formularioSepseEnf1Entity =
                 formSepseMapper.mapToFormularioSepseEnf1Entity(nurseForm1CreateDTO);
 
-        if (nurseForm1CreateDTO.getFinalizado())
+        if (nurseForm1CreateDTO.getFinalizado()) {
             validateForm1(formularioSepseEnf1Entity);
+            formularioSepseEnf1Entity.setDtAcMedico(new Date(System.currentTimeMillis()));
+            formularioSepseEnf1Entity.setDtCriacao(new Date(System.currentTimeMillis()));
+        }
 
         PacienteEntity pacienteEntity = patientRepository.save(formularioSepseEnf1Entity.getPaciente());
         formularioSepseEnf1Entity.setPaciente(pacienteEntity);
@@ -113,8 +126,6 @@ public class SepseFormServiceImpl implements SepseFormService {
                 ex.withFieldError("paciente.sexo", "Can't be null");
         }
 
-        if (formularioSepseEnf1Entity.getDtAcMedico() == null)
-            ex.withFieldError("paciente.dtAcMedico", "Can't be null");
         if (formularioSepseEnf1Entity.getProcedencia() == null)
             ex.withFieldError("paciente.procedencia", "Can't be null");
 
@@ -249,7 +260,7 @@ public class SepseFormServiceImpl implements SepseFormService {
             createNurseForm2(doctorFormEntity);
 
         DoctorFormDTO result = formSepseMapper.mapToDoctorFormDto(doctorFormEntity);
-        result.setPaciente(formSepseMapper.mapToPatientDto(patientRepository.findById(doctorFormEntity.getIdPaciente()).orElseThrow()));
+        result.setIdPaciente(doctorFormEntity.getIdPaciente());
 
         return result;
     }
@@ -368,7 +379,6 @@ public class SepseFormServiceImpl implements SepseFormService {
     private void mergeEntity(FormularioSepseEnf1Entity entity, NurseForm1UpdateDTO nurseFormUpdateDTO) {
         entity.setCrmMedico(nurseFormUpdateDTO.getCrmMedico());
         entity.setProcedencia(ProcedenciaDTO.toValue(nurseFormUpdateDTO.getProcedencia()));
-        entity.setDtAcMedico(Date.valueOf(nurseFormUpdateDTO.getDtAcMedico()));
 
         if (nurseFormUpdateDTO.getPaciente() == null)
             nurseFormUpdateDTO.setPaciente(new PatientCreateDTO());

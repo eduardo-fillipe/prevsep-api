@@ -9,6 +9,15 @@ import br.ufs.hu.prevsep.web.api.repository.NurseForm1Repository;
 
 public interface SepseFormService {
 
+
+    /**
+     * Returns all doctor forms given a criteria.
+     *
+     * @param request the list of criteria.
+     * @return All doctor forms found.
+     */
+    PageDoctorFormDTO getDoctorForms(PageableDoctorFormDTO request);
+
     /**
      * This method creates a Sepse Form in the system. And, depending on the flag {@code finalizado} on the request object,
      * finishes the form filling, otherwise just saves the form state
