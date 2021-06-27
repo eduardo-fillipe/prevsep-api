@@ -12,16 +12,26 @@ import java.time.LocalDate;
 import java.util.Map;
 
 public class PageableDoctorFormDTO extends PageableRequest<QFormularioSepseMedicoEntity> {
+    private Integer idFormulario;
     private Integer crmMedico;
     private FormStatus status;
     private LocalDate dtCriacaoBegin;
     private LocalDate dtCriacaoEnd;
 
     private static final Map<String, ComparableExpressionBase<?>> ENTITY_RELATIONSHIP = Map.of(
+            "idFormulario", QFormularioSepseMedicoEntity.formularioSepseMedicoEntity.idFormulario,
             "crmMedico", QFormularioSepseMedicoEntity.formularioSepseMedicoEntity.crmMedico,
             "status", QFormularioSepseMedicoEntity.formularioSepseMedicoEntity.status,
             "dtCriacao", QFormularioSepseMedicoEntity.formularioSepseMedicoEntity.dtCriacao
     );
+
+    public Integer getIdFormulario() {
+        return idFormulario;
+    }
+
+    public void setIdFormulario(Integer idFormulario) {
+        this.idFormulario = idFormulario;
+    }
 
     public Integer getCrmMedico() {
         return crmMedico;
@@ -58,7 +68,8 @@ public class PageableDoctorFormDTO extends PageableRequest<QFormularioSepseMedic
     @Override
     public Predicate getQueryPredicate(QFormularioSepseMedicoEntity qEntity) {
         BooleanBuilder filter = new BooleanBuilder();
-
+        if (this.idFormulario != null)
+            filter.and(qEntity.idFormulario.eq(this.idFormulario));
         if (this.crmMedico != null)
             filter.and(qEntity.crmMedico.eq(this.crmMedico));
         if (this.status != null)
