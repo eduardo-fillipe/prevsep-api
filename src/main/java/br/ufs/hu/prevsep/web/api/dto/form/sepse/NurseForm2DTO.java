@@ -1,10 +1,8 @@
 package br.ufs.hu.prevsep.web.api.dto.form.sepse;
 
 import br.ufs.hu.prevsep.web.api.dto.form.FormStatus;
-import br.ufs.hu.prevsep.web.api.dto.form.PatientDTO;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
 
 public class NurseForm2DTO {
     private int idFormulario;

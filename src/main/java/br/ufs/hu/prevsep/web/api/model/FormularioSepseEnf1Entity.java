@@ -3,7 +3,6 @@ package br.ufs.hu.prevsep.web.api.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.Objects;
 
 @Entity
 @Table(name = "formulario_sepse_enf1", schema = "public")

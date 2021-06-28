@@ -1,8 +1,5 @@
 package br.ufs.hu.prevsep.web.api.dto.form.sepse;
 
-import javax.persistence.*;
-import java.util.Objects;
-
 public class FormularioSepseEnf1DinsfOrgDTO {
     private Boolean diurese;
     private Boolean hipotensao;

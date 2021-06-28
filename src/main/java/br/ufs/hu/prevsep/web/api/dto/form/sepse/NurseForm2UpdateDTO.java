@@ -1,7 +1,6 @@
 package br.ufs.hu.prevsep.web.api.dto.form.sepse;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
 
 public class NurseForm2UpdateDTO {
     private Timestamp dtUti;
