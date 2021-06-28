@@ -31,7 +31,7 @@ public class FormularioSepseEnf1Entity implements Serializable {
         this.idFormulario = idFormulario;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_paciente", referencedColumnName = "id_paciente")
     public PacienteEntity getPaciente() {
         return paciente;
@@ -119,7 +119,7 @@ public class FormularioSepseEnf1Entity implements Serializable {
         this.formularioSepseMedico = formularioSepseMedico;
     }
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_sirs", referencedColumnName = "id", nullable = false)
     public FormularioSepseEnf1SirsEntity getSirs() {
         return sirs;
@@ -129,7 +129,7 @@ public class FormularioSepseEnf1Entity implements Serializable {
         this.sirs = sirs;
     }
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_dinsf_org", referencedColumnName = "id", nullable = false)
     public FormularioSepseEnf1DinsfOrgEntity getDisfOrganica() {
         return disfOrganica;

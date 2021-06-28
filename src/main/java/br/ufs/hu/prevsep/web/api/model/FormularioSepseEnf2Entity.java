@@ -2,7 +2,7 @@ package br.ufs.hu.prevsep.web.api.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -10,10 +10,10 @@ import java.util.Objects;
 public class FormularioSepseEnf2Entity implements Serializable {
     private int idFormulario;
     private int creEnfermeiro;
-    private Timestamp dtUti;
-    private Timestamp dtAlta;
-    private Timestamp dtObito;
-    private Timestamp dtCriacao;
+    private LocalDateTime dtUti;
+    private LocalDateTime dtAlta;
+    private LocalDateTime dtObito;
+    private LocalDateTime dtCriacao;
     private int status;
 
     @Id
@@ -37,41 +37,41 @@ public class FormularioSepseEnf2Entity implements Serializable {
 
     @Basic
     @Column(name = "dt_uti", nullable = true)
-    public Timestamp getDtUti() {
+    public LocalDateTime getDtUti() {
         return dtUti;
     }
 
-    public void setDtUti(Timestamp dtUti) {
+    public void setDtUti(LocalDateTime dtUti) {
         this.dtUti = dtUti;
     }
 
     @Basic
     @Column(name = "dt_alta", nullable = true)
-    public Timestamp getDtAlta() {
+    public LocalDateTime getDtAlta() {
         return dtAlta;
     }
 
-    public void setDtAlta(Timestamp dtAlta) {
+    public void setDtAlta(LocalDateTime dtAlta) {
         this.dtAlta = dtAlta;
     }
 
     @Basic
     @Column(name = "dt_obito", nullable = true)
-    public Timestamp getDtObito() {
+    public LocalDateTime getDtObito() {
         return dtObito;
     }
 
-    public void setDtObito(Timestamp dtObito) {
+    public void setDtObito(LocalDateTime dtObito) {
         this.dtObito = dtObito;
     }
 
     @Basic
     @Column(name = "dt_criacao", nullable = false)
-    public Timestamp getDtCriacao() {
+    public LocalDateTime getDtCriacao() {
         return dtCriacao;
     }
 
-    public void setDtCriacao(Timestamp dtCriacao) {
+    public void setDtCriacao(LocalDateTime dtCriacao) {
         this.dtCriacao = dtCriacao;
     }
 
