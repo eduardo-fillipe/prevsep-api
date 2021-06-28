@@ -2,7 +2,6 @@ package br.ufs.hu.prevsep.web.api.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Objects;
 

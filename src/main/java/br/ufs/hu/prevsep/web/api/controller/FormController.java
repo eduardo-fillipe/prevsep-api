@@ -2,10 +2,7 @@ package br.ufs.hu.prevsep.web.api.controller;
 
 import br.ufs.hu.prevsep.web.api.config.ApiRequestMappings;
 import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
-import br.ufs.hu.prevsep.web.api.dto.form.sepse.PageDoctorFormDTO;
-import br.ufs.hu.prevsep.web.api.dto.form.sepse.PageNurseForm1DTO;
-import br.ufs.hu.prevsep.web.api.dto.form.sepse.PageableDoctorFormDTO;
-import br.ufs.hu.prevsep.web.api.dto.form.sepse.PageableNurseForm1DTO;
+import br.ufs.hu.prevsep.web.api.dto.form.sepse.*;
 import br.ufs.hu.prevsep.web.api.service.form.sepse.SepseFormService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -33,7 +30,7 @@ public class FormController extends BaseController {
     }
 
     @GetMapping("/doctor")
-    @Operation(summary = "Returns the doctors forms in the database given the criteria.")
+    @Operation(summary = "Returns the doctors forms in the database given a criteria.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
                     content = @Content(schema = @Schema(implementation = PageDoctorFormDTO.class))),
@@ -44,7 +41,7 @@ public class FormController extends BaseController {
     }
 
     @GetMapping("/nurse/form1")
-    @Operation(summary = "Returns the doctors forms in the database given the criteria.")
+    @Operation(summary = "Returns the nurse forms (part 1) in the database given a criteria.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
                     content = @Content(schema = @Schema(implementation = PageNurseForm1DTO.class))),
@@ -52,5 +49,16 @@ public class FormController extends BaseController {
                     content = @Content(schema = @Schema(implementation = FaultDTO.class)))})
     public PageNurseForm1DTO getNurse1Forms(@Valid @ModelAttribute PageableNurseForm1DTO pageableRequest) {
         return sepseFormService.getNurseForm1(pageableRequest);
+    }
+
+    @GetMapping("/nurse/form2")
+    @Operation(summary = "Returns the nurse forms (part 2) in the database given a criteria.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok",
+                    content = @Content(schema = @Schema(implementation = PageNurseForm2DTO.class))),
+            @ApiResponse(responseCode = "400", description = "Bad Request",
+                    content = @Content(schema = @Schema(implementation = FaultDTO.class)))})
+    public PageNurseForm2DTO getNurse2Forms(@Valid @ModelAttribute PageableNurseForm2DTO pageableRequest) {
+        return sepseFormService.getNurseForm2(pageableRequest);
     }
 }

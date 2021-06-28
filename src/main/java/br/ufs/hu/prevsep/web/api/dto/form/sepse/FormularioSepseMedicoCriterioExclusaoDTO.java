@@ -1,8 +1,5 @@
 package br.ufs.hu.prevsep.web.api.dto.form.sepse;
 
-import java.util.Objects;
-
-
 public class FormularioSepseMedicoCriterioExclusaoDTO {
     private boolean apresentaCriterioExclusao;
     private boolean fimDeVida;

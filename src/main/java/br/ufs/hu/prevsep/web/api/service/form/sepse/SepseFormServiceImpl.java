@@ -8,7 +8,10 @@ import br.ufs.hu.prevsep.web.api.dto.user.usuario.StatusUsuarioEnum;
 import br.ufs.hu.prevsep.web.api.exception.*;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
 import br.ufs.hu.prevsep.web.api.model.*;
-import br.ufs.hu.prevsep.web.api.repository.*;
+import br.ufs.hu.prevsep.web.api.repository.DoctorFormRepository;
+import br.ufs.hu.prevsep.web.api.repository.NurseForm1Repository;
+import br.ufs.hu.prevsep.web.api.repository.NurseForm2Repository;
+import br.ufs.hu.prevsep.web.api.repository.PatientRepository;
 import br.ufs.hu.prevsep.web.api.service.user.doctor.DoctorService;
 import br.ufs.hu.prevsep.web.api.service.user.nurse.NurseService;
 import br.ufs.hu.prevsep.web.api.utils.BeanUtils;
@@ -62,6 +65,16 @@ public class SepseFormServiceImpl implements SepseFormService {
         return PageDoctorFormDTO.of(doctorFormRepository.findAll(
                 request.getQueryPredicate(QFormularioSepseMedicoEntity.formularioSepseMedicoEntity),
                 request).map(formSepseMapper::mapToDoctorFormDto));
+    }
+
+    @Override
+    public PageNurseForm2DTO getNurseForm2(PageableNurseForm2DTO request) {
+        if (request == null)
+            request = new PageableNurseForm2DTO();
+
+        return PageNurseForm2DTO.of(nurseForm2Repository.findAll(
+                request.getQueryPredicate(QFormularioSepseEnf2Entity.formularioSepseEnf2Entity),
+                request).map(formSepseMapper::mapToNurseForm2Dto));
     }
 
     @Override
@@ -419,14 +432,9 @@ public class SepseFormServiceImpl implements SepseFormService {
             formularioSepseEnf1Entity = updateStatusNurseForm1(nurseForm2Entity);
         } else {
             nurseForm2Entity = nurseForm2Repository.save(nurseForm2Entity);
-            formularioSepseEnf1Entity = nurseForm1Repository.findById(nurseForm2Entity.getIdFormulario())
-                    .orElseThrow(FormNotFoundException::new);
         }
 
-        NurseForm2DTO result = formSepseMapper.mapToNurseForm2Dto(nurseForm2Entity);
-        result.setPatientDTO(formSepseMapper.mapToPatientDto(formularioSepseEnf1Entity.getPaciente()));
-
-        return result;
+        return formSepseMapper.mapToNurseForm2Dto(nurseForm2Entity);
     }
 
     private FormularioSepseEnf1Entity updateStatusNurseForm1(FormularioSepseEnf2Entity formularioSepseEnf2Entity) {
