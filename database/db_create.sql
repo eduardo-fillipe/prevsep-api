@@ -23,6 +23,8 @@ CREATE TABLE IF NOT EXISTS public.formulario_sepse_enf1
     dt_ac_medico date,
     dt_criacao date NOT NULL,
     status integer NOT NULL,
+    id_sirs integer,
+    id_dinsf_org integer,
     PRIMARY KEY (id_formulario)
 );
 
@@ -85,22 +87,22 @@ CREATE TABLE IF NOT EXISTS public.usuario
 
 CREATE TABLE IF NOT EXISTS public.formulario_sepse_enf1_sirs
 (
-    id_formulario integer NOT NULL,
+    id serial NOT NULL,
     febre_hipotemia boolean,
     leucocitose_leucopenia boolean,
     taquicardia boolean,
     taquipneia boolean,
-    PRIMARY KEY (id_formulario)
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.formulario_sepse_enf1_dinsf_org
 (
-    id_formulario integer NOT NULL,
+    id serial NOT NULL,
     diurese boolean,
     hipotensao boolean,
     snlc_conf_agtc_coma boolean,
     saturacao_dispneia boolean,
-    PRIMARY KEY (id_formulario)
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.formulario_sepse_medico_foco_infeccioso
@@ -224,16 +226,18 @@ ALTER TABLE public.formulario_sepse_medico
         REFERENCES public.medico (crm)
         NOT VALID;
 
-ALTER TABLE public.formulario_sepse_enf1_sirs
-    ADD FOREIGN KEY (id_formulario)
-        REFERENCES public.formulario_sepse_enf1 (id_formulario)
+
+ALTER TABLE public.formulario_sepse_enf1
+    ADD FOREIGN KEY (id_sirs)
+        REFERENCES public.formulario_sepse_enf1_sirs (id)
         NOT VALID;
 
 
-ALTER TABLE public.formulario_sepse_enf1_dinsf_org
-    ADD FOREIGN KEY (id_formulario)
-        REFERENCES public.formulario_sepse_enf1 (id_formulario)
+ALTER TABLE public.formulario_sepse_enf1
+    ADD FOREIGN KEY (id_dinsf_org)
+        REFERENCES public.formulario_sepse_enf1_dinsf_org (id)
         NOT VALID;
+
 
 ALTER TABLE public.formulario_sepse_medico
     ADD FOREIGN KEY (foco_infeccioso_id)

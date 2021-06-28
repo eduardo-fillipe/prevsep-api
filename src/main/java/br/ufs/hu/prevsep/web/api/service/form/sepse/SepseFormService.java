@@ -19,6 +19,22 @@ public interface SepseFormService {
     PageDoctorFormDTO getDoctorForms(PageableDoctorFormDTO request);
 
     /**
+     * Returns all nurses forms (first kind) given a criteria.
+     *
+     * @param request the list of criteria.
+     * @return All nurses forms found during the search.
+     */
+    PageNurseForm1DTO getNurseForm1(PageableNurseForm1DTO request);
+
+    /**
+     * Returns all nurses forms (second kind) given a criteria.
+     *
+     * @param request the list of criteria.
+     * @return All nurses forms found during the search.
+     */
+    PageNurseForm2DTO getNurseForm2(PageableNurseForm2DTO request);
+
+    /**
      * This method creates a Sepse Form in the system. And, depending on the flag {@code finalizado} on the request object,
      * finishes the form filling, otherwise just saves the form state
      * @param cre The CRE number of the Nurse responsible for create this form

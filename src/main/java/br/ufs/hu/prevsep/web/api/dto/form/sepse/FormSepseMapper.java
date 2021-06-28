@@ -121,6 +121,8 @@ public interface FormSepseMapper {
 
     NurseForm2DTO mapToNurseForm2Dto(FormularioSepseEnf2Entity entity);
 
+    NurseForm1DTO mapToNurseForm1Dto(FormularioSepseEnf1Entity entity);
+
     default FormStatus map(Integer value) {
         return FormStatus.fromValue(value);
     }

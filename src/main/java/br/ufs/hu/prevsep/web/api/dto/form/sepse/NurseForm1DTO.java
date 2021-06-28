@@ -9,6 +9,7 @@ public class NurseForm1DTO {
     private int idFormulario;
     private PatientDTO paciente;
     private Integer crmMedico;
+    private Integer creEnfermeiro;
     private ProcedenciaDTO procedencia;
     private FormularioSepseEnf1SirsDTO sirs;
     private FormularioSepseEnf1DinsfOrgDTO disfOrganica;
@@ -86,5 +87,13 @@ public class NurseForm1DTO {
 
     public void setStatus(FormStatus status) {
         this.status = status;
+    }
+
+    public Integer getCreEnfermeiro() {
+        return creEnfermeiro;
+    }
+
+    public void setCreEnfermeiro(Integer creEnfermeiro) {
+        this.creEnfermeiro = creEnfermeiro;
     }
 }

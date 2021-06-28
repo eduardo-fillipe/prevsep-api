@@ -3,7 +3,6 @@ package br.ufs.hu.prevsep.web.api.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.Objects;
 
 @Entity
 @Table(name = "formulario_sepse_enf1", schema = "public")
@@ -16,6 +15,8 @@ public class FormularioSepseEnf1Entity implements Serializable {
     private Date dtAcMedico;
     private Date dtCriacao;
     private int status;
+    private FormularioSepseEnf1SirsEntity sirs;
+    private FormularioSepseEnf1DinsfOrgEntity disfOrganica;
     private FormularioSepseEnf2Entity formularioSepseEnf2;
     private FormularioSepseMedicoEntity formularioSepseMedico;
 
@@ -64,7 +65,7 @@ public class FormularioSepseEnf1Entity implements Serializable {
         return procedencia;
     }
 
-    public void setProcedencia(Integer procedencia) {
+    public void setProcedencia(int procedencia) {
         this.procedencia = procedencia;
     }
 
@@ -116,5 +117,25 @@ public class FormularioSepseEnf1Entity implements Serializable {
 
     public void setFormularioSepseMedico(FormularioSepseMedicoEntity formularioSepseMedico) {
         this.formularioSepseMedico = formularioSepseMedico;
+    }
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_sirs", referencedColumnName = "id", nullable = false)
+    public FormularioSepseEnf1SirsEntity getSirs() {
+        return sirs;
+    }
+
+    public void setSirs(FormularioSepseEnf1SirsEntity sirs) {
+        this.sirs = sirs;
+    }
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_dinsf_org", referencedColumnName = "id", nullable = false)
+    public FormularioSepseEnf1DinsfOrgEntity getDisfOrganica() {
+        return disfOrganica;
+    }
+
+    public void setDisfOrganica(FormularioSepseEnf1DinsfOrgEntity disfOrganica) {
+        this.disfOrganica = disfOrganica;
     }
 }
