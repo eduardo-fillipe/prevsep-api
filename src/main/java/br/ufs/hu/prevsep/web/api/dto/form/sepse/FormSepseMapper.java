@@ -119,10 +119,6 @@ public interface FormSepseMapper {
     })
     FormularioSepseMedicoCriterioExclusaoEntity mapToFormularioSepseMedicoCriterioExclusaoEntity(FormularioSepseMedicoCriterioExclusaoDTO dto);
 
-
-    @Mappings({
-            @Mapping(target = "patientDTO", ignore = true)
-    })
     NurseForm2DTO mapToNurseForm2Dto(FormularioSepseEnf2Entity entity);
 
     default FormStatus map(Integer value) {
