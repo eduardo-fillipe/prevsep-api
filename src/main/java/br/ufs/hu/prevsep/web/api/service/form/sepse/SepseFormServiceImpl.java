@@ -27,17 +27,13 @@ public class SepseFormServiceImpl implements SepseFormService {
     private final NurseForm1Repository nurseForm1Repository;
     private final DoctorFormRepository doctorFormRepository;
     private final NurseForm2Repository nurseForm2Repository;
-    private final NurseForm1SirsRepository nurseForm1SirsRepository;
-    private final NurseForm1DisnfOrgRepository nurseForm1DisnfOrgRepository;
     private final PatientRepository patientRepository;
     private final NurseService nurseService;
     private final DoctorService doctorService;
 
     public SepseFormServiceImpl(NurseForm1Repository nurseForm1Repository, PatientRepository patientRepository,
                                 NurseService nurseService, DoctorService doctorService,
-                                DoctorFormRepository doctorFormRepository, NurseForm2Repository nurseForm2Repository,
-                                NurseForm1SirsRepository nurseForm1SirsRepository,
-                                NurseForm1DisnfOrgRepository nurseForm1DisnfOrgRepository) {
+                                DoctorFormRepository doctorFormRepository, NurseForm2Repository nurseForm2Repository) {
 
         this.nurseForm1Repository = nurseForm1Repository;
         this.patientRepository = patientRepository;
@@ -45,10 +41,18 @@ public class SepseFormServiceImpl implements SepseFormService {
         this.doctorService = doctorService;
         this.doctorFormRepository = doctorFormRepository;
         this.nurseForm2Repository = nurseForm2Repository;
-        this.nurseForm1SirsRepository = nurseForm1SirsRepository;
-        this.nurseForm1DisnfOrgRepository = nurseForm1DisnfOrgRepository;
+
     }
 
+    @Override
+    public PageNurseForm1DTO getNurseForm1(PageableNurseForm1DTO request) {
+        if (request == null)
+            request = new PageableNurseForm1DTO();
+
+        return PageNurseForm1DTO.of(nurseForm1Repository.findAll(
+                request.getQueryPredicate(QFormularioSepseEnf1Entity.formularioSepseEnf1Entity),
+                request).map(formSepseMapper::mapToNurseForm1Dto));
+    }
 
     @Override
     public PageDoctorFormDTO getDoctorForms(PageableDoctorFormDTO request) {
@@ -90,19 +94,10 @@ public class SepseFormServiceImpl implements SepseFormService {
 
         FormularioSepseEnf1Entity formSepse1 = nurseForm1Repository.save(formularioSepseEnf1Entity);
 
-        FormularioSepseEnf1SirsEntity sirsEntity = saveSirs(formSepse1.getIdFormulario(),
-                nurseForm1CreateDTO.getSirs());
-        FormularioSepseEnf1DinsfOrgEntity dinsfOrgEntity = saveDinsfOrg(formSepse1.getIdFormulario(),
-                nurseForm1CreateDTO.getDisfOrganica());
-
         if (nurseForm1CreateDTO.getFinalizado())
             createDoctorForm(formSepse1);
 
-        NurseForm1DTO result = formSepseMapper.mapNurseForm1Dto(formularioSepseEnf1Entity);
-        result.setDisfOrganica(formSepseMapper.mapToFormularioSepseEnf1DinsfOrgDto(dinsfOrgEntity));
-        result.setSirs(formSepseMapper.mapToFormularioSepseEnf1SirsDto(sirsEntity));
-
-        return result;
+        return formSepseMapper.mapNurseForm1Dto(formularioSepseEnf1Entity);
     }
 
     private void validateForm1(FormularioSepseEnf1Entity formularioSepseEnf1Entity) {
@@ -158,50 +153,21 @@ public class SepseFormServiceImpl implements SepseFormService {
                     .withDetailedMessage("Form with state " + FormStatus.fromValue(formularioSepseEnf1Entity.getStatus()) + " can not be modified.");
 
         mergeEntity(formularioSepseEnf1Entity, nurseForm1UpdateDTO);
+
+        if (finish) {
+            validateForm1(formularioSepseEnf1Entity);
+            formularioSepseEnf1Entity.setDtAcMedico(new Date(System.currentTimeMillis()));
+            formularioSepseEnf1Entity.setDtCriacao(new Date(System.currentTimeMillis()));
+        }
+
         formularioSepseEnf1Entity.setStatus(finish ? FormStatus.CREATED.getValue() : FormStatus.SAVED.getValue());
 
         FormularioSepseEnf1Entity formSepse1 = nurseForm1Repository.save(formularioSepseEnf1Entity);
 
-        FormularioSepseEnf1DinsfOrgEntity dinsfOrgEntity = saveDinsfOrg(formSepse1.getIdFormulario(),
-                nurseForm1UpdateDTO.getDisfOrganica());
-        FormularioSepseEnf1SirsEntity sirsEntity = saveSirs(formSepse1.getIdFormulario(),
-                nurseForm1UpdateDTO.getSirs());
-
         if (finish)
             createDoctorForm(formSepse1);
 
-        NurseForm1DTO result = formSepseMapper.mapNurseForm1Dto(formSepse1);
-        result.setDisfOrganica(formSepseMapper.mapToFormularioSepseEnf1DinsfOrgDto(dinsfOrgEntity));
-        result.setSirs(formSepseMapper.mapToFormularioSepseEnf1SirsDto(sirsEntity));
-
-        return result;
-    }
-
-    private FormularioSepseEnf1SirsEntity saveSirs(Integer idForm, FormularioSepseEnf1SirsDTO sirs) {
-        if (sirs == null)
-            sirs = new FormularioSepseEnf1SirsDTO();
-
-        FormularioSepseEnf1SirsEntity sirsEntity = formSepseMapper
-                .mapToFormularioSepseEnf1SirsEntity(sirs);
-
-        sirsEntity.setIdFormulario(idForm);
-
-        sirsEntity = nurseForm1SirsRepository.save(sirsEntity);
-
-        return sirsEntity;
-    }
-
-    private FormularioSepseEnf1DinsfOrgEntity saveDinsfOrg(Integer idForm, FormularioSepseEnf1DinsfOrgDTO dinsf) {
-        if (dinsf ==null)
-            dinsf = new FormularioSepseEnf1DinsfOrgDTO();
-
-        FormularioSepseEnf1DinsfOrgEntity dinsfOrgEntity = formSepseMapper.
-                mapToFormularioSepseEnf1DinsfOrgEntity(dinsf);
-
-        dinsfOrgEntity.setIdFormulario(idForm);
-
-        dinsfOrgEntity = nurseForm1DisnfOrgRepository.save(dinsfOrgEntity);
-        return dinsfOrgEntity;
+        return formSepseMapper.mapNurseForm1Dto(formSepse1);
     }
 
     /**
