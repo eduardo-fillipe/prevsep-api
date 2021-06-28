@@ -65,6 +65,16 @@ public class SepseFormServiceImpl implements SepseFormService {
     }
 
     @Override
+    public PageNurseForm2DTO getNurseForm2(PageableNurseForm2DTO request) {
+        if (request == null)
+            request = new PageableNurseForm2DTO();
+
+        return PageNurseForm2DTO.of(nurseForm2Repository.findAll(
+                request.getQueryPredicate(QFormularioSepseEnf2Entity.formularioSepseEnf2Entity),
+                request).map(formSepseMapper::mapToNurseForm2Dto));
+    }
+
+    @Override
     @Transactional
     public NurseForm1DTO createForm(Integer cre, NurseForm1CreateDTO nurseForm1CreateDTO) {
         nurseService.getNurseByCRE(cre)
@@ -419,14 +429,9 @@ public class SepseFormServiceImpl implements SepseFormService {
             formularioSepseEnf1Entity = updateStatusNurseForm1(nurseForm2Entity);
         } else {
             nurseForm2Entity = nurseForm2Repository.save(nurseForm2Entity);
-            formularioSepseEnf1Entity = nurseForm1Repository.findById(nurseForm2Entity.getIdFormulario())
-                    .orElseThrow(FormNotFoundException::new);
         }
 
-        NurseForm2DTO result = formSepseMapper.mapToNurseForm2Dto(nurseForm2Entity);
-        result.setPatientDTO(formSepseMapper.mapToPatientDto(formularioSepseEnf1Entity.getPaciente()));
-
-        return result;
+        return formSepseMapper.mapToNurseForm2Dto(nurseForm2Entity);
     }
 
     private FormularioSepseEnf1Entity updateStatusNurseForm1(FormularioSepseEnf2Entity formularioSepseEnf2Entity) {

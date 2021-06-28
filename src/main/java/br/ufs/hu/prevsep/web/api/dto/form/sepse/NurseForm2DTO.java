@@ -9,7 +9,6 @@ import java.time.LocalDate;
 public class NurseForm2DTO {
     private int idFormulario;
     private int creEnfermeiro;
-    private PatientDTO patientDTO;
     private Timestamp dtUti;
     private Timestamp dtAlta;
     private Timestamp dtObito;
@@ -30,14 +29,6 @@ public class NurseForm2DTO {
 
     public void setCreEnfermeiro(int creEnfermeiro) {
         this.creEnfermeiro = creEnfermeiro;
-    }
-
-    public PatientDTO getPatientDTO() {
-        return patientDTO;
-    }
-
-    public void setPatientDTO(PatientDTO patientDTO) {
-        this.patientDTO = patientDTO;
     }
 
     public Timestamp getDtUti() {
