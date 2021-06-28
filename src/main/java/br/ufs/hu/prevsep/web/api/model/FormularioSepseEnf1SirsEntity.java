@@ -13,7 +13,8 @@ public class FormularioSepseEnf1SirsEntity {
     private Boolean taquipneia;
 
     @Id
-    @Column(name = "id_formulario", nullable = false)
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     public int getIdFormulario() {
         return idFormulario;
     }
