@@ -8,20 +8,21 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.ComparableExpressionBase;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 public class PageableNurseForm2DTO extends PageableRequest<QFormularioSepseEnf2Entity> {
 
     private Integer idFormulario;
     private Integer creEnfermeiro;
-    private Timestamp dtUtiBegin;
-    private Timestamp dtUtiEnd;
-    private Timestamp dtAltaBegin;
-    private Timestamp dtAltaEnd;
-    private Timestamp dtObitoBegin;
-    private Timestamp dtObitoEnd;
-    private Timestamp dtCriacaoBegin;
-    private Timestamp dtCriacaoEnd;
+    private LocalDateTime dtUtiBegin;
+    private LocalDateTime dtUtiEnd;
+    private LocalDateTime dtAltaBegin;
+    private LocalDateTime dtAltaEnd;
+    private LocalDateTime dtObitoBegin;
+    private LocalDateTime dtObitoEnd;
+    private LocalDateTime dtCriacaoBegin;
+    private LocalDateTime dtCriacaoEnd;
     private FormStatus status;
 
     private static final Map<String, ComparableExpressionBase<?>> ENTITY_RELATIONSHIP = Map.of(
@@ -50,67 +51,67 @@ public class PageableNurseForm2DTO extends PageableRequest<QFormularioSepseEnf2E
         this.creEnfermeiro = creEnfermeiro;
     }
 
-    public Timestamp getDtUtiBegin() {
+    public LocalDateTime getDtUtiBegin() {
         return dtUtiBegin;
     }
 
-    public void setDtUtiBegin(Timestamp dtUtiBegin) {
+    public void setDtUtiBegin(LocalDateTime dtUtiBegin) {
         this.dtUtiBegin = dtUtiBegin;
     }
 
-    public Timestamp getDtUtiEnd() {
+    public LocalDateTime getDtUtiEnd() {
         return dtUtiEnd;
     }
 
-    public void setDtUtiEnd(Timestamp dtUtiEnd) {
+    public void setDtUtiEnd(LocalDateTime dtUtiEnd) {
         this.dtUtiEnd = dtUtiEnd;
     }
 
-    public Timestamp getDtAltaBegin() {
+    public LocalDateTime getDtAltaBegin() {
         return dtAltaBegin;
     }
 
-    public void setDtAltaBegin(Timestamp dtAltaBegin) {
+    public void setDtAltaBegin(LocalDateTime dtAltaBegin) {
         this.dtAltaBegin = dtAltaBegin;
     }
 
-    public Timestamp getDtAltaEnd() {
+    public LocalDateTime getDtAltaEnd() {
         return dtAltaEnd;
     }
 
-    public void setDtAltaEnd(Timestamp dtAltaEnd) {
+    public void setDtAltaEnd(LocalDateTime dtAltaEnd) {
         this.dtAltaEnd = dtAltaEnd;
     }
 
-    public Timestamp getDtObitoBegin() {
+    public LocalDateTime getDtObitoBegin() {
         return dtObitoBegin;
     }
 
-    public void setDtObitoBegin(Timestamp dtObitoBegin) {
+    public void setDtObitoBegin(LocalDateTime dtObitoBegin) {
         this.dtObitoBegin = dtObitoBegin;
     }
 
-    public Timestamp getDtObitoEnd() {
+    public LocalDateTime getDtObitoEnd() {
         return dtObitoEnd;
     }
 
-    public void setDtObitoEnd(Timestamp dtObitoEnd) {
+    public void setDtObitoEnd(LocalDateTime dtObitoEnd) {
         this.dtObitoEnd = dtObitoEnd;
     }
 
-    public Timestamp getDtCriacaoBegin() {
+    public LocalDateTime getDtCriacaoBegin() {
         return dtCriacaoBegin;
     }
 
-    public void setDtCriacaoBegin(Timestamp dtCriacaoBegin) {
+    public void setDtCriacaoBegin(LocalDateTime dtCriacaoBegin) {
         this.dtCriacaoBegin = dtCriacaoBegin;
     }
 
-    public Timestamp getDtCriacaoEnd() {
+    public LocalDateTime getDtCriacaoEnd() {
         return dtCriacaoEnd;
     }
 
-    public void setDtCriacaoEnd(Timestamp dtCriacaoEnd) {
+    public void setDtCriacaoEnd(LocalDateTime dtCriacaoEnd) {
         this.dtCriacaoEnd = dtCriacaoEnd;
     }
 
@@ -134,24 +135,24 @@ public class PageableNurseForm2DTO extends PageableRequest<QFormularioSepseEnf2E
             filter.and(qEntity.status.eq(status.getValue()));
 
         if (this.dtCriacaoBegin != null)
-            filter.and(qEntity.dtCriacao.goe(this.dtCriacaoBegin));
+            filter.and(qEntity.dtCriacao.goe(Timestamp.valueOf(this.dtCriacaoBegin)));
         if (this.dtCriacaoEnd != null)
-            filter.and(qEntity.dtCriacao.loe(this.dtCriacaoEnd));
+            filter.and(qEntity.dtCriacao.loe(Timestamp.valueOf(this.dtCriacaoEnd)));
 
         if (this.dtAltaBegin != null)
-            filter.and(qEntity.dtAlta.goe(this.dtAltaBegin));
+            filter.and(qEntity.dtAlta.goe(Timestamp.valueOf(this.dtAltaBegin)));
         if (this.dtAltaEnd != null)
-            filter.and(qEntity.dtAlta.loe(this.dtAltaEnd));
+            filter.and(qEntity.dtAlta.loe(Timestamp.valueOf(this.dtAltaEnd)));
 
         if (this.dtUtiBegin != null)
-            filter.and(qEntity.dtUti.goe(this.dtUtiBegin));
+            filter.and(qEntity.dtUti.goe(Timestamp.valueOf(this.dtUtiBegin)));
         if (this.dtUtiEnd != null)
-            filter.and(qEntity.dtUti.loe(this.dtUtiEnd));
+            filter.and(qEntity.dtUti.loe(Timestamp.valueOf(this.dtUtiEnd)));
 
         if (this.dtObitoBegin != null)
-            filter.and(qEntity.dtObito.goe(this.dtObitoBegin));
+            filter.and(qEntity.dtObito.goe(Timestamp.valueOf(this.dtObitoBegin)));
         if (this.dtObitoEnd != null)
-            filter.and(qEntity.dtObito.loe(this.dtObitoEnd));
+            filter.and(qEntity.dtObito.loe(Timestamp.valueOf(this.dtObitoEnd)));
 
         return filter;
     }
