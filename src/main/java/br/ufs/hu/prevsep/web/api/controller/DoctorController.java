@@ -55,7 +55,6 @@ public class DoctorController extends BaseController{
         return doctorService.getMedics();
     }
 
-    // TODO: GET /api/v1/doctors/{crm}/forms/sepse/pending
     @GetMapping("/{crm}/forms/sepse/pending")
     @Operation(summary = "Returns all pending forms of a doctor with certain crm.")
     @ApiResponses(value = {
