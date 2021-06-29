@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -71,7 +72,10 @@ public class SepseFormServiceImpl implements SepseFormService {
     public PageDoctorFormDTO getPendingDoctorForms(Integer crm) {
         PageableDoctorFormDTO request = new PageableDoctorFormDTO();
         request.setCrmMedico(crm);
-        request.setStatus(FormStatus.PENDING);
+        ArrayList<FormStatus> formStatuses = new ArrayList<>();
+        formStatuses.add(FormStatus.PENDING);
+        formStatuses.add(FormStatus.SAVED);
+        request.setStatus(formStatuses);
 
         return PageDoctorFormDTO.of(doctorFormRepository.findAll(
             request.getQueryPredicate(QFormularioSepseMedicoEntity.formularioSepseMedicoEntity),
