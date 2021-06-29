@@ -1,7 +1,7 @@
 package br.ufs.hu.prevsep.web.api.model;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -9,10 +9,10 @@ import java.util.Objects;
 public class FormularioSepseMedicoBundleEntity {
     private int idFormulario;
     private boolean iniciado;
-    private Timestamp dtDisparo;
-    private Timestamp lactoDtColeta;
-    private Timestamp hemoculturaDtColeta;
-    private Timestamp antibioticoAmploAspectro;
+    private LocalDateTime dtDisparo;
+    private LocalDateTime lactoDtColeta;
+    private LocalDateTime hemoculturaDtColeta;
+    private LocalDateTime antibioticoAmploAspectro;
     private boolean cristaloides;
     private boolean vasopressores;
     private String justificativaNao;
@@ -40,41 +40,41 @@ public class FormularioSepseMedicoBundleEntity {
 
     @Basic
     @Column(name = "dt_disparo")
-    public Timestamp getDtDisparo() {
+    public LocalDateTime getDtDisparo() {
         return dtDisparo;
     }
 
-    public void setDtDisparo(Timestamp dtDisparo) {
+    public void setDtDisparo(LocalDateTime dtDisparo) {
         this.dtDisparo = dtDisparo;
     }
 
     @Basic
     @Column(name = "lacto_dt_coleta")
-    public Timestamp getLactoDtColeta() {
+    public LocalDateTime getLactoDtColeta() {
         return lactoDtColeta;
     }
 
-    public void setLactoDtColeta(Timestamp lactoDtColeta) {
+    public void setLactoDtColeta(LocalDateTime lactoDtColeta) {
         this.lactoDtColeta = lactoDtColeta;
     }
 
     @Basic
     @Column(name = "hemocultura_dt_coleta")
-    public Timestamp getHemoculturaDtColeta() {
+    public LocalDateTime getHemoculturaDtColeta() {
         return hemoculturaDtColeta;
     }
 
-    public void setHemoculturaDtColeta(Timestamp hemoculturaDtColeta) {
+    public void setHemoculturaDtColeta(LocalDateTime hemoculturaDtColeta) {
         this.hemoculturaDtColeta = hemoculturaDtColeta;
     }
 
     @Basic
     @Column(name = "antibiotico_amplo_aspectro")
-    public Timestamp getAntibioticoAmploAspectro() {
+    public LocalDateTime getAntibioticoAmploAspectro() {
         return antibioticoAmploAspectro;
     }
 
-    public void setAntibioticoAmploAspectro(Timestamp antibioticoAmploAspectro) {
+    public void setAntibioticoAmploAspectro(LocalDateTime antibioticoAmploAspectro) {
         this.antibioticoAmploAspectro = antibioticoAmploAspectro;
     }
 
