@@ -4,6 +4,8 @@ import br.ufs.hu.prevsep.web.api.config.ApiRequestMappings;
 import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
 import br.ufs.hu.prevsep.web.api.dto.form.sepse.DoctorFormDTO;
 import br.ufs.hu.prevsep.web.api.dto.form.sepse.DoctorFormUpdateDTO;
+import br.ufs.hu.prevsep.web.api.dto.form.sepse.PageDoctorFormDTO;
+import br.ufs.hu.prevsep.web.api.dto.form.sepse.PageableDoctorFormDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorRequestDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorResponseDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorResponseFullDTO;
@@ -51,6 +53,16 @@ public class DoctorController extends BaseController{
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = DoctorResponseDTO.class))))})
     public List<DoctorResponseDTO> getMedics(){
         return doctorService.getMedics();
+    }
+
+    // TODO: GET /api/v1/doctors/{crm}/forms/sepse/pending
+    @GetMapping("/{crm}/forms/sepse/pending")
+    @Operation(summary = "Returns all pending forms of a doctor with certain crm.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Ok",
+            content = @Content(array = @ArraySchema(schema = @Schema(implementation = PageDoctorFormDTO.class))))})
+    public PageDoctorFormDTO getPendingDoctorForms(@PathVariable("crm") @Valid @Min(1) @NotNull Integer crm) {
+        return sepseFormService.getPendingDoctorForms(crm);
     }
 
     @GetMapping("/{cpf}")

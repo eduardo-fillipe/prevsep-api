@@ -68,6 +68,18 @@ public class SepseFormServiceImpl implements SepseFormService {
     }
 
     @Override
+    public PageDoctorFormDTO getPendingDoctorForms(Integer crm) {
+        PageableDoctorFormDTO request = new PageableDoctorFormDTO();
+        request.setCrmMedico(crm);
+        request.setStatus(FormStatus.PENDING);
+
+        return PageDoctorFormDTO.of(doctorFormRepository.findAll(
+            request.getQueryPredicate(QFormularioSepseMedicoEntity.formularioSepseMedicoEntity),
+            request).map(formSepseMapper::mapToDoctorFormDto));
+    }
+
+
+    @Override
     public PageNurseForm2DTO getNurseForm2(PageableNurseForm2DTO request) {
         if (request == null)
             request = new PageableNurseForm2DTO();
