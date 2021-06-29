@@ -25,6 +25,10 @@ public class FormController extends BaseController {
 
     private final SepseFormService sepseFormService;
 
+    public FormController(SepseFormService sepseFormService) {
+        this.sepseFormService = sepseFormService;
+    }
+
     @GetMapping("/doctor")
     @Operation(summary = "Returns the doctors forms in the database given a criteria.")
     @ApiResponses(value = {
@@ -34,10 +38,6 @@ public class FormController extends BaseController {
             content = @Content(schema = @Schema(implementation = FaultDTO.class)))})
     public PageDoctorFormDTO getDoctorForms(@ModelAttribute PageableDoctorFormDTO pageableRequest) {
         return sepseFormService.getDoctorForms(pageableRequest);
-    }
-
-    public FormController(SepseFormService sepseFormService) {
-        this.sepseFormService = sepseFormService;
     }
 
     @GetMapping("/nurse/form1")
