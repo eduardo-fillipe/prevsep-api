@@ -9,12 +9,13 @@ import com.querydsl.core.types.dsl.ComparableExpressionBase;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 public class PageableDoctorFormDTO extends PageableRequest<QFormularioSepseMedicoEntity> {
     private Integer idFormulario;
     private Integer crmMedico;
-    private FormStatus status;
+    private List<FormStatus> status;
     private LocalDate dtCriacaoBegin;
     private LocalDate dtCriacaoEnd;
 
@@ -41,11 +42,11 @@ public class PageableDoctorFormDTO extends PageableRequest<QFormularioSepseMedic
         this.crmMedico = crmMedico;
     }
 
-    public FormStatus getStatus() {
+    public List<FormStatus> getStatus() {
         return status;
     }
 
-    public void setStatus(FormStatus status) {
+    public void setStatus(List<FormStatus> status) {
         this.status = status;
     }
 
@@ -72,8 +73,13 @@ public class PageableDoctorFormDTO extends PageableRequest<QFormularioSepseMedic
             filter.and(qEntity.idFormulario.eq(this.idFormulario));
         if (this.crmMedico != null)
             filter.and(qEntity.crmMedico.eq(this.crmMedico));
-        if (this.status != null)
-            filter.and(qEntity.status.eq(status.getValue()));
+        if (this.status != null && this.status.size() > 0) {
+            BooleanBuilder subfilter = new BooleanBuilder();
+            for (var s : this.status) {
+                subfilter.or(qEntity.status.eq(s.getValue()));
+            }
+            filter.and(subfilter.getValue());
+        }
         if (this.dtCriacaoBegin != null)
             filter.and(qEntity.dtCriacao.goe(Date.valueOf(this.dtCriacaoBegin)));
         if (this.dtCriacaoEnd != null)

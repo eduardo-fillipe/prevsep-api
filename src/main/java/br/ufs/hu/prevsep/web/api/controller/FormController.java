@@ -32,10 +32,10 @@ public class FormController extends BaseController {
     @GetMapping("/doctor")
     @Operation(summary = "Returns the doctors forms in the database given a criteria.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Ok",
-                    content = @Content(schema = @Schema(implementation = PageDoctorFormDTO.class))),
-            @ApiResponse(responseCode = "400", description = "Bad Request",
-                    content = @Content(schema = @Schema(implementation = FaultDTO.class)))})
+        @ApiResponse(responseCode = "200", description = "Ok",
+            content = @Content(schema = @Schema(implementation = PageDoctorFormDTO.class))),
+        @ApiResponse(responseCode = "400", description = "Bad Request",
+            content = @Content(schema = @Schema(implementation = FaultDTO.class)))})
     public PageDoctorFormDTO getDoctorForms(@ModelAttribute PageableDoctorFormDTO pageableRequest) {
         return sepseFormService.getDoctorForms(pageableRequest);
     }

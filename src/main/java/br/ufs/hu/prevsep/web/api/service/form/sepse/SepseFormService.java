@@ -19,6 +19,15 @@ public interface SepseFormService {
     PageDoctorFormDTO getDoctorForms(PageableDoctorFormDTO request);
 
     /**
+     * Returns all pending doctor forms given a criteria.
+     *
+     * @param request the list of criteria.
+     * @return All pending doctor forms found.
+     */
+    PageDoctorFormDTO getPendingDoctorForms(Integer crm);
+
+
+    /**
      * Returns all nurses forms (first kind) given a criteria.
      *
      * @param request the list of criteria.
