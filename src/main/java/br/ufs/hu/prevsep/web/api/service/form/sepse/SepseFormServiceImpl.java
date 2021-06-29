@@ -93,11 +93,11 @@ public class SepseFormServiceImpl implements SepseFormService {
         FormularioSepseEnf1Entity formularioSepseEnf1Entity =
                 formSepseMapper.mapToFormularioSepseEnf1Entity(nurseForm1CreateDTO);
 
-        if (nurseForm1CreateDTO.getFinalizado()) {
+        if (nurseForm1CreateDTO.getFinalizado())
             validateForm1(formularioSepseEnf1Entity);
-            formularioSepseEnf1Entity.setDtAcMedico(new Date(System.currentTimeMillis()));
-            formularioSepseEnf1Entity.setDtCriacao(new Date(System.currentTimeMillis()));
-        }
+
+        formularioSepseEnf1Entity.setDtAcMedico(new Date(System.currentTimeMillis()));
+        formularioSepseEnf1Entity.setDtCriacao(new Date(System.currentTimeMillis()));
 
         PacienteEntity pacienteEntity = patientRepository.save(formularioSepseEnf1Entity.getPaciente());
         formularioSepseEnf1Entity.setPaciente(pacienteEntity);
