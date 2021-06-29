@@ -2,15 +2,15 @@ package br.ufs.hu.prevsep.web.api.dto.form.sepse;
 
 import br.ufs.hu.prevsep.web.api.dto.form.FormStatus;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class NurseForm2DTO {
     private int idFormulario;
     private int creEnfermeiro;
-    private Timestamp dtUti;
-    private Timestamp dtAlta;
-    private Timestamp dtObito;
-    private Timestamp dtCriacao;
+    private LocalDateTime dtUti;
+    private LocalDateTime dtAlta;
+    private LocalDateTime dtObito;
+    private LocalDateTime dtCriacao;
     private FormStatus status;
 
     public int getIdFormulario() {
@@ -29,35 +29,35 @@ public class NurseForm2DTO {
         this.creEnfermeiro = creEnfermeiro;
     }
 
-    public Timestamp getDtUti() {
+    public LocalDateTime getDtUti() {
         return dtUti;
     }
 
-    public void setDtUti(Timestamp dtUti) {
+    public void setDtUti(LocalDateTime dtUti) {
         this.dtUti = dtUti;
     }
 
-    public Timestamp getDtAlta() {
+    public LocalDateTime getDtAlta() {
         return dtAlta;
     }
 
-    public void setDtAlta(Timestamp dtAlta) {
+    public void setDtAlta(LocalDateTime dtAlta) {
         this.dtAlta = dtAlta;
     }
 
-    public Timestamp getDtObito() {
+    public LocalDateTime getDtObito() {
         return dtObito;
     }
 
-    public void setDtObito(Timestamp dtObito) {
+    public void setDtObito(LocalDateTime dtObito) {
         this.dtObito = dtObito;
     }
 
-    public Timestamp getDtCriacao() {
+    public LocalDateTime getDtCriacao() {
         return dtCriacao;
     }
 
-    public void setDtCriacao(Timestamp dtCriacao) {
+    public void setDtCriacao(LocalDateTime dtCriacao) {
         this.dtCriacao = dtCriacao;
     }
 

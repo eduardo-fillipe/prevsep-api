@@ -7,7 +7,6 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.ComparableExpressionBase;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -135,24 +134,24 @@ public class PageableNurseForm2DTO extends PageableRequest<QFormularioSepseEnf2E
             filter.and(qEntity.status.eq(status.getValue()));
 
         if (this.dtCriacaoBegin != null)
-            filter.and(qEntity.dtCriacao.goe(Timestamp.valueOf(this.dtCriacaoBegin)));
+            filter.and(qEntity.dtCriacao.goe(this.dtCriacaoBegin));
         if (this.dtCriacaoEnd != null)
-            filter.and(qEntity.dtCriacao.loe(Timestamp.valueOf(this.dtCriacaoEnd)));
+            filter.and(qEntity.dtCriacao.loe(this.dtCriacaoEnd));
 
         if (this.dtAltaBegin != null)
-            filter.and(qEntity.dtAlta.goe(Timestamp.valueOf(this.dtAltaBegin)));
+            filter.and(qEntity.dtAlta.goe(this.dtAltaBegin));
         if (this.dtAltaEnd != null)
-            filter.and(qEntity.dtAlta.loe(Timestamp.valueOf(this.dtAltaEnd)));
+            filter.and(qEntity.dtAlta.loe(this.dtAltaEnd));
 
         if (this.dtUtiBegin != null)
-            filter.and(qEntity.dtUti.goe(Timestamp.valueOf(this.dtUtiBegin)));
+            filter.and(qEntity.dtUti.goe(this.dtUtiBegin));
         if (this.dtUtiEnd != null)
-            filter.and(qEntity.dtUti.loe(Timestamp.valueOf(this.dtUtiEnd)));
+            filter.and(qEntity.dtUti.loe(this.dtUtiEnd));
 
         if (this.dtObitoBegin != null)
-            filter.and(qEntity.dtObito.goe(Timestamp.valueOf(this.dtObitoBegin)));
+            filter.and(qEntity.dtObito.goe(this.dtObitoBegin));
         if (this.dtObitoEnd != null)
-            filter.and(qEntity.dtObito.loe(Timestamp.valueOf(this.dtObitoEnd)));
+            filter.and(qEntity.dtObito.loe(this.dtObitoEnd));
 
         return filter;
     }

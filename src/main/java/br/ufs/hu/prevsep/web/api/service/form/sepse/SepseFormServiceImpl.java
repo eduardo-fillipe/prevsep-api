@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -373,7 +373,7 @@ public class SepseFormServiceImpl implements SepseFormService {
         FormularioSepseEnf1Entity nurseForm1 = nurseForm1Repository.findById(formularioSepseMedicoEntity.getIdFormulario())
                 .orElseThrow(FormNotFoundException::new);
         FormularioSepseEnf2Entity nurseForm2 = new FormularioSepseEnf2Entity();
-        nurseForm2.setDtCriacao(new Timestamp(System.currentTimeMillis()));
+        nurseForm2.setDtCriacao(LocalDateTime.now());
         nurseForm2.setIdFormulario(nurseForm1.getIdFormulario());
         nurseForm2.setCreEnfermeiro(nurseForm1.getCreEnfermeiro());
         nurseForm2.setStatus(FormStatus.PENDING.getValue());
