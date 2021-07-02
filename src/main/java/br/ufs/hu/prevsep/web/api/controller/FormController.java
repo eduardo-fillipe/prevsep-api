@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import net.sf.jasperreports.engine.JRException;
 import org.springframework.http.MediaType;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,6 +22,7 @@ import java.sql.SQLException;
 @RestController
 @RequestMapping(path = ApiRequestMappings.FORMS_SEPSE, produces = {MediaType.APPLICATION_JSON_VALUE})
 @Tag(name = "Sepse Form", description = "Manage, create, list and update sepse related forms.")
+@PreAuthorize("hasAnyRole('ROLE_1', 'ROLE_2', 'ROLE_3')")
 public class FormController extends BaseController {
 
     private final SepseFormService sepseFormService;
@@ -46,6 +48,7 @@ public class FormController extends BaseController {
             @ApiResponse(responseCode = "200", description = "Ok", content = @Content(mediaType = MediaType.APPLICATION_PDF_VALUE)),
             @ApiResponse(responseCode = "404", description = "Form not found",
                     content = @Content(schema = @Schema(implementation = FaultDTO.class)))})
+    @PreAuthorize("hasRole('ROLE_1')")
     public byte[] getReportLast30Days() throws JRException, SQLException {
         return sepseFormService.getReportLast30Days();
     }
