@@ -16,7 +16,6 @@ import br.ufs.hu.prevsep.web.api.service.user.doctor.DoctorService;
 import br.ufs.hu.prevsep.web.api.service.user.nurse.NurseService;
 import br.ufs.hu.prevsep.web.api.utils.BeanUtils;
 import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.util.JRLoader;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
