@@ -41,7 +41,7 @@ Uma vez compilada e executada a API PrevSep estará disponível em:
 	  		Comando pode ser encontrado na janela do Maven ou clicando com o botão direito
 	  		no projeto e indo na aba do Maven.
 		  
-	- Caso falte uma dependência e mesmo após adicioná-la no pom.xml,
-	o erro se mantenha.
+	- Caso a IDE retorne erro por falta da dependência junit, sendo que a mesma já está indiretamente presente
+	nas dependências
 	  	
 		- Solução: Executar comando "Generate Sources and Update Folders" do Maven e depois clean/install.
