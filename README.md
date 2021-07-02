@@ -32,3 +32,16 @@ Uma vez compilada e executada a API PrevSep estará disponível em:
 		- clean
 		- install
 	- Executar a classe *br.ufs.hu.prevsep.web.api.PrevSepApplication.java*
+	
+### Problemas de IDE conhecidos
+- IntelliJ
+	- Pode ser que classes iniciadas com Q não sejam detectadas após maven clean && maven install.
+		
+		- Solução: Executar comando "Generate Sources and Update Folders" do Maven e depois clean/install.
+	  		Comando pode ser encontrado na janela do Maven ou clicando com o botão direito
+	  		no projeto e indo na aba do Maven.
+		  
+	- Caso falte uma dependência e mesmo após adicioná-la no pom.xml,
+	o erro se mantenha.
+	  	
+		- Solução: Executar comando "Generate Sources and Update Folders" do Maven e depois clean/install.
