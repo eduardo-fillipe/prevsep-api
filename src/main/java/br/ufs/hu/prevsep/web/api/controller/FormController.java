@@ -10,13 +10,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.SQLException;
 
 @RestController
 @RequestMapping(path = ApiRequestMappings.FORMS_SEPSE, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -38,6 +38,16 @@ public class FormController extends BaseController {
             content = @Content(schema = @Schema(implementation = FaultDTO.class)))})
     public PageDoctorFormDTO getDoctorForms(@ModelAttribute PageableDoctorFormDTO pageableRequest) {
         return sepseFormService.getDoctorForms(pageableRequest);
+    }
+
+    @GetMapping(value = "/report", produces = MediaType.APPLICATION_PDF_VALUE)
+    @Operation(summary = "Returns a PDF report of the given form")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok", content = @Content(mediaType = MediaType.APPLICATION_PDF_VALUE)),
+            @ApiResponse(responseCode = "404", description = "Form not found",
+                    content = @Content(schema = @Schema(implementation = FaultDTO.class)))})
+    public byte[] getReportLast30Days() throws JRException, SQLException {
+        return sepseFormService.getReportLast30Days();
     }
 
     @GetMapping("/nurse/form1")

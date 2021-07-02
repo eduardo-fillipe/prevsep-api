@@ -15,12 +15,18 @@ import br.ufs.hu.prevsep.web.api.repository.PatientRepository;
 import br.ufs.hu.prevsep.web.api.service.user.doctor.DoctorService;
 import br.ufs.hu.prevsep.web.api.service.user.nurse.NurseService;
 import br.ufs.hu.prevsep.web.api.utils.BeanUtils;
+import net.sf.jasperreports.engine.*;
 import org.springframework.stereotype.Service;
 
+import javax.sql.DataSource;
 import javax.transaction.Transactional;
+import java.io.ByteArrayOutputStream;
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Optional;
 
 @Service
@@ -34,10 +40,16 @@ public class SepseFormServiceImpl implements SepseFormService {
     private final PatientRepository patientRepository;
     private final NurseService nurseService;
     private final DoctorService doctorService;
+    private final JasperReport report30Days;
+    private final DataSource dataSource;
 
     public SepseFormServiceImpl(NurseForm1Repository nurseForm1Repository, PatientRepository patientRepository,
                                 NurseService nurseService, DoctorService doctorService,
-                                DoctorFormRepository doctorFormRepository, NurseForm2Repository nurseForm2Repository) {
+                                DoctorFormRepository doctorFormRepository, NurseForm2Repository nurseForm2Repository,
+                                DataSource dataSource) throws JRException {
+        this.dataSource = dataSource;
+
+        report30Days =  JasperCompileManager.compileReport(getClass().getClassLoader().getResourceAsStream("reports/SepseReport.jrxml"));
 
         this.nurseForm1Repository = nurseForm1Repository;
         this.patientRepository = patientRepository;
@@ -45,7 +57,16 @@ public class SepseFormServiceImpl implements SepseFormService {
         this.doctorService = doctorService;
         this.doctorFormRepository = doctorFormRepository;
         this.nurseForm2Repository = nurseForm2Repository;
+    }
 
+    @Override
+    public byte[] getReportLast30Days() throws JRException, SQLException {
+        try (Connection con = dataSource.getConnection()) {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            JasperPrint jp = JasperFillManager.fillReport(report30Days, new HashMap<>(), con);
+            JasperExportManager.exportReportToPdfStream(jp, byteArrayOutputStream);
+            return byteArrayOutputStream.toByteArray();
+        }
     }
 
     @Override
