@@ -10,22 +10,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.http.MediaType;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.Files;
-import java.util.HashMap;
 
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.SQLException;
 
 @RestController
 @RequestMapping(path = ApiRequestMappings.FORMS_SEPSE, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -49,20 +40,14 @@ public class FormController extends BaseController {
         return sepseFormService.getDoctorForms(pageableRequest);
     }
 
-    @GetMapping(value = "/{idForm}/report", produces = MediaType.APPLICATION_PDF_VALUE)
+    @GetMapping(value = "/report", produces = MediaType.APPLICATION_PDF_VALUE)
     @Operation(summary = "Returns a PDF report of the given form")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok", content = @Content(mediaType = MediaType.APPLICATION_PDF_VALUE)),
             @ApiResponse(responseCode = "404", description = "Form not found",
                     content = @Content(schema = @Schema(implementation = FaultDTO.class)))})
-    public byte[] getReport(@PathVariable Integer idForm) throws IOException, JRException {
-        JasperReport jr = JasperCompileManager.compileReport(getClass().getClassLoader().getResourceAsStream("report1.jrxml"));
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        JasperPrint jp = JasperFillManager.fillReport(jr, new HashMap<>(), new JREmptyDataSource());
-
-        JasperExportManager.exportReportToPdfStream(jp, byteArrayOutputStream);
-
-        return byteArrayOutputStream.toByteArray();
+    public byte[] getReportLast30Days() throws JRException, SQLException {
+        return sepseFormService.getReportLast30Days();
     }
 
     @GetMapping("/nurse/form1")

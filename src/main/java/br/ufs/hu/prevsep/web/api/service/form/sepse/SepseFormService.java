@@ -6,6 +6,9 @@ import br.ufs.hu.prevsep.web.api.exception.InvalidFormStateException;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
 import br.ufs.hu.prevsep.web.api.repository.DoctorFormRepository;
 import br.ufs.hu.prevsep.web.api.repository.NurseForm1Repository;
+import net.sf.jasperreports.engine.JRException;
+
+import java.sql.SQLException;
 
 public interface SepseFormService {
 
@@ -26,6 +29,12 @@ public interface SepseFormService {
      */
     PageDoctorFormDTO getPendingDoctorForms(Integer crm);
 
+    /**
+     * Returns a PDF reporting the lasts 30 days Sepse occurences.
+     *
+     * @return Byte Array representing the PDF
+     */
+    byte[] getReportLast30Days() throws JRException, SQLException;
 
     /**
      * Returns all nurses forms (first kind) given a criteria.
