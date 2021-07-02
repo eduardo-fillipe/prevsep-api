@@ -175,7 +175,7 @@ CREATE TABLE IF NOT EXISTS public.usuario_login_log
 CREATE TABLE IF NOT EXISTS public.usuario_acesso_log
 (
     id_log character varying NOT NULL,
-    id_usuario integer NOT NULL,
+    id_usuario character varying NOT NULL,
     dt_requisicao timestamp without time zone NOT NULL,
     operation character varying,
     body_requisicao character varying,
