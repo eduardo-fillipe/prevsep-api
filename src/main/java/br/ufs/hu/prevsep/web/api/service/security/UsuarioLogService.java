@@ -1,9 +1,8 @@
 package br.ufs.hu.prevsep.web.api.service.security;
 
-import br.ufs.hu.prevsep.web.api.dto.security.PageUsuarioLoginLogDTO;
-import br.ufs.hu.prevsep.web.api.dto.security.PageableUsuarioLoginLogDTO;
-import br.ufs.hu.prevsep.web.api.dto.security.UsuarioLoginLogCreateDTO;
-import br.ufs.hu.prevsep.web.api.dto.security.UsuarioLoginLogDTO;
+import br.ufs.hu.prevsep.web.api.dto.security.*;
+import net.sf.jasperreports.engine.JRException;
+import java.sql.SQLException;
 
 public interface UsuarioLogService {
 
@@ -20,4 +19,6 @@ public interface UsuarioLogService {
      * @return The list of logs in the form of a page
      */
     PageUsuarioLoginLogDTO getLoginLogs(PageableUsuarioLoginLogDTO pageable);
+
+    byte[] getLoginReport(LoginReportRequest request) throws JRException, SQLException;
 }

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="UsuarioLogins" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c6180a87-dfe0-475c-8923-83c9060db332">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="prevsepDB"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="448"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="538"/>
+	<parameter name="dt_inicio" class="java.util.Date"/>
+	<parameter name="dt_fim" class="java.util.Date"/>
+	<parameter name="ids_usuarios" class="java.util.List" nestedType="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT log.id_usuario,
+       u.nome,
+       log.dt_login,
+		(CASE
+            WHEN log.role = 1 THEN 'GESTOR'
+            ELSE CASE
+                     WHEN log.role = 2 THEN 'MÉDICO'
+                     ELSE CASE WHEN log.role = 3 THEN 'ENFERMEIRO' ELSE '???' END END END) as role
+FROM usuario_login_log log
+         inner join usuario u on u.cpf = log.id_usuario
+where (dt_login >= $P{dt_inicio} and dt_login <= $P{dt_fim}) and ($X{IN, id_usuario, ids_usuarios})]]>
+	</queryString>
+	<field name="id_usuario" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="id_usuario"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_usuario"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="usuario_login_log"/>
+	</field>
+	<field name="nome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nome"/>
+		<property name="com.jaspersoft.studio.field.label" value="nome"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="usuario"/>
+	</field>
+	<field name="dt_login" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="dt_login"/>
+		<property name="com.jaspersoft.studio.field.label" value="dt_login"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="usuario_login_log"/>
+	</field>
+	<field name="role" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="role"/>
+		<property name="com.jaspersoft.studio.field.label" value="role"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="usuario_login_log"/>
+	</field>
+	<sortField name="nome"/>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{id_usuario}]]></groupExpression>
+		<groupHeader>
+			<band height="33">
+				<textField>
+					<reportElement mode="Opaque" x="0" y="0" width="150" height="32" forecolor="#006699" backcolor="#E6E6E6" uuid="862c2301-f98f-49fd-9a11-cc25596d5c91"/>
+					<textElement textAlignment="Center">
+						<font size="18" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{id_usuario}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="0" y="32" width="554" height="1" forecolor="#666666" uuid="6c90cbe1-dcba-4bab-b0a7-8da0de419864"/>
+				</line>
+				<textField>
+					<reportElement mode="Opaque" x="150" y="0" width="405" height="32" forecolor="#006699" backcolor="#E6E6E6" uuid="636f8890-a446-4f3f-b9fa-691a6c7c833e"/>
+					<textElement>
+						<font size="18" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="Group2">
+		<groupExpression><![CDATA[$F{nome}]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="e35167b0-a5e6-407e-a3b3-db0568af6934"/>
+				<staticText>
+					<reportElement x="19" y="10" width="331" height="80" forecolor="#FFFFFF" uuid="44c6d178-d9a1-4c4f-a80a-8965ec4db4db"/>
+					<textElement>
+						<font size="26" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Relatório de acessos ao PrevSep]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="360" y="7" width="220" height="27" forecolor="#FFFFFF" uuid="509dd942-393b-44e1-a97d-bc33aa7adc7c"/>
+					<textElement textAlignment="Right">
+						<font size="16" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Logins por usuário no período:]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy hh:mm:ss a">
+					<reportElement x="380" y="34" width="200" height="20" forecolor="#FFFFFF" uuid="7b6a3695-236c-46ae-8d38-669c9cc65881"/>
+					<textElement textAlignment="Right">
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{dt_inicio}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy hh:mm:ss a">
+					<reportElement x="380" y="70" width="200" height="20" forecolor="#FFFFFF" uuid="741425c8-389e-4658-bbf3-01924adcd8a9"/>
+					<textElement textAlignment="Right">
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{dt_fim}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="380" y="52" width="200" height="26" forecolor="#FFFFFF" uuid="06afa0b7-e506-4d13-8fec-77baf44451ee"/>
+					<textElement textAlignment="Right">
+						<font size="14"/>
+					</textElement>
+					<text><![CDATA[à]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<line>
+				<reportElement x="0" y="20" width="555" height="1" forecolor="#666666" uuid="043613e2-f03f-4855-bc2e-bb7b91f69ba7"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="277" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="974a0cf5-2f1f-4320-af55-6d6ea7672aba">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5bb9d066-5279-4dd9-a59a-64ce70e0e138"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data de Login]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="277" y="0" width="277" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="9c47ad9f-0ab5-4961-8c30-507b5ca631cd">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ea65cb2d-d7ce-4f9f-a3ed-e64696592eb2"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Escopo]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="0587995b-2816-4d24-a7bc-a1e8fd691057"/>
+			</line>
+			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy hh:mm:ss">
+				<reportElement x="0" y="0" width="277" height="20" uuid="e5a87947-e0ba-4934-9e87-62fbea73e868">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5bb9d066-5279-4dd9-a59a-64ce70e0e138"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dt_login}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement x="277" y="0" width="277" height="20" uuid="26813bb2-817c-4b11-b947-54288457f5a2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ea65cb2d-d7ce-4f9f-a3ed-e64696592eb2"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{role}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="aae120af-59ec-44f0-832c-f84d193800f1"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="f4f0d2d5-5d50-48c6-aa70-73233bd760a8"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="4" width="100" height="13" uuid="57a719c7-3c5f-4d4b-89c0-c68f7544d8d1"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

@@ -2,6 +2,7 @@ package br.ufs.hu.prevsep.web.api.controller;
 
 import br.ufs.hu.prevsep.web.api.config.ApiRequestMappings;
 import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
+import br.ufs.hu.prevsep.web.api.dto.security.LoginReportRequest;
 import br.ufs.hu.prevsep.web.api.dto.security.PageUsuarioLoginLogDTO;
 import br.ufs.hu.prevsep.web.api.dto.security.PageableUsuarioLoginLogDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.usuario.PageUsuarioDTO;
@@ -15,6 +16,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import net.sf.jasperreports.engine.JRException;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.sql.SQLException;
 
 @RestController
 @RequestMapping(path = ApiRequestMappings.USERS, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -85,4 +88,12 @@ public class UsuarioController extends BaseController{
         return usuarioLogService.getLoginLogs(usuarioPageRequest);
     }
 
+    @GetMapping(value = "/logs/login/report", produces = MediaType.APPLICATION_PDF_VALUE)
+    @Operation(summary = "Returns a report of logins in a given period and CPFs.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok", content = @Content(mediaType = MediaType.APPLICATION_PDF_VALUE))})
+    @PreAuthorize("hasRole('ROLE_1')")
+    public byte[] getLoginReport(@ModelAttribute LoginReportRequest loginReportRequest) throws JRException, SQLException {
+        return usuarioLogService.getLoginReport(loginReportRequest);
+    }
 }
