@@ -5,13 +5,14 @@ import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
 import br.ufs.hu.prevsep.web.api.dto.form.sepse.DoctorFormDTO;
 import br.ufs.hu.prevsep.web.api.dto.form.sepse.DoctorFormUpdateDTO;
 import br.ufs.hu.prevsep.web.api.dto.form.sepse.PageDoctorFormDTO;
-import br.ufs.hu.prevsep.web.api.dto.form.sepse.PageableDoctorFormDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorRequestDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorResponseDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorResponseFullDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.doctor.DoctorUpdateDTO;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
 import br.ufs.hu.prevsep.web.api.service.form.sepse.SepseFormService;
+import br.ufs.hu.prevsep.web.api.service.security.AuthorizationExtensionService;
+import br.ufs.hu.prevsep.web.api.service.security.extensionpoint.DoctorCRMExtensionPoint;
 import br.ufs.hu.prevsep.web.api.service.user.doctor.DoctorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -40,10 +41,13 @@ public class DoctorController extends BaseController{
 
     private final DoctorService doctorService;
     private final SepseFormService sepseFormService;
+    private final AuthorizationExtensionService authorizationExtensionService;
 
-    public DoctorController(DoctorService doctorService, SepseFormService sepseFormService) {
+    public DoctorController(DoctorService doctorService, SepseFormService sepseFormService,
+                            AuthorizationExtensionService authorizationExtensionService) {
         this.doctorService = doctorService;
         this.sepseFormService = sepseFormService;
+        this.authorizationExtensionService = authorizationExtensionService;
     }
 
     @GetMapping
@@ -60,7 +64,9 @@ public class DoctorController extends BaseController{
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Ok",
             content = @Content(array = @ArraySchema(schema = @Schema(implementation = PageDoctorFormDTO.class))))})
+    @PreAuthorize("hasRole('ROLE_2')")
     public PageDoctorFormDTO getPendingDoctorForms(@PathVariable("crm") @Valid @Min(1) @NotNull Integer crm) {
+        authorizationExtensionService.authorize(DoctorCRMExtensionPoint.class, crm);
         return sepseFormService.getPendingDoctorForms(crm);
     }
 
@@ -72,7 +78,7 @@ public class DoctorController extends BaseController{
             @ApiResponse(responseCode = "404", description = "Doctor not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @PostAuthorize("(hasRole('ROLE_2') and #cpf == authentication.principal) or hasAnyRole('ROLE_1', 'ROLE_3')")
-    public DoctorResponseFullDTO getMedicByCRM(@Valid @CPF @NotNull @PathVariable String cpf) {
+    public DoctorResponseFullDTO getMedicByCPF(@Valid @CPF @NotNull @PathVariable String cpf) {
         return doctorService.getMedic(cpf).orElseThrow(() ->
                 new UserNotFoundException().withDetailedMessage("This doctor was not found in the System."));
     }
@@ -112,9 +118,11 @@ public class DoctorController extends BaseController{
             @ApiResponse(responseCode = "404", description = "Resource not found", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
             @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
+    @PreAuthorize("hasRole('ROLE_2')")
     public DoctorFormDTO finishFillingForm(@RequestBody @Valid DoctorFormUpdateDTO doctorFormUpdateDTO,
                                            @PathVariable("idForm") @Valid @Min(1) Integer idForm,
                                            @PathVariable("crm") @Valid @Min(1) Integer crmDoctor) {
+        authorizationExtensionService.authorize(DoctorCRMExtensionPoint.class, crmDoctor);
         return sepseFormService.finishDoctorForm(idForm, doctorFormUpdateDTO);
     }
 
@@ -127,9 +135,11 @@ public class DoctorController extends BaseController{
             @ApiResponse(responseCode = "404", description = "Resource not found", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
             @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
+    @PreAuthorize("hasRole('ROLE_2')")
     public void saveForm(@RequestBody DoctorFormUpdateDTO doctorFormUpdateDTO,
                                            @PathVariable("idForm") @Valid @Min(1) Integer idForm,
                                            @PathVariable("crm") @Valid @Min(1) Integer crmDoctor) {
+        authorizationExtensionService.authorize(DoctorCRMExtensionPoint.class, crmDoctor);
         sepseFormService.saveDoctorForm(idForm, doctorFormUpdateDTO);
     }
 }

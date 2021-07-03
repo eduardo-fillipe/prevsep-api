@@ -10,6 +10,8 @@ import br.ufs.hu.prevsep.web.api.dto.user.nurse.NurseRequestDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.nurse.NurseUpdateDTO;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
 import br.ufs.hu.prevsep.web.api.service.form.sepse.SepseFormService;
+import br.ufs.hu.prevsep.web.api.service.security.AuthorizationExtensionService;
+import br.ufs.hu.prevsep.web.api.service.security.extensionpoint.NurseCREExtensionPoint;
 import br.ufs.hu.prevsep.web.api.service.user.nurse.NurseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -38,10 +40,13 @@ public class NurseController extends BaseController {
 
     private final NurseService nurseService;
     private final SepseFormService sepseFormService;
+    private final AuthorizationExtensionService authorizationExtensionService;
 
-    public NurseController(NurseService nurseService, SepseFormService sepseFormService) {
+    public NurseController(NurseService nurseService, SepseFormService sepseFormService,
+                           AuthorizationExtensionService authorizationExtensionService) {
         this.nurseService = nurseService;
         this.sepseFormService = sepseFormService;
+        this.authorizationExtensionService = authorizationExtensionService;
     }
 
     @GetMapping
@@ -75,7 +80,7 @@ public class NurseController extends BaseController {
             @ApiResponse(responseCode = "409", description = "Nurse already registered", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @PreAuthorize("hasRole('ROLE_1')")
-    public NurseDTO createMedic(@RequestBody @Valid NurseRequestDTO nurseRequestDTO) {
+    public NurseDTO createNurse(@RequestBody @Valid NurseRequestDTO nurseRequestDTO) {
         return nurseService.createNurse(nurseRequestDTO);
     }
 
@@ -88,7 +93,7 @@ public class NurseController extends BaseController {
             @ApiResponse(responseCode = "404", description = "Nurse not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @PreAuthorize("(#cpf == authentication.principal) or hasRole('ROLE_1')")
-    public void updateMedic(@PathVariable("cpf") @Valid  @CPF String cpf, @RequestBody @Valid NurseUpdateDTO nurseUpdateDTO) {
+    public void updateNurse(@PathVariable("cpf") @Valid  @CPF String cpf, @RequestBody @Valid NurseUpdateDTO nurseUpdateDTO) {
         nurseService.updateNurse(cpf, nurseUpdateDTO);
     }
 
@@ -101,8 +106,10 @@ public class NurseController extends BaseController {
             @ApiResponse(responseCode = "404", description = "Resource not found: Patient, Nurse or Doctor", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @Valid
+    @PreAuthorize("hasRole('ROLE_3')")
     public NurseForm1DTO createForm(@PathVariable("cre") @Valid @Min(1) @NotNull Integer cre,
                                     @RequestBody NurseForm1CreateDTO nurseForm1CreateDTO) {
+        authorizationExtensionService.authorize(NurseCREExtensionPoint.class, cre);
         return sepseFormService.createForm(cre, nurseForm1CreateDTO);
     }
 
@@ -115,8 +122,10 @@ public class NurseController extends BaseController {
             @ApiResponse(responseCode = "404", description = "Resource not found: Patient, Nurse or Doctor", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @Valid
+    @PreAuthorize("hasRole('ROLE_3')")
     public NurseForm1DTO finishForm1(@PathVariable("cre") @Valid @Min(1) @NotNull Integer cre,
                                      @RequestBody @Valid NurseForm1UpdateDTO nurseForm1UpdateDTO, @PathVariable @Valid @Min(1) Integer idForm) {
+        authorizationExtensionService.authorize(NurseCREExtensionPoint.class, cre);
         return sepseFormService.finishForm1(idForm, cre, nurseForm1UpdateDTO);
     }
 
@@ -130,8 +139,10 @@ public class NurseController extends BaseController {
             @ApiResponse(responseCode = "409", description = "Conflict: Illegal user or form state", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @Valid
+    @PreAuthorize("hasRole('ROLE_3')")
     public void saveForm1(@PathVariable("cre") @Valid @Min(1) @NotNull Integer cre, @PathVariable("idForm") @Valid @Min(1) Integer idForm,
                           @RequestBody @Valid NurseForm1UpdateDTO nurseForm2UpdateDTO) {
+        authorizationExtensionService.authorize(NurseCREExtensionPoint.class, cre);
         sepseFormService.saveForm1(idForm, cre, nurseForm2UpdateDTO);
     }
 
@@ -145,8 +156,10 @@ public class NurseController extends BaseController {
             @ApiResponse(responseCode = "409", description = "Conflict: Illegal user or form state", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @Valid
+    @PreAuthorize("hasRole('ROLE_3')")
     public NurseForm2DTO finishForm2(@PathVariable("cre") @Valid @Min(1) @NotNull Integer cre, @PathVariable("idForm") @Valid @Min(1) Integer idForm,
                                      @RequestBody @Valid NurseForm2UpdateDTO nurseForm2UpdateDTO) {
+        authorizationExtensionService.authorize(NurseCREExtensionPoint.class, cre);
         return sepseFormService.finishNurseForm2(cre, idForm, nurseForm2UpdateDTO);
     }
 
@@ -159,8 +172,10 @@ public class NurseController extends BaseController {
             @ApiResponse(responseCode = "404", description = "Resource not found: Patient, Nurse or Doctor", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
             @ApiResponse(responseCode = "409", description = "Conflict: Illegal user or form state", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
+    @PreAuthorize("hasRole('ROLE_3')")
     public void saveForm2(@PathVariable("cre") @Valid @Min(1) @NotNull Integer cre, @PathVariable("idForm") @Valid @Min(1) Integer idForm,
                                      @RequestBody NurseForm2UpdateDTO nurseForm2UpdateDTO) {
+        authorizationExtensionService.authorize(NurseCREExtensionPoint.class, cre);
         sepseFormService.saveNurseForm2(cre, idForm, nurseForm2UpdateDTO);
     }
 }
