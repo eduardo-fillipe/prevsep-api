@@ -5,8 +5,12 @@ import br.ufs.hu.prevsep.web.api.config.security.exception.ContentTypeNotAllowed
 import br.ufs.hu.prevsep.web.api.config.security.exception.MethodNotAllowedException;
 import br.ufs.hu.prevsep.web.api.dto.fault.ErrorDetailDTO;
 import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
+import br.ufs.hu.prevsep.web.api.dto.security.UsuarioLoginLogCreateDTO;
+import br.ufs.hu.prevsep.web.api.dto.security.UsuarioLoginLogCreateDTO.UsuarioLoginLogCreateDTOBuilder;
+import br.ufs.hu.prevsep.web.api.dto.security.UsuarioLoginLogDTO;
 import br.ufs.hu.prevsep.web.api.dto.security.authentication.AccessTokenResponse;
 import br.ufs.hu.prevsep.web.api.dto.security.authorization.role.RoleDTO;
+import br.ufs.hu.prevsep.web.api.service.security.UsuarioLogService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.MapperFeature;
@@ -23,25 +27,31 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class OAuth2JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private static final ObjectMapper mapper = new ObjectMapper();
     private final AuthenticationManager authenticationManager;
     private final long expirationTime;
+    private final boolean forceLogLogin;
     private final String secret;
     private static final String GRANT_TYPE = "grant_type";
     private static final String CLIENT_CREDENTIALS = "client_credentials";
+    private final UsuarioLogService usuarioLogService;
 
-    public OAuth2JWTAuthenticationFilter(AuthenticationManager authenticationManager, String tokenUrl, long expirationTime, String secret) {
+    public OAuth2JWTAuthenticationFilter(AuthenticationManager authenticationManager, String tokenUrl, long expirationTime, boolean forceLogLogin, String secret, UsuarioLogService usuarioLogService) {
         this.authenticationManager = authenticationManager;
+        this.forceLogLogin = forceLogLogin;
+        this.usuarioLogService = usuarioLogService;
         mapper.registerModule(new JavaTimeModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         mapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
@@ -169,7 +179,7 @@ public class OAuth2JWTAuthenticationFilter extends UsernamePasswordAuthenticatio
     }
 
     @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
         FaultDTO fault = getFault(failed);
         String body = mapper.writeValueAsString(fault);
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
@@ -192,6 +202,24 @@ public class OAuth2JWTAuthenticationFilter extends UsernamePasswordAuthenticatio
 
         String[] roleIds = rolesDTO.stream().map(roleDTO -> roleDTO.getRoleId().toString()).toArray(String[]::new);
 
+        UsuarioLoginLogDTO loginLogResponse = new UsuarioLoginLogDTO();
+
+        try {
+            UsuarioLoginLogCreateDTO request = UsuarioLoginLogCreateDTOBuilder.builder()
+                    .withIdUsuario(((User) auth.getPrincipal()).getUsername())
+                    .withRole(roleIds.length > 0 ? Integer.valueOf(roleIds[0]) : null)
+                    .withDtLogin(LocalDateTime.now())
+                    .build();
+
+            loginLogResponse = usuarioLogService.createLog(request);
+        } catch (Exception ex) {
+            if (forceLogLogin) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Error Logging user login: " + ex.getMessage());
+                throw ex;
+            } else
+                Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Error Logging user login: " + ex.getMessage());
+        }
+
         String token = JWT.create()
                 .withSubject(((User) auth.getPrincipal()).getUsername())
                 .withArrayClaim("claims", roleIds)
@@ -205,6 +233,7 @@ public class OAuth2JWTAuthenticationFilter extends UsernamePasswordAuthenticatio
         tokenResponse.setExpires_in(expirationTime);
         tokenResponse.setToken_type("bearer");
         tokenResponse.setClaims(rolesDTO);
+        tokenResponse.setIdLoginLog(loginLogResponse.getId());
 
         String body = mapper.writeValueAsString(tokenResponse);
 

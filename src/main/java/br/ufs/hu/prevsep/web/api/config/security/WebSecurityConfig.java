@@ -2,6 +2,7 @@ package br.ufs.hu.prevsep.web.api.config.security;
 
 import br.ufs.hu.prevsep.web.api.config.security.filter.OAuth2JWTAuthenticationFilter;
 import br.ufs.hu.prevsep.web.api.config.security.filter.OAuth2JWTAuthorizationFilter;
+import br.ufs.hu.prevsep.web.api.service.security.UsuarioLogService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -35,13 +36,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final Long expirationTime;
     private final String jwtSecret;
     private final String tokenUrl;
+    private final boolean forceLogLogin;
+    private final UsuarioLogService usuarioLogService;
 
     public WebSecurityConfig(UserDetailsServiceImpl userService, BCryptPasswordEncoder bCryptPasswordEncoder,
                              AuthenticationEntryPoint entryPoint, AccessDeniedHandler accessDeniedHandler,
                              AccessDecisionManager accessDecisionManager,
                              @Value("${prevsep.security.oauth.token.expires}") Long expirationTime,
                              @Value("${prevsep.security.oauth.token.secret}") String jwtSecret,
-                             @Value("${prevsep.security.oauth.token.url}") String tokenUrl) {
+                             @Value("${prevsep.security.oauth.token.url}") String tokenUrl,
+                             @Value("${prevsep.security.log.login.force}") boolean forceLogLogin,
+                             UsuarioLogService usuarioLogService) {
         this.userDetailsService = userService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.entryPoint = entryPoint;
@@ -50,6 +55,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.expirationTime = expirationTime;
         this.jwtSecret = jwtSecret;
         this.tokenUrl = tokenUrl;
+        this.forceLogLogin = forceLogLogin;
+        this.usuarioLogService = usuarioLogService;
     }
 
     @Override
@@ -63,7 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(tokenUrl).permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilter(new OAuth2JWTAuthenticationFilter(authenticationManager(), tokenUrl, expirationTime, jwtSecret))
+                .addFilter(new OAuth2JWTAuthenticationFilter(authenticationManager(), tokenUrl, expirationTime, forceLogLogin, jwtSecret, usuarioLogService))
                 .addFilter(new OAuth2JWTAuthorizationFilter(authenticationManager(), entryPoint, jwtSecret))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
