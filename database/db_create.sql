@@ -161,6 +161,31 @@ CREATE TABLE IF NOT EXISTS public.formulario_sepse_medico_reavaliacoes_seriadas
     PRIMARY KEY (id)
 );
 
+CREATE TABLE IF NOT EXISTS public.usuario_login_log
+(
+    id character varying NOT NULL,
+    id_usuario character varying NOT NULL,
+    dt_login timestamp without time zone,
+    dt_explicit_logout timestamp without time zone,
+    role integer,
+    status integer,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public.usuario_acesso_log
+(
+    id_log character varying NOT NULL,
+    id_usuario character varying NOT NULL,
+    dt_requisicao timestamp without time zone NOT NULL,
+    operation character varying,
+    body_requisicao character varying,
+    verbo_requisicao character varying,
+    uri_requisicao character varying,
+    status_response integer,
+    body_response aclitem,
+    PRIMARY KEY (id_log)
+);
+
 ALTER TABLE public.formulario_sepse_enf1
     ADD FOREIGN KEY (id_paciente)
         REFERENCES public.paciente ("id_paciente")
@@ -259,6 +284,17 @@ ALTER TABLE public.formulario_sepse_medico
 ALTER TABLE public.formulario_sepse_medico
     ADD FOREIGN KEY (reavaliacao_seriada_id)
         REFERENCES public.formulario_sepse_medico_reavaliacoes_seriadas (id)
+        NOT VALID;
+
+ALTER TABLE public.usuario_login_log
+    ADD FOREIGN KEY (id_usuario)
+        REFERENCES public.usuario (cpf)
+        NOT VALID;
+
+
+ALTER TABLE public.usuario_acesso_log
+    ADD FOREIGN KEY (id_usuario)
+        REFERENCES public.usuario (cpf)
         NOT VALID;
 
 COMMIT;

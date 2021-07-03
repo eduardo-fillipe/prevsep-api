@@ -2,9 +2,13 @@ package br.ufs.hu.prevsep.web.api.controller;
 
 import br.ufs.hu.prevsep.web.api.config.ApiRequestMappings;
 import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
+import br.ufs.hu.prevsep.web.api.dto.security.LoginReportRequest;
+import br.ufs.hu.prevsep.web.api.dto.security.PageUsuarioLoginLogDTO;
+import br.ufs.hu.prevsep.web.api.dto.security.PageableUsuarioLoginLogDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.usuario.PageUsuarioDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.usuario.UsuarioPageableRequestDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.usuario.UsuarioUpdateDTO;
+import br.ufs.hu.prevsep.web.api.service.security.UsuarioLogService;
 import br.ufs.hu.prevsep.web.api.service.user.usuario.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -12,6 +16,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import net.sf.jasperreports.engine.JRException;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,16 +25,19 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.sql.SQLException;
 
 @RestController
 @RequestMapping(path = ApiRequestMappings.USERS, produces = {MediaType.APPLICATION_JSON_VALUE})
 @Tag(name = "Users", description = "User managing endpoints")
 public class UsuarioController extends BaseController{
 
-    UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
+    private final UsuarioLogService usuarioLogService;
 
-    public UsuarioController(UsuarioService usuarioService) {
+    public UsuarioController(UsuarioService usuarioService, UsuarioLogService usuarioLogService) {
         this.usuarioService = usuarioService;
+        this.usuarioLogService = usuarioLogService;
     }
 
     @GetMapping
@@ -68,4 +76,24 @@ public class UsuarioController extends BaseController{
         usuarioService.deleteUsuario(cpf);
     }
 
+    @GetMapping("/logs/login")
+    @Operation(summary = "Returns the Login logs of the users")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok",
+                    content = @Content(schema = @Schema(implementation = PageUsuarioLoginLogDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+    })
+    @PreAuthorize("(#usuarioPageRequest.cpfUsuario == authentication.principal) or hasRole('ROLE_1')")
+    public PageUsuarioLoginLogDTO getLoginLogs(@ModelAttribute(value = "usuarioLoginPageRequest") PageableUsuarioLoginLogDTO usuarioPageRequest) {
+        return usuarioLogService.getLoginLogs(usuarioPageRequest);
+    }
+
+    @GetMapping(value = "/logs/login/report", produces = MediaType.APPLICATION_PDF_VALUE)
+    @Operation(summary = "Returns a report of logins in a given period and CPFs.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok", content = @Content(mediaType = MediaType.APPLICATION_PDF_VALUE))})
+    @PreAuthorize("hasRole('ROLE_1')")
+    public byte[] getLoginReport(@ModelAttribute LoginReportRequest loginReportRequest) throws JRException, SQLException {
+        return usuarioLogService.getLoginReport(loginReportRequest);
+    }
 }

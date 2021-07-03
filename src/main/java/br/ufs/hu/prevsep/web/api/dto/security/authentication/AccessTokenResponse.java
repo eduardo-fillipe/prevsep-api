@@ -9,15 +9,25 @@ public class AccessTokenResponse {
     private String token_type;
     private Long expires_in;
     private List<RoleDTO> claims;
+    private String idLoginLog;
 
     public AccessTokenResponse() {
     }
 
-    public AccessTokenResponse(String access_token, String token_type, Long expires_in, List<RoleDTO> claims) {
+    public AccessTokenResponse(String access_token, String token_type, Long expires_in, List<RoleDTO> claims, String idLoginLog) {
         this.access_token = access_token;
         this.token_type = token_type;
         this.expires_in = expires_in;
         this.claims = claims;
+        this.idLoginLog = idLoginLog;
+    }
+
+    public String getIdLoginLog() {
+        return idLoginLog;
+    }
+
+    public void setIdLoginLog(String idLoginLog) {
+        this.idLoginLog = idLoginLog;
     }
 
     public String getAccess_token() {
