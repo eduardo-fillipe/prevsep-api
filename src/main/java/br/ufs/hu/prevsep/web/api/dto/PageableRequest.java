@@ -113,7 +113,7 @@ public abstract class PageableRequest<T extends EntityPath<?>> implements Pageab
 
     @Override
     public int getPageSize() {
-        return pageSize == null ? Integer.MAX_VALUE : pageSize;
+        return pageSize == null ? 30 : pageSize;
     }
 
     public void setPageSize(int pageSize) {

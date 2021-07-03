@@ -1,12 +1,16 @@
 package br.ufs.hu.prevsep.web.api.dto.security;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class UsuarioLoginLogDTO {
     private String id;
     private String idUsuario;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dtLogin;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dtExplicitLogout;
     private Integer role;
     private Integer status;

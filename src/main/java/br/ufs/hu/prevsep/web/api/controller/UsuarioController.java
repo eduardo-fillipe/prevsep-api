@@ -2,9 +2,12 @@ package br.ufs.hu.prevsep.web.api.controller;
 
 import br.ufs.hu.prevsep.web.api.config.ApiRequestMappings;
 import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
+import br.ufs.hu.prevsep.web.api.dto.security.PageUsuarioLoginLogDTO;
+import br.ufs.hu.prevsep.web.api.dto.security.PageableUsuarioLoginLogDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.usuario.PageUsuarioDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.usuario.UsuarioPageableRequestDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.usuario.UsuarioUpdateDTO;
+import br.ufs.hu.prevsep.web.api.service.security.UsuarioLogService;
 import br.ufs.hu.prevsep.web.api.service.user.usuario.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -26,10 +29,12 @@ import javax.validation.constraints.NotEmpty;
 @Tag(name = "Users", description = "User managing endpoints")
 public class UsuarioController extends BaseController{
 
-    UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
+    private final UsuarioLogService usuarioLogService;
 
-    public UsuarioController(UsuarioService usuarioService) {
+    public UsuarioController(UsuarioService usuarioService, UsuarioLogService usuarioLogService) {
         this.usuarioService = usuarioService;
+        this.usuarioLogService = usuarioLogService;
     }
 
     @GetMapping
@@ -66,6 +71,18 @@ public class UsuarioController extends BaseController{
     @PreAuthorize("(#cpf == authentication.principal) or hasRole('ROLE_1')")
     public void deleteUsuario(@PathVariable @Valid @NotEmpty @CPF String cpf) {
         usuarioService.deleteUsuario(cpf);
+    }
+
+    @GetMapping("/logs/login")
+    @Operation(summary = "Returns the Login logs of the users")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok",
+                    content = @Content(schema = @Schema(implementation = PageUsuarioLoginLogDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+    })
+    @PreAuthorize("(#usuarioPageRequest.cpfUsuario == authentication.principal) or hasRole('ROLE_1')")
+    public PageUsuarioLoginLogDTO getLoginLogs(@ModelAttribute(value = "usuarioLoginPageRequest") PageableUsuarioLoginLogDTO usuarioPageRequest) {
+        return usuarioLogService.getLoginLogs(usuarioPageRequest);
     }
 
 }
