@@ -30,6 +30,14 @@ public interface SepseFormService {
     PageDoctorFormDTO getPendingDoctorForms(Integer crm);
 
     /**
+     * Returns all pending nurse forms (form2) given the cre code.
+     *
+     * @param Integer the cre code.
+     * @return All pending doctor forms found.
+     */
+    PageNurseForm2DTO getPendingNurseForms(Integer cre);
+
+    /**
      * Returns a PDF reporting the lasts 30 days Sepse occurences.
      *
      * @return Byte Array representing the PDF
