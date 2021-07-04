@@ -156,7 +156,7 @@ where (dt_login >= $P{dt_inicio} and dt_login <= $P{dt_fim}) and ($X{IN, id_usua
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="0587995b-2816-4d24-a7bc-a1e8fd691057"/>
 			</line>
-			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy hh:mm:ss">
+			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy HH:mm:ss">
 				<reportElement x="0" y="0" width="277" height="20" uuid="e5a87947-e0ba-4934-9e87-62fbea73e868">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5bb9d066-5279-4dd9-a59a-64ce70e0e138"/>
 				</reportElement>
@@ -184,7 +184,7 @@ where (dt_login >= $P{dt_inicio} and dt_login <= $P{dt_fim}) and ($X{IN, id_usua
 			<textField>
 				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="aae120af-59ec-44f0-832c-f84d193800f1"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
 				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="f4f0d2d5-5d50-48c6-aa70-73233bd760a8"/>
