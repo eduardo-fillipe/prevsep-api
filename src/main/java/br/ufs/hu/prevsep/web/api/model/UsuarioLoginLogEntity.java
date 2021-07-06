@@ -9,6 +9,7 @@ import java.util.Objects;
 public class UsuarioLoginLogEntity {
     private String id;
     private String idUsuario;
+    private UsuarioEntity usuario;
     private LocalDateTime dtLogin;
     private LocalDateTime dtExplicitLogout;
     private Integer role;
@@ -73,6 +74,17 @@ public class UsuarioLoginLogEntity {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_usuario", referencedColumnName = "cpf", insertable = false, updatable = false)
+    public UsuarioEntity getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
     }
 
     @Override
