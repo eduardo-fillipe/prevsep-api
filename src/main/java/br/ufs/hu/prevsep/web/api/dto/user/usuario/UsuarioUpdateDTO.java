@@ -5,17 +5,17 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class UsuarioUpdateDTO {
-    @Email(message = "Invalid e-mail")
+    @Email(message = "E-mail inválido")
     private String email;
 
     @Size(min = 1, max = 255)
     private String nome;
 
     @Size(min = 8, max = 32)
-    @Pattern(regexp = "(.*([a-z]|[A-Z]).*)", message = "Must have at least 1 letter.")
-    @Pattern(regexp = "(.*[@#$%^&+=].*)", message = "Must have at least 1 special character.")
-    @Pattern(regexp = "(.*[0-9].*)", message = "Must have at least 1 number.")
-    @Pattern(regexp = "(^[^\\s]*$)", message = "Cannot contain blank spaces.")
+    @Pattern(regexp = "(.*([a-z]|[A-Z]).*)", message = "Deve conter no mínimo 1 letra.")
+    @Pattern(regexp = "(.*[@#$%^&+=].*)", message = "Deve conter no mínimo 1 caractere especial.")
+    @Pattern(regexp = "(.*[0-9].*)", message = "Deve conter no mínimo 1 número.")
+    @Pattern(regexp = "(^[^\\s]*$)", message = "Não pode conter espaços em branco.")
     private String senha;
 
     private CargoEnum cargo;

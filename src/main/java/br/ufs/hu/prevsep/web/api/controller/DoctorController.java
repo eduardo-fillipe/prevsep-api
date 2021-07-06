@@ -51,7 +51,7 @@ public class DoctorController extends BaseController{
     }
 
     @GetMapping
-    @Operation(summary = "Retorno todos os médicos no banco de dados.")
+    @Operation(summary = "Retorna todos os médicos no banco de dados.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = DoctorResponseDTO.class))))})

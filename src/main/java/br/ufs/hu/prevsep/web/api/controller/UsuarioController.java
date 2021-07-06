@@ -78,7 +78,7 @@ public class UsuarioController extends BaseController{
     }
 
     @GetMapping("/logs/login")
-    @Operation(summary = "Retorna o log de login dos usuários.")
+    @Operation(summary = "Retorna o registro de login dos usuários.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
                     content = @Content(schema = @Schema(implementation = PageUsuarioLoginLogDTO.class))),

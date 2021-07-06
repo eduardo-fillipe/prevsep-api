@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
         jsr250Enabled = true)
 @RequestMapping(produces = "application/json")
 @ApiResponses(value = {
-        @ApiResponse(responseCode = "401", description = "Não Autorizado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = FaultDTO.class))),
+        @ApiResponse(responseCode = "401", description = "Acesso Negado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = FaultDTO.class))),
         @ApiResponse(responseCode = "403", description = "Proibido", content = @Content(mediaType = "application/json", schema = @Schema(implementation = FaultDTO.class))),
         @ApiResponse(responseCode = "500", description = "Erro no Servidor Interno", content = @Content(mediaType = "application/json", schema = @Schema(implementation = FaultDTO.class)))
 })

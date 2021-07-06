@@ -47,7 +47,7 @@ public class OAuth2JWTAuthorizationFilter extends BasicAuthenticationFilter {
         String header = req.getHeader(HttpHeaders.AUTHORIZATION);
         try {
             if (header == null || !header.startsWith(TOKEN_PREFIX)) {
-                throw new UnauthorizedException("Cabeçalho de AUTORIZAÇÃO é obrigatório.");
+                throw new UnauthorizedException("Cabeçalho de AUTHORIZATION é obrigatório.");
             }
 
             UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
