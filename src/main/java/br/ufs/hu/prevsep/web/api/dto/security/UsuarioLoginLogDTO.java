@@ -1,5 +1,6 @@
 package br.ufs.hu.prevsep.web.api.dto.security;
 
+import br.ufs.hu.prevsep.web.api.dto.user.usuario.CargoEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
@@ -8,11 +9,12 @@ import java.util.Objects;
 public class UsuarioLoginLogDTO {
     private String id;
     private String idUsuario;
+    private String nomeUsuario;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dtLogin;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dtExplicitLogout;
-    private Integer role;
+    private CargoEnum role;
     private Integer status;
 
     public String getId() {
@@ -48,11 +50,19 @@ public class UsuarioLoginLogDTO {
         this.dtExplicitLogout = dtExplicitLogout;
     }
 
-    public Integer getRole() {
+    public String getNomeUsuario() {
+        return nomeUsuario;
+    }
+
+    public void setNomeUsuario(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
+    }
+
+    public CargoEnum getRole() {
         return role;
     }
 
-    public void setRole(Integer role) {
+    public void setRole(CargoEnum role) {
         this.role = role;
     }
 
