@@ -9,9 +9,9 @@ import java.util.Set;
 public class BeanUtils {
 
     /**
-     * Returns all Null properties of a given Bean.
-     * @param source Bean that will be analysed
-     * @return A list of the names of the null fields.
+     * Retorna todas as propriedades nulas de um dado Bean.
+     * @param source Bean que será analizado
+     * @return Uma lista de nomes dos campos nulos.
      */
     public static String[] getNullPropertyNames (Object source) {
         final BeanWrapper src = new BeanWrapperImpl(source);
@@ -28,12 +28,12 @@ public class BeanUtils {
     }
 
     /**
-     * Copies all fields values from a Bean to another
+     * Copia todos os valores dos campos de um Bean para outro
      *
-     * @param src The source Bean, from where the info will come
-     * @param target The target Bean, to where the values will be copy
-     * @param ignoreNulls If true, fields with null values will be ignored during the copie process
-     * @param <T> Bean type
+     * @param src O Bean fonte, de onde a informação virá
+     * @param target O Bean, para onde os valores serão copiados
+     * @param ignoreNulls Se verdadeiro, campos com valores nulos serão ignorados durante a cópia
+     * @param <T> Tipo do Bean
      */
     public static <T> void copyPropertiesIgnoreNulls(T src, T target, boolean ignoreNulls) {
         if (ignoreNulls)

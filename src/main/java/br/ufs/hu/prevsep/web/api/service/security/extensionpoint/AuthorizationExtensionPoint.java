@@ -7,11 +7,11 @@ import org.springframework.security.core.Authentication;
 public interface AuthorizationExtensionPoint<T> {
 
     /**
-     * This method checks if a authenticated user has access to a determined resource in the system
+     * Esse método checa se um usuário autenticado tem acesso para determinado recurso no sistema
      *
-     * @param authentication The authentication info
-     * @param resource The resource that the user is trying to access
-     * @throws AccessDeniedException If the user do not have access to the resource
+     * @param authentication A informação de autenticação
+     * @param resource O recurso que o usuário está tentando acessar
+     * @throws AccessDeniedException Se o usuário não tem acesso ao recurso
      */
     void authorize(Authentication authentication, T resource) throws AccessDeniedException;
 }

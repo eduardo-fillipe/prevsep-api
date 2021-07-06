@@ -5,6 +5,6 @@ import org.springframework.http.HttpStatus;
 public class PatientNotFoundException extends PrevSepException {
     public PatientNotFoundException() {
         super(HttpStatus.NOT_FOUND);
-        withMessage("Patient not found");
+        withMessage("Paciente não encontrado");
     }
 }

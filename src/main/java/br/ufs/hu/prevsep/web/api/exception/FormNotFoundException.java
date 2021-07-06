@@ -5,6 +5,6 @@ import org.springframework.http.HttpStatus;
 public class FormNotFoundException extends PrevSepException {
     public FormNotFoundException() {
         super(HttpStatus.NOT_FOUND);
-        withMessage("Form not found");
+        withMessage("Formulário não encontrado");
     }
 }

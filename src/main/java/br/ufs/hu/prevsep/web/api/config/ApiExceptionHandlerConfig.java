@@ -50,11 +50,11 @@ public class ApiExceptionHandlerConfig extends ResponseEntityExceptionHandler {
         FaultDTO faultDTO = new FaultDTO();
         faultDTO.setStatusCode(HttpStatus.BAD_REQUEST.value());
         faultDTO.setError(ex.getClass().getSimpleName());
-        faultDTO.setMessage("Your request was rejected due to an validation error.");
+        faultDTO.setMessage("Sua solicitação foi rejeitada devido a um erro de validação.");
         ErrorDetailDTO errorDetailDTO = new ErrorDetailDTO();
         faultDTO.setErrorDetail(errorDetailDTO);
         errorDetailDTO.setExceptionClass(ex.getClass().getName());
-        errorDetailDTO.setErrorDetail("Solve the " + ex.getFieldErrorCount() + " above error(s) and send your request again.");
+        errorDetailDTO.setErrorDetail("Resolva o(s) erro(s) acima de " + ex.getFieldErrorCount() + " e envie sua solicitação novamente.");
         List<FieldErrorDTO> fieldErrorDTOS = new ArrayList<>();
         errorDetailDTO.setFieldErrors(fieldErrorDTOS);
 
@@ -72,7 +72,7 @@ public class ApiExceptionHandlerConfig extends ResponseEntityExceptionHandler {
         FaultDTO faultDTO = new FaultDTO();
         faultDTO.setStatusCode(HttpStatus.BAD_REQUEST.value());
         faultDTO.setError(ex.getClass().getSimpleName());
-        faultDTO.setMessage("The request could not be read.");
+        faultDTO.setMessage("A solicitação não pôde ser lida.");
         ErrorDetailDTO errorDetailDTO = new ErrorDetailDTO();
         errorDetailDTO.setErrorDetail(ex.getMessage());
         faultDTO.setErrorDetail(errorDetailDTO);
@@ -85,7 +85,7 @@ public class ApiExceptionHandlerConfig extends ResponseEntityExceptionHandler {
                 fieldPath.append(".");
                 fieldPath.append(cause.getPath().get(i).getFieldName());
             }
-            fieldErrorDTOS.add(new FieldErrorDTO(fieldPath.toString(), "Unreadable value: " + cause.getValue().toString()));
+            fieldErrorDTOS.add(new FieldErrorDTO(fieldPath.toString(), "O valor não pôde ser lido: " + cause.getValue().toString()));
             errorDetailDTO.setFieldErrors(fieldErrorDTOS);
         }
 
@@ -111,7 +111,7 @@ public class ApiExceptionHandlerConfig extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleInternalServerError(Exception ex) {
         FaultDTO fault = new FaultDTO();
         fault.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        fault.setMessage("An error occurred during your request. Please try again later.");
+        fault.setMessage("Um erro ocorreu durante sua solicitação. Por favor, tente novamente mais tarde.");
         fault.setError(ex.getClass().getSimpleName());
 
         ErrorDetailDTO detailDTO = new ErrorDetailDTO();

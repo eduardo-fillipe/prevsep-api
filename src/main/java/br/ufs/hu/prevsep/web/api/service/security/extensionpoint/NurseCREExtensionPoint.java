@@ -19,9 +19,9 @@ public class NurseCREExtensionPoint implements AuthorizationExtensionPoint<Integ
     public void authorize(Authentication authentication, Integer cre) throws AccessDeniedException {
         String cpf = String.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         NurseFullDTO doctor = nurseService.getNurse(cpf)
-                .orElseThrow(() -> new AccessDeniedException("The Nurse that owns this token is not active in the system anymore."));
+                .orElseThrow(() -> new AccessDeniedException("O enfermeiro que possui esse token não está mais ativo no sistema."));
 
         if (!doctor.getCre().equals(cre))
-            throw new AccessDeniedException("Nurse with CRE " + doctor.getCre() + " is trying to access as " + cre);
+            throw new AccessDeniedException("Enfermeiro com CRE " + doctor.getCre() + " está tentando acessar como " + cre);
     }
 }

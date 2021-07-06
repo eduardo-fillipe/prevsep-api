@@ -5,8 +5,8 @@ import org.hibernate.validator.constraints.Range;
 import javax.validation.constraints.NotNull;
 
 public class NurseUpdateDTO {
-    @NotNull(message = "CRE can not be null")
-    @Range(min = 1, message = "Minimum value is 1")
+    @NotNull(message = "CRE não pode ser nulo")
+    @Range(min = 1, message = "Valo mínimo é de 1")
     private Integer cre;
 
     public Integer getCre() {

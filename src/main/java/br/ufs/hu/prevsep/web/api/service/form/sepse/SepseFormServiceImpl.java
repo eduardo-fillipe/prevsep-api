@@ -131,10 +131,10 @@ public class SepseFormServiceImpl implements SepseFormService {
     @Transactional
     public NurseForm1DTO createForm(Integer cre, NurseForm1CreateDTO nurseForm1CreateDTO) {
         nurseService.getNurseByCRE(cre)
-                .orElseThrow(() -> new UserNotFoundException().withMessage("Nurse not found."));
+                .orElseThrow(() -> new UserNotFoundException().withMessage("Enfermeiro não encontrado."));
         DoctorResponseFullDTO doctor = doctorService
                 .getMedicByCRM(nurseForm1CreateDTO.getCrmMedico())
-                .orElseThrow(() -> new UserNotFoundException().withMessage("Doctor not found."));
+                .orElseThrow(() -> new UserNotFoundException().withMessage("Médico não encontrado."));
 
         if (!StatusUsuarioEnum.ATIVO.equals(doctor.getUserInfo().getStatus()))
             throw new InvalidDoctorState()
@@ -167,25 +167,25 @@ public class SepseFormServiceImpl implements SepseFormService {
         FormValidationException ex = new FormValidationException();
 
         if (formularioSepseEnf1Entity.getPaciente() == null){
-            ex.withFieldError("paciente", "Can't be null");
+            ex.withFieldError("paciente", "Não pode ser nulo");
         } else {
             PacienteEntity patient = formularioSepseEnf1Entity.getPaciente();
             if(patient.getCpf() == null)
-                ex.withFieldError("paciente.cpf", "Can't be null");
+                ex.withFieldError("paciente.cpf", "Não pode ser nulo");
             if (patient.getIdade() <= 0)
-                ex.withFieldError("paciente.idade", "Must be higher then 0");
+                ex.withFieldError("paciente.idade", "Deve ser maior que 0");
             if(patient.getLeito() == null)
-                ex.withFieldError("paciente.leito", "Can't be null");
+                ex.withFieldError("paciente.leito", "Não pode ser nulo");
             if(patient.getNrAtendimento() == null)
-                ex.withFieldError("paciente.nrAtendimento", "Can't be null");
+                ex.withFieldError("paciente.nrAtendimento", "Não pode ser nulo");
             if(patient.getRegistro() == null)
-                ex.withFieldError("paciente.registro", "Can't be null");
+                ex.withFieldError("paciente.registro", "Não pode ser nulo");
             if(patient.getSexo() == null)
-                ex.withFieldError("paciente.sexo", "Can't be null");
+                ex.withFieldError("paciente.sexo", "Não pode ser nulo");
         }
 
         if (formularioSepseEnf1Entity.getProcedencia() == null)
-            ex.withFieldError("paciente.procedencia", "Can't be null");
+            ex.withFieldError("paciente.procedencia", "Não pode ser nulo");
 
         if (ex.getFieldErrors() != null)
             throw ex;
@@ -208,12 +208,12 @@ public class SepseFormServiceImpl implements SepseFormService {
 
         if (pacienteEntity == null)
             throw new PatientNotFoundException()
-                    .withDetailedMessage("The data flow of this form is probably corrupted. Please contact the PrevSep Team.");
+                    .withDetailedMessage("O fluxo de dados desse formulário provavelmente está corrompido. Por favor, entre em contato com o Time PrevSep.");
 
         if (!FormStatus.SAVED.equals(FormStatus.fromValue(formularioSepseEnf1Entity.getStatus())))
             throw new InvalidFormStateException()
-                    .withMessage("This form can't be modified.")
-                    .withDetailedMessage("Form with state " + FormStatus.fromValue(formularioSepseEnf1Entity.getStatus()) + " can not be modified.");
+                    .withMessage("Esse formulário não pode ser modificado.")
+                    .withDetailedMessage("Formulário com estado " + FormStatus.fromValue(formularioSepseEnf1Entity.getStatus()) + " não pode ser modificado.");
 
         mergeEntity(formularioSepseEnf1Entity, nurseForm1UpdateDTO);
 
@@ -234,9 +234,9 @@ public class SepseFormServiceImpl implements SepseFormService {
     }
 
     /**
-     * Creates the doctor form associated with a given {@link FormularioSepseEnf1Entity}
-     * that must already exists in the system.
-     * @param formSepse1 The Sepse Form
+     * Cria o formulário de médico com um dado {@link FormularioSepseEnf1Entity} que deve já existir no sistema.
+     *
+     * @param formSepse1 O Formulário Sepse
      */
     private void createDoctorForm(FormularioSepseEnf1Entity formSepse1) {
         FormularioSepseMedicoEntity doctorFormEntity = new FormularioSepseMedicoEntity();
@@ -277,8 +277,8 @@ public class SepseFormServiceImpl implements SepseFormService {
 
         if (FormStatus.FINISHED.equals(FormStatus.fromValue(doctorFormEntity.getStatus())))
             throw new InvalidFormStateException()
-                    .withMessage("This form can't be modified.")
-                    .withDetailedMessage("Form with state " + FormStatus.fromValue(doctorFormEntity.getStatus()) + "can not be modified.");
+                    .withMessage("Esse formulário não pode ser modificado.")
+                    .withDetailedMessage("Formulário com estado " + FormStatus.fromValue(doctorFormEntity.getStatus()) + "não pode ser modificado.");
 
         mergeEntity(doctorFormEntity, doctorFormUpdateDTO);
         doctorFormEntity.setStatus(finished ? FormStatus.FINISHED.getValue() : FormStatus.SAVED.getValue());
@@ -296,21 +296,21 @@ public class SepseFormServiceImpl implements SepseFormService {
 
     private Optional<PrevSepException> validateDoctorForm(DoctorFormUpdateDTO form) {
         if (form == null)
-            return Optional.of(new FormValidationException().withDetailedMessage("The form can not be null."));
+            return Optional.of(new FormValidationException().withDetailedMessage("O formulário não pode ser nulo."));
 
         // Criterio de exclusão
         if (form.getCriterioExclusao() != null) {
             if (form.getCriterioExclusao().getApresentaCriterioExclusao()) {
                 if (!(form.getCriterioExclusao().getDoencaAtipica() || form.getCriterioExclusao().getFimDeVida() || form.getCriterioExclusao().getProbabilidadeSepseBaixa())) {
                     return Optional.of(new FormValidationException()
-                            .withMessage("This form is invalid.")
-                            .withDetailedMessage("The patient presents a exclusion criteria, but none is selected."));
+                            .withMessage("Esse formulário é inválido.")
+                            .withDetailedMessage("O paciente apresenta um critério de exclusão, mas nenhum foi selecionado."));
                 }
             } else {
                 if (form.getCriterioExclusao().getDoencaAtipica() || form.getCriterioExclusao().getFimDeVida() || form.getCriterioExclusao().getProbabilidadeSepseBaixa()) {
                     return Optional.of(new FormValidationException()
-                            .withMessage("This form is invalid.")
-                            .withDetailedMessage("The patient do not presents a exclusion criteria, but a criteria is selected."));
+                            .withMessage("Esse formulário é inválido.")
+                            .withDetailedMessage("O paciente não apresenta um critério de exclusão, mas um critério foi selecionado."));
                 }
             }
         }

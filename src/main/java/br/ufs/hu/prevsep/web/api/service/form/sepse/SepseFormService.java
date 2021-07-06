@@ -14,81 +14,82 @@ public interface SepseFormService {
 
 
     /**
-     * Returns all doctor forms given a criteria.
+     * Retorna todos os formulários de médico dado um critério.
      *
-     * @param request the list of criteria.
-     * @return All doctor forms found.
+     * @param request a lista de critérios.
+     * @return Todos os formulários de médico encontrados.
      */
     PageDoctorFormDTO getDoctorForms(PageableDoctorFormDTO request);
 
     /**
-     * Returns all pending doctor forms given a criteria.
+     * Retorna todos os formulários de médico pendentes dado um critério.
      *
-     * @param request the list of criteria.
-     * @return All pending doctor forms found.
+     * @param request a lista de critérios.
+     * @return Todos os formulários de médico pendentes encontrados.
      */
     PageDoctorFormDTO getPendingDoctorForms(Integer crm);
 
     /**
-     * Returns all pending nurse forms (form2) given the cre code.
+     * Retorna dos os formulários de enfermeiro pendentes (form2) dado o cre.
      *
-     * @param Integer the cre code.
-     * @return All pending doctor forms found.
+     * @param Integer o cre.
+     * @return Todos os formulários de enfermeiro pendentes encontrados.
      */
     PageNurseForm2DTO getPendingNurseForms(Integer cre);
 
     /**
-     * Returns a PDF reporting the lasts 30 days Sepse occurences.
+     * Retorna um relatório em PDF dos últimos 30 dias de ocorrências Sepse.
      *
-     * @return Byte Array representing the PDF
+     * @return Byte Array representando o PDF
      */
     byte[] getReportLast30Days() throws JRException, SQLException;
 
     /**
-     * Returns all nurses forms (first kind) given a criteria.
+     * Retorna todos os formulários de enfermeiro (primeiro tipo) dado um critério.
      *
-     * @param request the list of criteria.
-     * @return All nurses forms found during the search.
+     * @param request a lista de critérios.
+     * @return Todos os formulários de enfermeiro encontrados.
      */
     PageNurseForm1DTO getNurseForm1(PageableNurseForm1DTO request);
 
     /**
-     * Returns all nurses forms (second kind) given a criteria.
+     * Retorna todos os formulários de enfermeiro (segundo tipo) dado um critério.
      *
-     * @param request the list of criteria.
-     * @return All nurses forms found during the search.
+     * @param request a lista de critérios.
+     * @return Todos os formulários de enfermeiro encontrados.
      */
     PageNurseForm2DTO getNurseForm2(PageableNurseForm2DTO request);
 
     /**
-     * This method creates a Sepse Form in the system. And, depending on the flag {@code finalizado} on the request object,
-     * finishes the form filling, otherwise just saves the form state
-     * @param cre The CRE number of the Nurse responsible for create this form
-     * @param nurseForm1CreateDTO The form object
-     * @return The form object created on the system, containing the generated Patient and Form Ids
+     * Esse método cria um Formulário Sepse no sistema. E, dependendo na flag {@code finalizado} no objecto de solicitação,
+     * finaliza o preenchimento do formulário, caso contrário apenas salvo o estado do formulário
+     * @param cre O CRE do enfermeiro reponsável pela criação desse formulário
+     * @param nurseForm1CreateDTO O objecto do formulário
+     * @return O objeto do formulário criado no sistema, contendo os ID's do Paciente e Formulário gerado
      */
     NurseForm1DTO createForm(Integer cre, NurseForm1CreateDTO nurseForm1CreateDTO);
 
     /**
-     * This method creates a Sepse Form in the system. The main flow is: Finishes a form in the {@link NurseForm1Repository}
-     * and then creates the Doctor form associated to it in the {@link DoctorFormRepository}
-     * @param cre The CRE number of the Nurse responsible for create this form
-     * @param nurseForm1CreateDTO The form object
-     * @param idForm The Form's id
-     * @return The form object created on the system, containing the generated Patient and Form Ids
+     * Esse método cria um Formulário Sepse no sistema. O fluxo principal é: Finalizado um formulário no {@link NurseForm1Repository}
+     * e então cria o formulário de médico associado a este no {@link DoctorFormRepository}
+     * @param cre O CRE do enfermeiro reponsável pela criação desse formulário
+     * @param nurseForm1CreateDTO O objecto do formulário
+     * @param idForm O ID do formulário
+     * @return O objeto do formulário criado no sistema, contendo os ID's do Paciente e Formulário gerado
      */
     NurseForm1DTO finishForm1(Integer idForm, Integer cre, NurseForm1UpdateDTO nurseForm1CreateDTO);
 
     NurseForm1DTO saveForm1(Integer idForm, Integer cre, NurseForm1UpdateDTO nurseForm1CreateDTO);
 
     /**
-     * This method finishes filling an existing Doctor Form. To do so, first is necessary to check if the form isn't
-     * already finished ({@code br.ufs.hu.prevsep.web.api.dto.form.FormStatus.FINISHED}). If not, than the form is updated
-     * in the database, your status is updated to FINISHED and the second for the nurse is created.
+     * Esse método finaliza o preenchimento de um Formulário de Médico existente. Para isso, primeiro é necessário checar
+     * se o formulário já não está finalizado ({@code br.ufs.hu.prevsep.web.api.dto.form.FormStatus.FINISHED}).
+     * Caso positivo, então o formulário é atualizado no banco de dados, seus status é atualizado para FINISHED e o segundo
+     * formulário para o enfermeiro é criado.
      *
-     * @param idForm the target form's id
-     * @param doctorFormUpdateDTO Doctor form object
-     * @return The updated form.
+     * @param idForm o id do formulário
+     * @param doctorFormUpdateDTO objeto do formulário do médico
+     * @return O formulário atualizado.
      */
     DoctorFormDTO finishDoctorForm(Integer idForm, DoctorFormUpdateDTO doctorFormUpdateDTO)
             throws FormNotFoundException, InvalidFormStateException;
@@ -98,18 +99,18 @@ public interface SepseFormService {
             throws FormNotFoundException, InvalidFormStateException;
 
     /**
-     * This method finishes filling and existing Nurse Form 2. To do so, first is necessary to check if the form isn't
-     * already finished ({@code br.ufs.hu.prevsep.web.api.dto.form.FormStatus.FINISHED}) and whether the Doctor is FINISHED.
-     * If so, than the form is updated in the database, your status is updated to FINISHED and the Nurse Form 1 of this form
-     * is updated to finished.
+     * Esse método finaliza o preenchimento de um Formulário de Enfermeiro existente. Para isso, primeiro é necessário
+     * checar se esse formulário e o do médico já não está finalizado ({@code br.ufs.hu.prevsep.web.api.dto.form.FormStatus.FINISHED}).
+     * Caso positivo, então o formulário é atualizado no banco de dados, seus status é atualizado para FINISHED e a
+     * parte 1 desse formulário é também finalizado.
      *
-     * @param cre The CRE of the Nurse filling this form
-     * @param idForm The id of the form to be fill
-     * @param nurseForm2UpdateDTO The form object
-     * @return The updated form in the database
-     * @throws FormNotFoundException if the form was not found
-     * @throws InvalidFormStateException if the form can't be filled due to his state
-     * @throws UserNotFoundException if the given nurse do not existes
+     * @param cre O CRE do enfermeiro que está preenchendo esse formulário
+     * @param idForm O ID do formulário a ser preenchido
+     * @param nurseForm2UpdateDTO O objeto do formulário
+     * @return O formulário atualizado
+     * @throws FormNotFoundException se o formulário não foi encontrado
+     * @throws InvalidFormStateException se o formulário não pode ser preenchido devido ao seu estado
+     * @throws UserNotFoundException se dado enfermeiro não existe
      */
     NurseForm2DTO finishNurseForm2(Integer cre, Integer idForm, NurseForm2UpdateDTO nurseForm2UpdateDTO)
             throws FormNotFoundException, InvalidFormStateException, UserNotFoundException;

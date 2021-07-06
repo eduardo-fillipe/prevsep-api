@@ -63,7 +63,7 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public ManagerDTO createManager(ManagerRequestDTO managerRequestDTO) throws CPFAlreadyRegistered {
         if (getManager(managerRequestDTO.getUserInfo().getCpf()).isPresent())
-            throw new CPFAlreadyRegistered().withDetailedMessage("An user is already registered under this CPF.");
+            throw new CPFAlreadyRegistered().withDetailedMessage("Um usuário já está registrado com esse CPF.");
 
         ManagerEntity managerEntity = usuarioMapper.mapToManagerEntity(managerRequestDTO);
         managerEntity.getUserInfo().setCargo(CargoEnum.GESTOR.getId());
