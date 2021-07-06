@@ -312,7 +312,7 @@ WHERE (form1.status = 2 or form1.status = 4) and (age(now(), form1.dt_criacao) <
 				<reportElement mode="Opaque" x="760" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="a09438af-4c6e-400f-b074-377f01f3ae56"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
-			<textField pattern="EEEEE dd MMMMM yyyy">
+			<textField pattern="dd/MM/yyyy HH:mm:ss">
 				<reportElement x="0" y="4" width="100" height="13" uuid="abe1f507-b87f-4da8-b9cb-399853107865"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
