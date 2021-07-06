@@ -21,12 +21,14 @@ public class UsuarioLogServiceImpl implements UsuarioLogService {
     private final UsuarioLogMapper usuarioLogMapper;
     private final DataSource dataSource;
     private final JasperReport reportLogin;
+    private final JasperReport eventAccessReport;
 
     public UsuarioLogServiceImpl(UsuarioLoginLogRepository usuarioLoginLogRepository, DataSource dataSource) throws JRException {
         this.usuarioLoginLogRepository = usuarioLoginLogRepository;
         this.dataSource = dataSource;
 
         reportLogin =  JasperCompileManager.compileReport(getClass().getClassLoader().getResourceAsStream("reports/UsuarioLogins.jrxml"));
+        eventAccessReport = JasperCompileManager.compileReport(getClass().getClassLoader().getResourceAsStream("reports/EventoAcessoReport.jrxml"));
         usuarioLogMapper = UsuarioLogMapper.INSTANCE;
     }
 
@@ -66,5 +68,24 @@ public class UsuarioLogServiceImpl implements UsuarioLogService {
         entity.setId(UUID.randomUUID().toString());
 
         return usuarioLogMapper.mapToUsuarioLoginLogDto(usuarioLoginLogRepository.save(entity));
+    }
+
+    @Override
+    public byte[] getEventAccessReport(UsuarioEventAccessRequest request) throws JRException, SQLException {
+        try (Connection con = dataSource.getConnection()) {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+            if (request.getCpfList() == null)
+                request.setCpfList(new ArrayList<>());
+
+            Map<String, Object> params = new HashMap<>();
+            params.put("dt_requisicao_inicio", java.sql.Timestamp.valueOf(request.getDtLoginBegin()));
+            params.put("dt_requisicao_fim", java.sql.Timestamp.valueOf(request.getDtLoginEnd()));
+            params.put("cpf_list", request.getCpfList());
+
+            JasperPrint jp = JasperFillManager.fillReport(eventAccessReport, params, con);
+            JasperExportManager.exportReportToPdfStream(jp, byteArrayOutputStream);
+            return byteArrayOutputStream.toByteArray();
+        }
     }
 }

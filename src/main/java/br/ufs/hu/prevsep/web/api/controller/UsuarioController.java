@@ -5,6 +5,7 @@ import br.ufs.hu.prevsep.web.api.dto.fault.FaultDTO;
 import br.ufs.hu.prevsep.web.api.dto.security.LoginReportRequest;
 import br.ufs.hu.prevsep.web.api.dto.security.PageUsuarioLoginLogDTO;
 import br.ufs.hu.prevsep.web.api.dto.security.PageableUsuarioLoginLogDTO;
+import br.ufs.hu.prevsep.web.api.dto.security.UsuarioEventAccessRequest;
 import br.ufs.hu.prevsep.web.api.dto.user.usuario.PageUsuarioDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.usuario.UsuarioPageableRequestDTO;
 import br.ufs.hu.prevsep.web.api.dto.user.usuario.UsuarioUpdateDTO;
@@ -91,9 +92,22 @@ public class UsuarioController extends BaseController{
     @GetMapping(value = "/logs/login/report", produces = MediaType.APPLICATION_PDF_VALUE)
     @Operation(summary = "Returns a report of logins in a given period and CPFs.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Ok", content = @Content(mediaType = MediaType.APPLICATION_PDF_VALUE))})
+            @ApiResponse(responseCode = "200", description = "Ok", content = @Content(mediaType = MediaType.APPLICATION_PDF_VALUE)),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+    })
     @PreAuthorize("hasRole('ROLE_1')")
     public byte[] getLoginReport(@ModelAttribute LoginReportRequest loginReportRequest) throws JRException, SQLException {
         return usuarioLogService.getLoginReport(loginReportRequest);
+    }
+
+    @GetMapping(value = "/logs/activity/report", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_PDF_VALUE})
+    @Operation(summary = "Returns a report of activity in a given period and CPFs.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok", content = @Content(mediaType = MediaType.APPLICATION_PDF_VALUE)),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+    })
+    @PreAuthorize("hasRole('ROLE_1')")
+    public byte[] getEventAccessReport(@ModelAttribute @Valid UsuarioEventAccessRequest eventRequest) throws JRException, SQLException {
+        return usuarioLogService.getEventAccessReport(eventRequest);
     }
 }
