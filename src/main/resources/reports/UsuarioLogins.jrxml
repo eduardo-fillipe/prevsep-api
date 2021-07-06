@@ -160,11 +160,7 @@ where (dt_login >= $P{dt_inicio} and dt_login <= $P{dt_fim}) and ($X{IN, id_usua
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="0587995b-2816-4d24-a7bc-a1e8fd691057"/>
 			</line>
-<<<<<<< HEAD
-			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy hh:mm:ss" isBlankWhenNull="true">
-=======
-			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy HH:mm:ss">
->>>>>>> origin/main
+			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy HH:mm:ss" isBlankWhenNull="true">
 				<reportElement x="0" y="0" width="277" height="20" uuid="e5a87947-e0ba-4934-9e87-62fbea73e868">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5bb9d066-5279-4dd9-a59a-64ce70e0e138"/>
 				</reportElement>
