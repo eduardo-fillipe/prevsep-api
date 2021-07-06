@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="UsuarioLogins" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c6180a87-dfe0-475c-8923-83c9060db332">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="UsuarioLogins" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="c6180a87-dfe0-475c-8923-83c9060db332">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="prevsepDB"/>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="448"/>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="538"/>
-	<parameter name="dt_inicio" class="java.util.Date"/>
-	<parameter name="dt_fim" class="java.util.Date"/>
+	<parameter name="dt_inicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dt_fim" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
+	</parameter>
 	<parameter name="ids_usuarios" class="java.util.List" nestedType="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT log.id_usuario,
@@ -46,7 +50,7 @@ where (dt_login >= $P{dt_inicio} and dt_login <= $P{dt_fim}) and ($X{IN, id_usua
 		<groupExpression><![CDATA[$F{id_usuario}]]></groupExpression>
 		<groupHeader>
 			<band height="33">
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Opaque" x="0" y="0" width="150" height="32" forecolor="#006699" backcolor="#E6E6E6" uuid="862c2301-f98f-49fd-9a11-cc25596d5c91"/>
 					<textElement textAlignment="Center">
 						<font size="18" isBold="true"/>
@@ -56,7 +60,7 @@ where (dt_login >= $P{dt_inicio} and dt_login <= $P{dt_fim}) and ($X{IN, id_usua
 				<line>
 					<reportElement x="0" y="32" width="554" height="1" forecolor="#666666" uuid="6c90cbe1-dcba-4bab-b0a7-8da0de419864"/>
 				</line>
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement mode="Opaque" x="150" y="0" width="405" height="32" forecolor="#006699" backcolor="#E6E6E6" uuid="636f8890-a446-4f3f-b9fa-691a6c7c833e"/>
 					<textElement>
 						<font size="18" isBold="true"/>
@@ -156,7 +160,7 @@ where (dt_login >= $P{dt_inicio} and dt_login <= $P{dt_fim}) and ($X{IN, id_usua
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="0587995b-2816-4d24-a7bc-a1e8fd691057"/>
 			</line>
-			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy HH:mm:ss">
+			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy HH:mm:ss" isBlankWhenNull="true">
 				<reportElement x="0" y="0" width="277" height="20" uuid="e5a87947-e0ba-4934-9e87-62fbea73e868">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5bb9d066-5279-4dd9-a59a-64ce70e0e138"/>
 				</reportElement>
@@ -165,7 +169,7 @@ where (dt_login >= $P{dt_inicio} and dt_login <= $P{dt_fim}) and ($X{IN, id_usua
 				</textElement>
 				<textFieldExpression><![CDATA[$F{dt_login}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement x="277" y="0" width="277" height="20" uuid="26813bb2-817c-4b11-b947-54288457f5a2">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ea65cb2d-d7ce-4f9f-a3ed-e64696592eb2"/>
 				</reportElement>

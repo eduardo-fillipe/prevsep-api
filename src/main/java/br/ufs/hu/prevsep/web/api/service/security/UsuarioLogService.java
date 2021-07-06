@@ -21,4 +21,7 @@ public interface UsuarioLogService {
     PageUsuarioLoginLogDTO getLoginLogs(PageableUsuarioLoginLogDTO pageable);
 
     byte[] getLoginReport(LoginReportRequest request) throws JRException, SQLException;
+
+    byte[] getEventAccessReport(UsuarioEventAccessRequest request) throws JRException, SQLException;
+
 }

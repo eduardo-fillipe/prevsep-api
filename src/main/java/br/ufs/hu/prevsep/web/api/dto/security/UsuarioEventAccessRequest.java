@@ -1,12 +1,13 @@
 package br.ufs.hu.prevsep.web.api.dto.security;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class LoginReportRequest {
+public class UsuarioEventAccessRequest {
     @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dtLoginBegin;

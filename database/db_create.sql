@@ -182,7 +182,7 @@ CREATE TABLE IF NOT EXISTS public.usuario_acesso_log
     verbo_requisicao character varying,
     uri_requisicao character varying,
     status_response integer,
-    body_response aclitem,
+    body_response character varying,
     PRIMARY KEY (id_log)
 );
 
