@@ -7,6 +7,6 @@ public class UserNotFoundException extends PrevSepException {
 
     public UserNotFoundException() {
         super(HttpStatus.NOT_FOUND);
-        this.withMessage("Not found");
+        this.withMessage("Não encontrado");
     }
 }

@@ -19,7 +19,7 @@ public class RestAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
-        FaultDTO response = new FaultDTO(HttpStatus.UNAUTHORIZED.value(), "Access Denied.", e.getClass().getSimpleName());
+        FaultDTO response = new FaultDTO(HttpStatus.UNAUTHORIZED.value(), "Acesso negado.", e.getClass().getSimpleName());
         OutputStream out = httpServletResponse.getOutputStream();
         ObjectMapper mapper = new ObjectMapper();
 

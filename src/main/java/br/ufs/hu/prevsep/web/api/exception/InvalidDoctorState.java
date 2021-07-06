@@ -5,6 +5,6 @@ import org.springframework.http.HttpStatus;
 public class InvalidDoctorState extends PrevSepException{
     public InvalidDoctorState() {
         super(HttpStatus.CONFLICT);
-        withMessage("The doctor state on the system is invalid for this request.");
+        withMessage("O estado do médico no sistema é inválido para essa solicitação.");
     }
 }

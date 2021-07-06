@@ -28,13 +28,13 @@ public abstract class PageableRequest<T extends EntityPath<?>> implements Pageab
     private List<String> pageSort;
 
     /**
-     * Returns the Conditional Search Predicate for this PageRequest.
+     * Retorna a Busca Condicional de Predicados para esse PageRequest.
      *
-     * @param qEntity The qEntity related with this PageRequest.
-     * @return A Predicate that describes this PageRequest.
+     * @param qEntity A qEntity relacionada com esse PageRequest.
+     * @return Um Atributo que descreve esse PageRequest.
      *
-     * @apiNote The conditional Search Predicate is the
-     * conditional statement that goes inside of the WHERE clause in a SQL Statement.
+     * @apiNote A Busca Condicional de Predicados é a afirmação condicional que vai na cláusula WHERE
+     * em um SQL Statement.
      */
     @JsonIgnore
     public abstract Predicate getQueryPredicate(T qEntity);
@@ -60,14 +60,15 @@ public abstract class PageableRequest<T extends EntityPath<?>> implements Pageab
     }
 
     /**
-     * This method creates a link between an entity and a PageRequest. This maps a string to a path in the
-     * QEntity. This method is used to know how fields of this RequestPage relates to its Entity while ordering.
+     * Esse método cria uma conexão entre uma entidade e um PageRequest. Isso mapeia uma string a um caminho na
+     * QEntity. Esse método é usado para sabe como os campos dessa RequestPage se relaciona a sua Entidade enquanto
+     * enquanto orderna.
      *
-     * If a field is not mapped in this map, its ignored during the sorting process.
-     * @apiNote A default field for ordering can be set adding the key 'default' to the map.
+     * Se um campo não é mappeado nesse Map, ele é ignorado durante a ordenação.
+     * @apiNote Um campo padrão para ordenação pode ser definido adicionando a chave 'default' ao Map.
      *
-     * @return A Map, where the key is a string that represents the name of the field in this PageRequest
-     * and the value is a field of the qEntity parameter.
+     * @return Um Map, onde a chave é a string que representa o nome do campo nesse PageRequest e o valor
+     * é um campo do parâmetro qEntity.
      */
     @JsonIgnore
     public abstract Map<String, ComparableExpressionBase<?>> getSortFieldEntityMapping();

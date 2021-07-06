@@ -6,7 +6,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 public class DoctorResponseFullDTO {
-    @NotNull(message = "CRM can not be null")
+    @NotNull(message = "CRM não pode ser nulo")
     private Integer crm;
     @NotNull
     @Valid

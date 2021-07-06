@@ -47,7 +47,7 @@ public class OAuth2JWTAuthorizationFilter extends BasicAuthenticationFilter {
         String header = req.getHeader(HttpHeaders.AUTHORIZATION);
         try {
             if (header == null || !header.startsWith(TOKEN_PREFIX)) {
-                throw new UnauthorizedException("AUTHORIZATION Header is mandatory.");
+                throw new UnauthorizedException("Cabeçalho de AUTHORIZATION é obrigatório.");
             }
 
             UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
@@ -55,7 +55,7 @@ public class OAuth2JWTAuthorizationFilter extends BasicAuthenticationFilter {
             res.setHeader("Access-Control-Allow-Origin", "*");
             chain.doFilter(req, res);
         } catch (Exception e) {
-            getAuthenticationEntryPoint().commence(req, res, new InternalAuthenticationServiceException("Failure during authorization.", e));
+            getAuthenticationEntryPoint().commence(req, res, new InternalAuthenticationServiceException("Falha na autorização.", e));
         }
     }
 

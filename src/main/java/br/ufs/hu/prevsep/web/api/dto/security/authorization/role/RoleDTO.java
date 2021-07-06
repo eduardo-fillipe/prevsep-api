@@ -10,14 +10,14 @@ import java.util.Objects;
 
 @Validated
 public class RoleDTO implements GrantedAuthority {
-    @NotNull(message = "Can not be null.")
+    @NotNull(message = "Não pode ser nulo.")
     private Integer roleId;
 
-    @NotEmpty(message = "The Role name must be provided.")
-    @NotNull(message = "Can not be null.")
+    @NotEmpty(message = "O nome do cargo dever ser fornecido.")
+    @NotNull(message = "Não pode ser nulo.")
     private String roleName;
 
-    @Size(max = 255, message = "The description size must be between 1 and 255.")
+    @Size(max = 255, message = "A descrição deve ter tamanho entre 1 e 255.")
     private String description;
 
     public RoleDTO() {

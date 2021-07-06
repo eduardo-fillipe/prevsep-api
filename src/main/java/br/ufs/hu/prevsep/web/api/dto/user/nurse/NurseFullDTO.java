@@ -6,7 +6,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 public class NurseFullDTO {
-    @NotNull(message = "CRE can not be null")
+    @NotNull(message = "CRE não pode ser nulo")
     private Integer cre;
     @NotNull
     @Valid

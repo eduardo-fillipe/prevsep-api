@@ -22,13 +22,13 @@ public class SwaggerConfig {
                 .info(new Info()
                         .title("PrevSep+ Web API")
                         .version(version)
-                        .description("The RestFull API of the Sepse prevention system, PrevSep. Built in partnership with " +
-                                "the Universitary Hospital of the Federal University of Sergipe, HU-UFS.")
+                        .description("A API RestFull do sistema de prevenção de Sepses, PrevSep. Construído em parceria com " +
+                                "o Hospital Universitário da Universidade Federal de Sergipe, HU-UFS.")
                         .license(new License()
                                 .name("GNU GPLv3")
                                 .url("https://www.gnu.org/licenses/gpl-3.0.en.html"))
                         .contact(new Contact()
-                                .name("PrevSep+ Team")
+                                .name("Time PrevSep+")
                                 .email("ascom.huufs@ebserh.gov.br")
                                 .url("https://www.gov.br/ebserh/pt-br/hospitais-universitarios/regiao-nordeste/hu-ufs"))
                 ).schemaRequirement("oauth", oAuthSecuritySchema(authorizationServer, tokenUrl));

@@ -19,10 +19,10 @@ public class DoctorCRMExtensionPoint implements AuthorizationExtensionPoint<Inte
     public void authorize(Authentication authentication, Integer crm) throws AccessDeniedException {
         String cpf = String.valueOf(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         DoctorResponseFullDTO doctor = doctorService.getMedic(cpf)
-                .orElseThrow(() -> new AccessDeniedException("The Doctor that owns this token is not active in the system anymore."));
+                .orElseThrow(() -> new AccessDeniedException("O médico que possui esse token não está mais ativo no sistema."));
 
         if (!doctor.getCrm().equals(crm))
-            throw new AccessDeniedException("Doctor with CRM " + doctor.getCrm() + " is trying to access as " + crm);
+            throw new AccessDeniedException("Médico com o CRM " + doctor.getCrm() + " está tentando acessar como " + crm);
 
     }
 }
