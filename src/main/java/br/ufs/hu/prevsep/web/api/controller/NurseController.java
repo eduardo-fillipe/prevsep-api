@@ -11,6 +11,7 @@ import br.ufs.hu.prevsep.web.api.dto.user.nurse.NurseUpdateDTO;
 import br.ufs.hu.prevsep.web.api.exception.user.UserNotFoundException;
 import br.ufs.hu.prevsep.web.api.service.form.sepse.SepseFormService;
 import br.ufs.hu.prevsep.web.api.service.security.AuthorizationExtensionService;
+import br.ufs.hu.prevsep.web.api.service.security.extensionpoint.DoctorCRMExtensionPoint;
 import br.ufs.hu.prevsep.web.api.service.security.extensionpoint.NurseCREExtensionPoint;
 import br.ufs.hu.prevsep.web.api.service.user.nurse.NurseService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -177,5 +178,16 @@ public class NurseController extends BaseController {
                                      @RequestBody NurseForm2UpdateDTO nurseForm2UpdateDTO) {
         authorizationExtensionService.authorize(NurseCREExtensionPoint.class, cre);
         sepseFormService.saveNurseForm2(cre, idForm, nurseForm2UpdateDTO);
+    }
+
+    @GetMapping("/{cre}/forms/sepse/pending")
+    @Operation(summary = "Retorna os formulários pendentes de um(a) enfermeiro(a) específico(a).")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ok",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = PageNurseForm2DTO.class))))})
+    @PreAuthorize("hasRole('ROLE_3')")
+    public PageNurseForm2DTO getPendingNurseForms(@PathVariable("cre") @Valid @Min(1) @NotNull Integer cre) {
+        authorizationExtensionService.authorize(NurseCREExtensionPoint.class, cre);
+        return sepseFormService.getPendingNurseForms(cre);
     }
 }

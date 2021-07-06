@@ -214,7 +214,7 @@ WHERE (form1.status = 2 or form1.status = 4) and (age(now(), form1.dt_criacao) <
 				</textElement>
 				<textFieldExpression><![CDATA[$F{id_formulario}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" pattern="d/M/yy h:mm a" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" pattern="dd/MM/yyyy" isBlankWhenNull="true">
 				<reportElement x="40" y="0" width="99" height="20" uuid="3402deb3-7b29-4b76-9bdb-fea3dcb8952c">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f090929e-e869-46ed-910f-a38429fff203"/>
 				</reportElement>

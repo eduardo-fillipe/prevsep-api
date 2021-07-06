@@ -8,6 +8,7 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.ComparableExpressionBase;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 public class PageableNurseForm2DTO extends PageableRequest<QFormularioSepseEnf2Entity> {
@@ -22,7 +23,7 @@ public class PageableNurseForm2DTO extends PageableRequest<QFormularioSepseEnf2E
     private LocalDateTime dtObitoEnd;
     private LocalDateTime dtCriacaoBegin;
     private LocalDateTime dtCriacaoEnd;
-    private FormStatus status;
+    private List<FormStatus> status;
 
     private static final Map<String, ComparableExpressionBase<?>> ENTITY_RELATIONSHIP = Map.of(
             "idFormulario", QFormularioSepseEnf2Entity.formularioSepseEnf2Entity.idFormulario,
@@ -114,11 +115,11 @@ public class PageableNurseForm2DTO extends PageableRequest<QFormularioSepseEnf2E
         this.dtCriacaoEnd = dtCriacaoEnd;
     }
 
-    public FormStatus getStatus() {
+    public List<FormStatus> getStatus() {
         return status;
     }
 
-    public void setStatus(FormStatus status) {
+    public void setStatus(List<FormStatus> status) {
         this.status = status;
     }
 
@@ -130,9 +131,13 @@ public class PageableNurseForm2DTO extends PageableRequest<QFormularioSepseEnf2E
             filter.and(qEntity.idFormulario.eq(this.idFormulario));
         if (this.creEnfermeiro != null)
             filter.and(qEntity.creEnfermeiro.eq(this.creEnfermeiro));
-        if (this.status != null)
-            filter.and(qEntity.status.eq(status.getValue()));
-
+        if (this.status != null && this.status.size() > 0) {
+            BooleanBuilder subfilter = new BooleanBuilder();
+            for (var s : this.status) {
+                subfilter.or(qEntity.status.eq(s.getValue()));
+            }
+            filter.and(subfilter.getValue());
+        }
         if (this.dtCriacaoBegin != null)
             filter.and(qEntity.dtCriacao.goe(this.dtCriacaoBegin));
         if (this.dtCriacaoEnd != null)
