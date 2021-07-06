@@ -79,11 +79,11 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public DoctorResponseDTO createMedic(DoctorRequestDTO medico) throws CPFAlreadyRegistered {
         if (getMedic(medico.getUserInfo().getCpf()).isPresent())
-            throw new CPFAlreadyRegistered().withDetailedMessage("An user is already registered under this CPF.");
+            throw new CPFAlreadyRegistered().withDetailedMessage("Um usuário já está registrado com esse CPF.");
 
         if (getMedicByCRM(medico.getCrm()).isPresent())
             throw new CRMAlreadyRegisteredException()
-                    .withDetailedMessage("A doctor with CRM '"+medico.getCrm()+"' already exists in the database.");
+                    .withDetailedMessage("Um médico com CRM '"+medico.getCrm()+"' já existe no banco de dados.");
 
         MedicoEntity medicoEntity = usuarioMapper.mapToDoctorEntity(medico);
 
@@ -97,7 +97,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public DoctorResponseDTO updateMedico(String cpf, DoctorUpdateDTO medico) {
-        getMedic(cpf).orElseThrow(() -> new UserNotFoundException().withDetailedMessage("Medic not found."));
+        getMedic(cpf).orElseThrow(() -> new UserNotFoundException().withDetailedMessage("Médico não encontrado."));
 
         MedicoEntity medicoEntity = usuarioMapper.mapToDoctorEntity(medico);
         medicoEntity.setCpf(cpf);

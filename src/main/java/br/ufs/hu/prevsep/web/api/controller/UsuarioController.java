@@ -30,7 +30,7 @@ import java.sql.SQLException;
 
 @RestController
 @RequestMapping(path = ApiRequestMappings.USERS, produces = {MediaType.APPLICATION_JSON_VALUE})
-@Tag(name = "Users", description = "User managing endpoints")
+@Tag(name = "Usuários", description = "Endpoints de gerenciamento de usuários.")
 public class UsuarioController extends BaseController{
 
     private final UsuarioService usuarioService;
@@ -42,7 +42,7 @@ public class UsuarioController extends BaseController{
     }
 
     @GetMapping
-    @Operation(summary = "Returns all Users in the database.")
+    @Operation(summary = "Retorna todos os usuários presentes no banco de dados.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
                     content = @Content(schema = @Schema(implementation = PageUsuarioDTO.class)))})
@@ -52,12 +52,12 @@ public class UsuarioController extends BaseController{
     }
 
     @PatchMapping("/{cpf}")
-    @Operation(summary = "Updates a User")
+    @Operation(summary = "Atualiza as informações de um usuário")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Modified"),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
-            @ApiResponse(responseCode = "404", description = "User not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+            @ApiResponse(responseCode = "204", description = "Modificado"),
+            @ApiResponse(responseCode = "400", description = "Solicitação mal feita", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @PreAuthorize("#cpf == authentication.principal")
     public void updateUsuario(@PathVariable @NotEmpty @CPF String cpf, @RequestBody @Valid UsuarioUpdateDTO usuarioUpdateDTO){
@@ -65,12 +65,12 @@ public class UsuarioController extends BaseController{
     }
 
     @DeleteMapping("/{cpf}")
-    @Operation(summary = "Removes a User")
+    @Operation(summary = "Remove um usuário")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Modified"),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
-            @ApiResponse(responseCode = "404", description = "User not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+            @ApiResponse(responseCode = "204", description = "Modificado"),
+            @ApiResponse(responseCode = "400", description = "Solicitação mal feita", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @PreAuthorize("(#cpf == authentication.principal) or hasRole('ROLE_1')")
     public void deleteUsuario(@PathVariable @Valid @NotEmpty @CPF String cpf) {
@@ -78,11 +78,11 @@ public class UsuarioController extends BaseController{
     }
 
     @GetMapping("/logs/login")
-    @Operation(summary = "Returns the Login logs of the users")
+    @Operation(summary = "Retorna o log de login dos usuários.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
                     content = @Content(schema = @Schema(implementation = PageUsuarioLoginLogDTO.class))),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+            @ApiResponse(responseCode = "400", description = "Solicitação mal feita", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @PreAuthorize("(#usuarioPageRequest.cpfUsuario == authentication.principal) or hasRole('ROLE_1')")
     public PageUsuarioLoginLogDTO getLoginLogs(@ModelAttribute(value = "usuarioLoginPageRequest") PageableUsuarioLoginLogDTO usuarioPageRequest) {
@@ -90,10 +90,10 @@ public class UsuarioController extends BaseController{
     }
 
     @GetMapping(value = "/logs/login/report", produces = MediaType.APPLICATION_PDF_VALUE)
-    @Operation(summary = "Returns a report of logins in a given period and CPFs.")
+    @Operation(summary = "Retorna um relatorio de logins em dado período e CPF's.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok", content = @Content(mediaType = MediaType.APPLICATION_PDF_VALUE)),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+            @ApiResponse(responseCode = "400", description = "Solicitação mal feita", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @PreAuthorize("hasRole('ROLE_1')")
     public byte[] getLoginReport(@ModelAttribute LoginReportRequest loginReportRequest) throws JRException, SQLException {
@@ -101,10 +101,10 @@ public class UsuarioController extends BaseController{
     }
 
     @GetMapping(value = "/logs/activity/report", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_PDF_VALUE})
-    @Operation(summary = "Returns a report of activity in a given period and CPFs.")
+    @Operation(summary = "Retorna um relatório de atividades em dado período e CPF's.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok", content = @Content(mediaType = MediaType.APPLICATION_PDF_VALUE)),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+            @ApiResponse(responseCode = "400", description = "Solicitação mal feita", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @PreAuthorize("hasRole('ROLE_1')")
     public byte[] getEventAccessReport(@ModelAttribute @Valid UsuarioEventAccessRequest eventRequest) throws JRException, SQLException {

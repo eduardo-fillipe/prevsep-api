@@ -5,6 +5,6 @@ import org.springframework.http.HttpStatus;
 public class CRMAlreadyRegisteredException extends PrevSepException {
     public CRMAlreadyRegisteredException() {
         super(HttpStatus.CONFLICT);
-        this.withMessage("This CRM is already registered.");
+        this.withMessage("Esse CRM já está registrado.");
     }
 }

@@ -23,7 +23,7 @@ import java.sql.SQLException;
 
 @RestController
 @RequestMapping(path = ApiRequestMappings.FORMS_SEPSE, produces = {MediaType.APPLICATION_JSON_VALUE})
-@Tag(name = "Sepse Form", description = "Manage, create, list and update sepse related forms.")
+@Tag(name = "Formulário Sepse", description = "Gerencia, cria, lista e atualiza formulários do tipo Sepse.")
 @PreAuthorize("hasAnyRole('ROLE_1', 'ROLE_2', 'ROLE_3')")
 public class FormController extends BaseController {
 
@@ -34,21 +34,21 @@ public class FormController extends BaseController {
     }
 
     @GetMapping("/doctor")
-    @Operation(summary = "Returns the doctors forms in the database given a criteria.")
+    @Operation(summary = "Retorna os formulários dos médicos presentes no banco de dados a partir de um certo critério.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Ok",
             content = @Content(schema = @Schema(implementation = PageDoctorFormDTO.class))),
-        @ApiResponse(responseCode = "400", description = "Bad Request",
+        @ApiResponse(responseCode = "400", description = "Solicitação mal feita",
             content = @Content(schema = @Schema(implementation = FaultDTO.class)))})
     public PageDoctorFormDTO getDoctorForms(@ModelAttribute PageableDoctorFormDTO pageableRequest) {
         return sepseFormService.getDoctorForms(pageableRequest);
     }
 
     @GetMapping(value = "/report", produces = MediaType.APPLICATION_PDF_VALUE)
-    @Operation(summary = "Returns a PDF report of the given form")
+    @Operation(summary = "Retorna um relatório em PDF de um certo formulário")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok", content = @Content(mediaType = MediaType.APPLICATION_PDF_VALUE)),
-            @ApiResponse(responseCode = "404", description = "Form not found",
+            @ApiResponse(responseCode = "404", description = "Formulário não encontrado",
                     content = @Content(schema = @Schema(implementation = FaultDTO.class)))})
     @PreAuthorize("hasRole('ROLE_1')")
     public byte[] getReportLast30Days() throws JRException, SQLException {
@@ -56,22 +56,22 @@ public class FormController extends BaseController {
     }
 
     @GetMapping("/nurse/form1")
-    @Operation(summary = "Returns the nurse forms (part 1) in the database given a criteria.")
+    @Operation(summary = "Retorna os formulários de enfermeiro (parte 1) presentes no banco de dados a partir de um certo critério.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
                     content = @Content(schema = @Schema(implementation = PageNurseForm1DTO.class))),
-            @ApiResponse(responseCode = "400", description = "Bad Request",
+            @ApiResponse(responseCode = "400", description = "Solicitação mal feita",
                     content = @Content(schema = @Schema(implementation = FaultDTO.class)))})
     public PageNurseForm1DTO getNurse1Forms(@Valid @ModelAttribute PageableNurseForm1DTO pageableRequest) {
         return sepseFormService.getNurseForm1(pageableRequest);
     }
 
     @GetMapping("/nurse/form2")
-    @Operation(summary = "Returns the nurse forms (part 2) in the database given a criteria.")
+    @Operation(summary = "Retorna os formulários de enfermeiro (parte 2) presentes no banco de dados a partir de um certo critério.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
                     content = @Content(schema = @Schema(implementation = PageNurseForm2DTO.class))),
-            @ApiResponse(responseCode = "400", description = "Bad Request",
+            @ApiResponse(responseCode = "400", description = "Solicitação mal feita",
                     content = @Content(schema = @Schema(implementation = FaultDTO.class)))})
     public PageNurseForm2DTO getNurse2Forms(@Valid @ModelAttribute PageableNurseForm2DTO pageableRequest) {
         return sepseFormService.getNurseForm2(pageableRequest);

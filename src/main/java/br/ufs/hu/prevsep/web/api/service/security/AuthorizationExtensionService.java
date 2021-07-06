@@ -16,7 +16,7 @@ public class AuthorizationExtensionService {
 
     public <T, K extends AuthorizationExtensionPoint<T>> void authorize(Class<K> extension, T resource) throws AccessDeniedException {
         if (extension == null)
-            throw new IllegalArgumentException("The Extension point can not be null.");
+            throw new IllegalArgumentException("O ponto de extensão não pode ser nulo.");
 
         AuthorizationExtensionPoint<T> authorizationExtensionPoint = ctx.getBean(extension);
         authorizationExtensionPoint.authorize(SecurityContextHolder.getContext().getAuthentication(), resource);
@@ -24,7 +24,7 @@ public class AuthorizationExtensionService {
 
     public <T> void authorize(T resource, AuthorizationExtensionPoint<T> extensionPoint) throws AccessDeniedException {
         if (extensionPoint == null)
-            throw new IllegalArgumentException("The Extension point can not be null.");
+            throw new IllegalArgumentException("O ponto de extensão não pode ser nulo.");
 
         extensionPoint.authorize(SecurityContextHolder.getContext().getAuthentication(), resource);
     }

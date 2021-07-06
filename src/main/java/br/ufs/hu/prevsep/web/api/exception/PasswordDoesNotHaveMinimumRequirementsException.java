@@ -5,6 +5,6 @@ import org.springframework.http.HttpStatus;
 public class PasswordDoesNotHaveMinimumRequirementsException extends PrevSepException {
     public PasswordDoesNotHaveMinimumRequirementsException() {
         super(HttpStatus.BAD_REQUEST);
-        this.withMessage("Password does not have the minimum requirements.");
+        this.withMessage("Senha não satisfaz os requisitos mínimos.");
     }
 }

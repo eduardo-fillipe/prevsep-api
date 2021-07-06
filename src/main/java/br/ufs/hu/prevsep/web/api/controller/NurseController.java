@@ -35,7 +35,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = ApiRequestMappings.NURSES, produces = {MediaType.APPLICATION_JSON_VALUE})
-@Tag(name = "Nurses", description = "Nurse related endpoints")
+@Tag(name = "Enfermeiros", description = "Endpoints relacionados ao enfermeiros")
 @PreAuthorize("hasAnyRole('ROLE_1', 'ROLE_3')")
 public class NurseController extends BaseController {
 
@@ -51,7 +51,7 @@ public class NurseController extends BaseController {
     }
 
     @GetMapping
-    @Operation(summary = "Returns all nurses in the database.")
+    @Operation(summary = "Retorna todos os enfermeiros presentes no banco de dados.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = NurseDTO.class))))})
@@ -60,25 +60,25 @@ public class NurseController extends BaseController {
     }
 
     @GetMapping("/{cpf}")
-    @Operation(summary = "Returns info about a Nurse by a given CPF")
+    @Operation(summary = "Retorna informações de um enfermeiro dado um CPF.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = NurseFullDTO.class)))),
-            @ApiResponse(responseCode = "404", description = "Nurse not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+            @ApiResponse(responseCode = "404", description = "Enfermeiro não encontrado", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @PostAuthorize("(hasRole('ROLE_3') and #cpf == authentication.principal) or hasAnyRole('ROLE_1')")
     public NurseFullDTO getNurseByCRE(@Valid @CPF @NotNull @PathVariable String cpf) {
         return nurseService.getNurse(cpf).orElseThrow(() ->
-                new UserNotFoundException().withDetailedMessage("This Nurse was not found in the System."));
+                new UserNotFoundException().withDetailedMessage("Esse enfermeiro não foi encontrado no Sistema."));
     }
 
     @PostMapping
-    @Operation(summary = "Creates a new Nurse.")
+    @Operation(summary = "Cria um novo enfermeiro.")
     @ResponseStatus(HttpStatus.CREATED)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Nurse Created", content = @Content(schema = @Schema(implementation = DoctorResponseDTO.class))),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
-            @ApiResponse(responseCode = "409", description = "Nurse already registered", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+            @ApiResponse(responseCode = "201", description = "Enfermeiro criado", content = @Content(schema = @Schema(implementation = DoctorResponseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Solicitação mal feita", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "409", description = "Enfermeiro já registrado", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @PreAuthorize("hasRole('ROLE_1')")
     public NurseDTO createNurse(@RequestBody @Valid NurseRequestDTO nurseRequestDTO) {
@@ -86,12 +86,12 @@ public class NurseController extends BaseController {
     }
 
     @PutMapping("/{cpf}")
-    @Operation(summary = "Updates a Nurse")
+    @Operation(summary = "Atualiza informações de um enfemeiro.")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Modified"),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Nurse not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+            @ApiResponse(responseCode = "204", description = "Modificado"),
+            @ApiResponse(responseCode = "400", description = "Solicitação mal feita", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Enfermeiro não encontrado", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @PreAuthorize("(#cpf == authentication.principal) or hasRole('ROLE_1')")
     public void updateNurse(@PathVariable("cpf") @Valid  @CPF String cpf, @RequestBody @Valid NurseUpdateDTO nurseUpdateDTO) {
@@ -99,12 +99,12 @@ public class NurseController extends BaseController {
     }
 
     @PostMapping("/{cre}/forms/sepse")
-    @Operation(summary = "Creates a Sepse form.")
+    @Operation(summary = "Cria um novo formulário sepse.")
     @ResponseStatus(HttpStatus.CREATED)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Created"),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Resource not found: Patient, Nurse or Doctor", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+            @ApiResponse(responseCode = "201", description = "Criado"),
+            @ApiResponse(responseCode = "400", description = "Solicitação mal feita", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Recurso não encontrado: Paciente, Enfermeiro ou Médico", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @Valid
     @PreAuthorize("hasRole('ROLE_3')")
@@ -115,12 +115,12 @@ public class NurseController extends BaseController {
     }
 
     @PostMapping("/{cre}/forms/sepse/{idForm}/form1")
-    @Operation(summary = "Finishes filling and activate the Nurse's sepse form (1st part)")
+    @Operation(summary = "Finaliza o preenchimento e ativa o formulário sepse de enfermeiro (primeira parte).")
     @ResponseStatus(HttpStatus.OK)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Created"),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Resource not found: Patient, Nurse or Doctor", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+            @ApiResponse(responseCode = "200", description = "Criado"),
+            @ApiResponse(responseCode = "400", description = "Solicitação mal feita", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Recurso não encontrado: Paciente, Enfermeiro ou Médico", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @Valid
     @PreAuthorize("hasRole('ROLE_3')")
@@ -131,13 +131,13 @@ public class NurseController extends BaseController {
     }
 
     @PutMapping("/{cre}/forms/sepse/{idForm}/form1")
-    @Operation(summary = "Saves the state of the Nurse's sepse form (1st part)")
+    @Operation(summary = "Salva o estado do formulário sepse de enfermeiro (primeira parte).")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Ok"),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Resource not found: Patient, Nurse or Doctor", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
-            @ApiResponse(responseCode = "409", description = "Conflict: Illegal user or form state", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+            @ApiResponse(responseCode = "400", description = "Solicitação mal feita", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Recurso não encontrado: Paciente, Enfermeiro ou Médico", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "409", description = "Conflito: Usuário ilegal ou estado do formulário ilegal", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @Valid
     @PreAuthorize("hasRole('ROLE_3')")
@@ -148,13 +148,13 @@ public class NurseController extends BaseController {
     }
 
     @PostMapping("/{cre}/forms/sepse/{idForm}/form2")
-    @Operation(summary = "Finishes filling a sepse form.")
+    @Operation(summary = "Finaliza o preenchimento de um formulário sepse.")
     @ResponseStatus(HttpStatus.OK)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok", content = @Content(schema = @Schema(implementation = NurseForm2DTO.class))),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Resource not found: Patient, Nurse or Doctor", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
-            @ApiResponse(responseCode = "409", description = "Conflict: Illegal user or form state", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+            @ApiResponse(responseCode = "400", description = "Solicitação mal feita", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Recurso não encontrado: Paciente, Enfermeiro ou Médico", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "409", description = "Conflito: Usuário ilegal ou estado do formulário ilegal", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @Valid
     @PreAuthorize("hasRole('ROLE_3')")
@@ -165,13 +165,13 @@ public class NurseController extends BaseController {
     }
 
     @PutMapping("/{cre}/forms/sepse/{idForm}/form2")
-    @Operation(summary = "Saves the state of the Nurse's sepse form (2nd part).")
+    @Operation(summary = "Salva o estado do formulário sepse de enfermeiro (segunda parte).")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Ok"),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Resource not found: Patient, Nurse or Doctor", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
-            @ApiResponse(responseCode = "409", description = "Conflict: Illegal user or form state", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+            @ApiResponse(responseCode = "400", description = "Solicitação mal feita", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Recurso não encontrado: Paciente, Enfermeiro ou Médico", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "409", description = "Conflito: Usuário ilegal ou estado do formulário ilegal", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @PreAuthorize("hasRole('ROLE_3')")
     public void saveForm2(@PathVariable("cre") @Valid @Min(1) @NotNull Integer cre, @PathVariable("idForm") @Valid @Min(1) Integer idForm,
@@ -181,7 +181,7 @@ public class NurseController extends BaseController {
     }
 
     @GetMapping("/{cre}/forms/sepse/pending")
-    @Operation(summary = "Retorna os formulários pendentes de um(a) enfermeiro(a) específico(a).")
+    @Operation(summary = "Retorna os formulários pendentes de um enfermeiro específico.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = PageNurseForm2DTO.class))))})

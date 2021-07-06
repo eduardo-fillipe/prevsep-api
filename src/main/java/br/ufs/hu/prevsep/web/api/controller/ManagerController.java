@@ -27,7 +27,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = ApiRequestMappings.MANAGERS, produces = {MediaType.APPLICATION_JSON_VALUE})
-@Tag(name = "Managers", description = "Manage, create, list and update managers.")
+@Tag(name = "Gestores", description = "Gerencia, cria, lista e atualiza gestores.")
 @PreAuthorize("hasRole('ROLE_1')")
 public class ManagerController extends BaseController{
 
@@ -38,7 +38,7 @@ public class ManagerController extends BaseController{
     }
 
     @GetMapping
-    @Operation(summary = "Returns all managers in the database.")
+    @Operation(summary = "Retorna todos os gestores presentes no banco de dados.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = ManagerDTO.class))))})
@@ -47,25 +47,25 @@ public class ManagerController extends BaseController{
     }
 
     @GetMapping("/{cpf}")
-    @Operation(summary = "Returns info about a manager by a given CPF")
+    @Operation(summary = "Retorna informações sobre um gestor dado um CPF.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok",
                     content = @Content(schema = @Schema(implementation = ManagerFullDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Medic not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+            @ApiResponse(responseCode = "404", description = "Gestor não encontrado", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @PreAuthorize("#cpf == authentication.principal")
     public ManagerFullDTO getManagerByCPF(@PathVariable @Valid @CPF String cpf){
         return managerService.getManager(cpf).orElseThrow(() ->
-                new UserNotFoundException().withDetailedMessage("This manager was not found in the System."));
+                new UserNotFoundException().withDetailedMessage("Esse gestor não foi encontrado no Sistema."));
     }
 
     @PostMapping
-    @Operation(summary = "Creates a new Manager.")
+    @Operation(summary = "Cria um novo gestor..")
     @ResponseStatus(HttpStatus.CREATED)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Manager Created", content = @Content(schema = @Schema(implementation = ManagerDTO.class))),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
-            @ApiResponse(responseCode = "409", description = "Manager already registered", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+            @ApiResponse(responseCode = "201", description = "Gestor criado", content = @Content(schema = @Schema(implementation = ManagerDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Solicitação mal feita", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "409", description = "Gestor já registrado", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     public ManagerDTO createManager(@RequestBody @Valid ManagerRequestDTO managerRequestDTO) {
         return managerService.createManager(managerRequestDTO);
@@ -73,12 +73,12 @@ public class ManagerController extends BaseController{
 
     @Hidden
     @PutMapping("/{cpf}")
-    @Operation(summary = "Updates a specific manager.")
+    @Operation(summary = "Atualiza informações de um gestor específico.")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Modified"),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Manager not found", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
+            @ApiResponse(responseCode = "204", description = "Modificado"),
+            @ApiResponse(responseCode = "400", description = "Solicitação mal feita", content = @Content(schema = @Schema(implementation = FaultDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Gestor não encontrado", content = @Content(schema = @Schema(implementation = FaultDTO.class)))
     })
     @PreAuthorize("#cpf == authentication.principal")
     public void updateManager(@PathVariable("cpf") @Valid @CPF String cpf, @RequestBody @Valid ManagerUpdateDTO managerUpdateDTO) {

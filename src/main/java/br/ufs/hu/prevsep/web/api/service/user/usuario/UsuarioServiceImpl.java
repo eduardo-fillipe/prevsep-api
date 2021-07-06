@@ -29,7 +29,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public UsuarioDTO updateUsuario(String cpf, UsuarioUpdateDTO usuario) throws UserNotFoundException {
         UsuarioEntity existingUsuario =  usuarioRepository.findById(cpf).orElseThrow(() ->
-                new UserNotFoundException().withDetailedMessage("This user was not found."));
+                new UserNotFoundException().withDetailedMessage("Esse usuário não foi encontrado."));
 
         UsuarioEntity mappedEntity = usuarioMapper.mapToUsuarioEntity(usuario);
         BeanUtils.copyPropertiesIgnoreNulls(mappedEntity, existingUsuario, true);
@@ -78,7 +78,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public void deleteUsuario(String cpf) throws UserNotFoundException {
         getUsuario(cpf).orElseThrow(() ->
-                new UserNotFoundException().withDetailedMessage("This user was not found."));
+                new UserNotFoundException().withDetailedMessage("Esse usuário não foi encontrado."));
 
         UsuarioUpdateDTO usuarioUpdateDTO = new UsuarioUpdateDTO();
         usuarioUpdateDTO.setStatus(StatusUsuarioEnum.DESATIVADO);

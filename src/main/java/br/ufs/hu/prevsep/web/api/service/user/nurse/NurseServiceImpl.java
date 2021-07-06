@@ -79,11 +79,11 @@ public class NurseServiceImpl implements NurseService {
     @Override
     public NurseDTO createNurse(NurseRequestDTO nurse) throws CPFAlreadyRegistered {
         if (getNurse(nurse.getUserInfo().getCpf()).isPresent())
-            throw new CPFAlreadyRegistered().withDetailedMessage("An user is already registered under this CPF.");
+            throw new CPFAlreadyRegistered().withDetailedMessage("Um usuário já está registrado com esse CPF.");
 
         if (getNurseByCRE(nurse.getCre()).isPresent())
             throw new CREAlreadyRegisteredException()
-                    .withDetailedMessage("A nurse with CRE '"+nurse.getCre()+"' already exists in the system's database.");
+                    .withDetailedMessage("Um enfermeiro com CRE '"+nurse.getCre()+"' já existe no banco de dados.");
 
         EnfermeiroEntity enfermeiroEntity = usuarioMapper.mapToEnfermeiroEntity(nurse);
         enfermeiroEntity.getUserInfo().setCargo(CargoEnum.ENFERMEIRO.getId());
@@ -96,7 +96,7 @@ public class NurseServiceImpl implements NurseService {
 
     @Override
     public NurseDTO updateNurse(String cpf, NurseUpdateDTO nurseUpdateDTO) {
-        getNurse(cpf).orElseThrow(() -> new UserNotFoundException().withDetailedMessage("Nurse not found."));
+        getNurse(cpf).orElseThrow(() -> new UserNotFoundException().withDetailedMessage("Enfermeiro não encontrado."));
 
         EnfermeiroEntity enfermeiroEntity = usuarioMapper.mapToEnfermeiroEntity(nurseUpdateDTO);
         enfermeiroEntity.setCpf(cpf);

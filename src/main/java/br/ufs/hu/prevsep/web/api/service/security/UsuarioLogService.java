@@ -7,16 +7,16 @@ import java.sql.SQLException;
 public interface UsuarioLogService {
 
     /**
-     * Creates a login log in the system
-     * @param loginLogCreateDTO The log to be created
-     * @return The resulting log after inserted in the system
+     * Cria um log de login no sistema
+     * @param loginLogCreateDTO O log a ser criado
+     * @return O log resultante após a inserção no sistema
      */
     UsuarioLoginLogDTO createLog(UsuarioLoginLogCreateDTO loginLogCreateDTO);
 
     /**
-     * Returns the logs in the system for a give request
-     * @param pageable The request filter
-     * @return The list of logs in the form of a page
+     * Retorna o log presente no sistema de uma dado solicitação
+     * @param pageable O filtro de solicitação
+     * @return A lista de logs na forma de uma página
      */
     PageUsuarioLoginLogDTO getLoginLogs(PageableUsuarioLoginLogDTO pageable);
 

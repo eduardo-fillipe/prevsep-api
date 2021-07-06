@@ -27,10 +27,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user;
 
         UsuarioEntity usuarioEntity = usuarioRepository.findById(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found."));
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado."));
 
         if (StatusUsuarioEnum.fromId(usuarioEntity.getStatus()) == StatusUsuarioEnum.DESATIVADO)
-            throw new UsernameNotFoundException("User not found.");
+            throw new UsernameNotFoundException("Usuário não encontrado.");
 
         ArrayList<RoleDTO> roles = new ArrayList<>();
         if (StatusUsuarioEnum.fromId(usuarioEntity.getStatus()) == StatusUsuarioEnum.ATIVO) {

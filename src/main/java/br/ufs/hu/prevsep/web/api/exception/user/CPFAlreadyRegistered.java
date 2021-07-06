@@ -7,6 +7,6 @@ public class CPFAlreadyRegistered extends PrevSepException {
 
     public CPFAlreadyRegistered() {
         super(HttpStatus.CONFLICT);
-        this.withMessage("This CPF is already in use.");
+        this.withMessage("Esse CPF já está em uso.");
     }
 }

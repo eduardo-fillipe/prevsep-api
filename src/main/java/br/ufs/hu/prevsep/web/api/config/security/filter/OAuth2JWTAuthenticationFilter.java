@@ -64,11 +64,11 @@ public class OAuth2JWTAuthenticationFilter extends UsernamePasswordAuthenticatio
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
         if (!req.getMethod().equals(HttpMethod.POST.toString()))
-            throw new MethodNotAllowedException("Method not supported on authentication: " + req.getMethod());
+            throw new MethodNotAllowedException("Metódo não suportado na autenticação: " + req.getMethod());
 
         String contentType = req.getContentType();
         if (!MediaType.APPLICATION_FORM_URLENCODED_VALUE.equals(contentType))
-            throw new ContentTypeNotAllowedException("Content-Type not supported on authentication: " + contentType);
+            throw new ContentTypeNotAllowedException("Content-Type não suportado na autenticação: " + contentType);
 
         String headerAuthorization = req.getHeader(HttpHeaders.AUTHORIZATION);
 
@@ -80,15 +80,15 @@ public class OAuth2JWTAuthenticationFilter extends UsernamePasswordAuthenticatio
             if (CLIENT_CREDENTIALS.equals(grantType)) {
                 Authentication authentication = getAuthenticationFromAuthorizationHeader(headerAuthorization);
                 if (authentication == null)
-                    throw new BadRequestException("Cannot extract the client credentials from header.");
+                    throw new BadRequestException("Não é possível extrair as credencias do cliente do cabeçalho.");
 
                 return authenticationManager.authenticate(authentication);
             }
 
-            throw new BadRequestException("Unsupported grant_type.");
+            throw new BadRequestException("grant_type não suportado.");
 
         } catch (IOException ex) {
-            throw new InternalAuthenticationServiceException("Cannot extract the grant_type from request body.");
+            throw new InternalAuthenticationServiceException("Não é possível extrair o grant_type do corpo de requisição.");
         }
     }
 
@@ -135,7 +135,7 @@ public class OAuth2JWTAuthenticationFilter extends UsernamePasswordAuthenticatio
 
     private FaultDTO getFault(AuthenticationException ex) {
         FaultDTO fault = new FaultDTO();
-        fault.setMessage("Authentication Failure.");
+        fault.setMessage("Falha na autenticação.");
         fault.setError(ex.getClass().getSimpleName());
         ErrorDetailDTO errorDetailDTO = new ErrorDetailDTO();
         fault.setErrorDetail(errorDetailDTO);
