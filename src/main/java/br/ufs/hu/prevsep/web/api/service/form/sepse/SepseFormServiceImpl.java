@@ -288,10 +288,7 @@ public class SepseFormServiceImpl implements SepseFormService {
         if(finished)
             createNurseForm2(doctorFormEntity);
 
-        DoctorFormDTO result = formSepseMapper.mapToDoctorFormDto(doctorFormEntity);
-        result.setIdPaciente(doctorFormEntity.getIdPaciente());
-
-        return result;
+        return formSepseMapper.mapToDoctorFormDto(doctorFormEntity);
     }
 
     private Optional<PrevSepException> validateDoctorForm(DoctorFormUpdateDTO form) {

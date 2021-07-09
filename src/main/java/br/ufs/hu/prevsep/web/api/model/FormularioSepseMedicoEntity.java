@@ -8,6 +8,7 @@ import java.sql.Date;
 @Table(name = "formulario_sepse_medico", schema = "public")
 public class FormularioSepseMedicoEntity implements Serializable {
     private int idPaciente;
+    private PacienteEntity pacienteEntity;
     private int crmMedico;
     private int idFormulario;
     private Date dtCriacao;
@@ -25,6 +26,16 @@ public class FormularioSepseMedicoEntity implements Serializable {
 
     public void setIdFormulario(int idFormulario) {
         this.idFormulario = idFormulario;
+    }
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_paciente", referencedColumnName = "id_paciente", insertable = false, updatable = false)
+    public PacienteEntity getPacienteEntity() {
+        return pacienteEntity;
+    }
+
+    public void setPacienteEntity(PacienteEntity pacienteEntity) {
+        this.pacienteEntity = pacienteEntity;
     }
 
     @Basic

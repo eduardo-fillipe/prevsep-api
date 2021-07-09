@@ -76,11 +76,14 @@ public interface FormSepseMapper {
             @Mapping(target = "idFormulario", ignore = true),
             @Mapping(target = "idPaciente", ignore = true),
             @Mapping(target = "dtCriacao", ignore = true),
-            @Mapping(target = "status", ignore = true)
+            @Mapping(target = "status", ignore = true),
+            @Mapping(target = "pacienteEntity", ignore = true)
     })
     FormularioSepseMedicoEntity mapToFormularioSepseMedicoEntity(DoctorFormUpdateDTO dto);
 
-
+    @Mappings({
+            @Mapping(target = "paciente", source = "pacienteEntity")
+    })
     DoctorFormDTO mapToDoctorFormDto(FormularioSepseMedicoEntity entity);
 
     @Mappings({
