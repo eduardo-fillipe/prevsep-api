@@ -5,10 +5,10 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="prevsepDB"/>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="448"/>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="538"/>
-	<parameter name="dt_inicio" class="java.util.Date">
+	<parameter name="dt_inicio" class="java.sql.Timestamp">
 		<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
 	</parameter>
-	<parameter name="dt_fim" class="java.util.Date">
+	<parameter name="dt_fim" class="java.sql.Timestamp">
 		<defaultValueExpression><![CDATA[new Date()]]></defaultValueExpression>
 	</parameter>
 	<parameter name="ids_usuarios" class="java.util.List" nestedType="java.lang.String"/>
@@ -46,6 +46,7 @@ where (dt_login >= $P{dt_inicio} and dt_login <= $P{dt_fim}) and ($X{IN, id_usua
 		<property name="com.jaspersoft.studio.field.tree.path" value="usuario_login_log"/>
 	</field>
 	<sortField name="nome"/>
+	<sortField name="dt_login"/>
 	<group name="Group1">
 		<groupExpression><![CDATA[$F{id_usuario}]]></groupExpression>
 		<groupHeader>
@@ -90,7 +91,7 @@ where (dt_login >= $P{dt_inicio} and dt_login <= $P{dt_fim}) and ($X{IN, id_usua
 			<frame>
 				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="e35167b0-a5e6-407e-a3b3-db0568af6934"/>
 				<staticText>
-					<reportElement x="19" y="10" width="331" height="80" forecolor="#FFFFFF" uuid="44c6d178-d9a1-4c4f-a80a-8965ec4db4db"/>
+					<reportElement x="20" y="8" width="350" height="76" forecolor="#FFFFFF" uuid="44c6d178-d9a1-4c4f-a80a-8965ec4db4db"/>
 					<textElement>
 						<font size="26" isBold="true"/>
 					</textElement>
@@ -195,7 +196,7 @@ where (dt_login >= $P{dt_inicio} and dt_login <= $P{dt_fim}) and ($X{IN, id_usua
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy HH:mm:ss">
-				<reportElement x="0" y="4" width="100" height="13" uuid="57a719c7-3c5f-4d4b-89c0-c68f7544d8d1"/>
+				<reportElement x="0" y="4" width="140" height="13" uuid="57a719c7-3c5f-4d4b-89c0-c68f7544d8d1"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>

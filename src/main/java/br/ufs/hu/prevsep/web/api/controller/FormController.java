@@ -45,7 +45,7 @@ public class FormController extends BaseController {
     }
 
     @GetMapping(value = "/report", produces = MediaType.APPLICATION_PDF_VALUE)
-    @Operation(summary = "Retorna um relatório em PDF de um certo formulário")
+    @Operation(summary = "Retorna um relatório no formato PDF contendo as ocorrências de Sepse no últimos 30 dias.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok", content = @Content(mediaType = MediaType.APPLICATION_PDF_VALUE)),
             @ApiResponse(responseCode = "404", description = "Formulário não encontrado",
