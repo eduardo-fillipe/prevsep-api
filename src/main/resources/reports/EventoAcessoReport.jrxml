@@ -47,8 +47,8 @@ where (dt_requisicao >= $P{dt_requisicao_inicio} and dt_requisicao <= $P{dt_requ
 		<property name="com.jaspersoft.studio.field.label" value="status_response"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="usuario_acesso_log"/>
 	</field>
-	<sortField name="cpf"/>
 	<sortField name="nome"/>
+	<sortField name="dt_requisicao"/>
 	<group name="Group1">
 		<groupExpression><![CDATA[$F{cpf}]]></groupExpression>
 		<groupHeader>
@@ -216,7 +216,7 @@ where (dt_requisicao >= $P{dt_requisicao_inicio} and dt_requisicao <= $P{dt_requ
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy HH:mm:ss">
-				<reportElement x="0" y="3" width="100" height="13" uuid="153c320e-e53c-4f76-8136-1dc1f337a57e"/>
+				<reportElement x="0" y="3" width="150" height="13" uuid="153c320e-e53c-4f76-8136-1dc1f337a57e"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>

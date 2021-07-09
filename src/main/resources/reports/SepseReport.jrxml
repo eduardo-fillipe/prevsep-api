@@ -86,11 +86,11 @@ WHERE (form1.status = 2 or form1.status = 4) and (age(now(), form1.dt_criacao) <
 			<frame>
 				<reportElement mode="Opaque" x="-20" y="-20" width="850" height="92" backcolor="#006699" uuid="39d8b8bd-c629-4ab3-8388-55cdf9fec26f"/>
 				<staticText>
-					<reportElement x="30" y="20" width="420" height="43" forecolor="#FFFFFF" uuid="77e47444-0fce-4a14-9005-525a3b74ebc2"/>
-					<textElement>
-						<font size="34" isBold="true"/>
+					<reportElement x="0" y="0" width="582" height="92" forecolor="#FFFFFF" uuid="77e47444-0fce-4a14-9005-525a3b74ebc2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="30" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Relatório Geral de Sepse]]></text>
+					<text><![CDATA[Relatório Geral de Casos de Sepse]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="595" y="40" width="235" height="47" forecolor="#FFFFFF" uuid="60d3e865-3034-4da6-ba1e-35b1159ab5ee"/>
@@ -313,7 +313,7 @@ WHERE (form1.status = 2 or form1.status = 4) and (age(now(), form1.dt_criacao) <
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy HH:mm:ss">
-				<reportElement x="0" y="4" width="100" height="13" uuid="abe1f507-b87f-4da8-b9cb-399853107865"/>
+				<reportElement x="0" y="4" width="139" height="13" uuid="abe1f507-b87f-4da8-b9cb-399853107865"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
