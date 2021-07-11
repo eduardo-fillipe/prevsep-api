@@ -4,7 +4,6 @@ import br.ufs.hu.prevsep.web.api.dto.form.PatientCreateDTO;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class NurseForm1UpdateDTO {
@@ -15,11 +14,11 @@ public class NurseForm1UpdateDTO {
     @Min(1)
     @NotNull
     private Integer crmMedico;
-    @NotEmpty
+    @Valid
     private ProcedenciaDTO procedencia;
-    @NotEmpty
+    @Valid
     private FormularioSepseEnf1SirsDTO sirs;
-    @NotEmpty
+    @Valid
     private FormularioSepseEnf1DinsfOrgDTO disfOrganica;
 
 

@@ -12,7 +12,7 @@ public class PatientCreateDTO {
     private String leito;
     private String nrAtendimento;
     private String registro;
-    @CPF
+    @CPF(message = "CPF inválido")
     private String cpf;
 
     public Integer getIdade() {
