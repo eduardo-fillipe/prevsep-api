@@ -9,6 +9,8 @@ import java.util.Objects;
 @Table(name = "formulario_sepse_enf2", schema = "public")
 public class FormularioSepseEnf2Entity implements Serializable {
     private int idFormulario;
+    private int idPaciente;
+    private PacienteEntity pacienteEntity;
     private int creEnfermeiro;
     private LocalDateTime dtUti;
     private LocalDateTime dtAlta;
@@ -24,6 +26,26 @@ public class FormularioSepseEnf2Entity implements Serializable {
 
     public void setIdFormulario(int idFormulario) {
         this.idFormulario = idFormulario;
+    }
+
+    @Basic
+    @Column(name = "id_paciente")
+    public int getIdPaciente() {
+        return idPaciente;
+    }
+
+    public void setIdPaciente(int idPaciente) {
+        this.idPaciente = idPaciente;
+    }
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_paciente", referencedColumnName = "id_paciente", insertable = false, updatable = false)
+    public PacienteEntity getPacienteEntity() {
+        return pacienteEntity;
+    }
+
+    public void setPacienteEntity(PacienteEntity pacienteEntity) {
+        this.pacienteEntity = pacienteEntity;
     }
 
     @Column(name = "cre_enfermeiro")

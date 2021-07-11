@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS public.formulario_sepse_enf2
     dt_criacao timestamp without time zone NOT NULL,
     status integer NOT NULL,
     cre_enfermeiro bigint,
+    id_paciente integer,
     PRIMARY KEY (id_formulario)
 );
 
@@ -295,6 +296,11 @@ ALTER TABLE public.usuario_login_log
 ALTER TABLE public.usuario_acesso_log
     ADD FOREIGN KEY (id_usuario)
         REFERENCES public.usuario (cpf)
+        NOT VALID;
+
+ALTER TABLE public.formulario_sepse_enf2
+    ADD FOREIGN KEY (id_paciente)
+        REFERENCES public.paciente (id_paciente)
         NOT VALID;
 
 COMMIT;

@@ -90,7 +90,9 @@ public interface FormSepseMapper {
             @Mapping(target = "status", ignore = true),
             @Mapping(target = "idFormulario", ignore = true),
             @Mapping(target = "dtCriacao", ignore = true),
-            @Mapping(target = "creEnfermeiro", ignore = true)
+            @Mapping(target = "creEnfermeiro", ignore = true),
+            @Mapping(target = "idPaciente", ignore = true),
+            @Mapping(target = "pacienteEntity", ignore = true)
     })
     FormularioSepseEnf2Entity mapToFormularioSepseEnf2Entity(NurseForm2UpdateDTO dto);
 
@@ -122,6 +124,9 @@ public interface FormSepseMapper {
     })
     FormularioSepseMedicoCriterioExclusaoEntity mapToFormularioSepseMedicoCriterioExclusaoEntity(FormularioSepseMedicoCriterioExclusaoDTO dto);
 
+    @Mappings({
+            @Mapping(target = "paciente", source = "pacienteEntity")
+    })
     NurseForm2DTO mapToNurseForm2Dto(FormularioSepseEnf2Entity entity);
 
     NurseForm1DTO mapToNurseForm1Dto(FormularioSepseEnf1Entity entity);

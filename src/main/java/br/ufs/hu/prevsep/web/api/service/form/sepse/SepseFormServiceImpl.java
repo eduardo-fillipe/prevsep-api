@@ -436,6 +436,7 @@ public class SepseFormServiceImpl implements SepseFormService {
         FormularioSepseEnf2Entity nurseForm2 = new FormularioSepseEnf2Entity();
         nurseForm2.setDtCriacao(LocalDateTime.now());
         nurseForm2.setIdFormulario(nurseForm1.getIdFormulario());
+        nurseForm2.setIdPaciente(formularioSepseMedicoEntity.getIdPaciente());
         nurseForm2.setCreEnfermeiro(nurseForm1.getCreEnfermeiro());
         nurseForm2.setStatus(FormStatus.PENDING.getValue());
         nurseForm2Repository.save(nurseForm2);
@@ -449,6 +450,7 @@ public class SepseFormServiceImpl implements SepseFormService {
     }
 
     @Override
+    @Transactional
     public NurseForm2DTO saveNurseForm2(Integer cre, Integer idForm, NurseForm2UpdateDTO nurseForm2UpdateDTO)
             throws FormNotFoundException, InvalidFormStateException, UserNotFoundException {
         return saveNurseForm2(cre, idForm, nurseForm2UpdateDTO, false);
