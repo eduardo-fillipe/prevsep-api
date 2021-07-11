@@ -396,6 +396,18 @@ public class SepseFormServiceImpl implements SepseFormService {
     }
 
     private void mergeEntity(FormularioSepseMedicoEntity entity, DoctorFormUpdateDTO doctorFormUpdateDTO) {
+        if (doctorFormUpdateDTO.getBundleHora1() == null)
+            doctorFormUpdateDTO.setBundleHora1(new FormularioSepseMedicoBundleDTO());
+
+        if (doctorFormUpdateDTO.getCriterioExclusao() == null)
+            doctorFormUpdateDTO.setCriterioExclusao(new FormularioSepseMedicoCriterioExclusaoDTO());
+
+        if (doctorFormUpdateDTO.getFocoInfeccioso() == null)
+            doctorFormUpdateDTO.setFocoInfeccioso(new FormularioSepseMedicoFocoInfecciosoDTO());
+
+        if (doctorFormUpdateDTO.getReavaliacoesSeriadas() == null)
+            doctorFormUpdateDTO.setReavaliacoesSeriadas(new FormularioSepseMedicoReavaliacoesSeriadasDTO());
+
         BeanUtils.copyPropertiesIgnoreNulls(doctorFormUpdateDTO.getBundleHora1(), entity.getBundleHora1(), false);
         BeanUtils.copyPropertiesIgnoreNulls(doctorFormUpdateDTO.getCriterioExclusao(), entity.getCriterioExclusao(), false);
         BeanUtils.copyPropertiesIgnoreNulls(doctorFormUpdateDTO.getFocoInfeccioso(), entity.getFocoInfeccioso(), false);
