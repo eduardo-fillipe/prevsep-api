@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,4 +23,5 @@ import org.springframework.web.bind.annotation.RestController;
         @ApiResponse(responseCode = "500", description = "Erro no Servidor Interno", content = @Content(mediaType = "application/json", schema = @Schema(implementation = FaultDTO.class)))
 })
 @SecurityRequirement(name = "oauth")
+@CrossOrigin
 public abstract class BaseController {}
