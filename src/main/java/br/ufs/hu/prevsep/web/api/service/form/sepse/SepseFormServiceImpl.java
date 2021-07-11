@@ -425,7 +425,9 @@ public class SepseFormServiceImpl implements SepseFormService {
         if (nurseFormUpdateDTO.getSirs() == null)
             nurseFormUpdateDTO.setSirs(new FormularioSepseEnf1SirsDTO());
 
-        BeanUtils.copyPropertiesIgnoreNulls(entity.getPaciente(), nurseFormUpdateDTO.getPaciente(), false);
+        BeanUtils.copyPropertiesIgnoreNulls(nurseFormUpdateDTO.getPaciente(), entity.getPaciente(), false);
+        BeanUtils.copyPropertiesIgnoreNulls(nurseFormUpdateDTO.getDisfOrganica(), entity.getDisfOrganica(), false);
+        BeanUtils.copyPropertiesIgnoreNulls(nurseFormUpdateDTO.getSirs(), entity.getSirs(), false);
     }
 
     private void createNurseForm2(FormularioSepseMedicoEntity formularioSepseMedicoEntity) {
