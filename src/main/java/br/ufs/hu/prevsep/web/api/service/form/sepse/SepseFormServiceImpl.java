@@ -316,57 +316,57 @@ public class SepseFormServiceImpl implements SepseFormService {
         if (form.getBundleHora1() != null) {
             if (form.getBundleHora1().getIniciado()) {
                 if (form.getBundleHora1().getJustificativaNao() != null && !form.getBundleHora1().getJustificativaNao().isBlank())
-                    return Optional.of(new FormValidationException().withDetailedMessage("The protocol was initiated, but the field 'justificaNao' was filled."));
+                    return Optional.of(new FormValidationException().withDetailedMessage("O bundle de hora 1 foi iniciado, mas o campo 'justificaNao' foi preenchido."));
 
                 if (checkIfAllFieldsAreFalse(form.getBundleHora1())) {
                     return Optional.of(new FormValidationException()
-                            .withDetailedMessage("The protocol was initiated, but no action was selected in the form."));
+                            .withDetailedMessage("O Bundle de hora 1 foi iniciado, mas nenhuma ação foi selecionada no formulário."));
                 }
             } else {
                 if (form.getBundleHora1().getJustificativaNao() == null || form.getBundleHora1().getJustificativaNao().isBlank()) {
                     return Optional.of(new FormValidationException()
-                            .withDetailedMessage("The protocol was not initiated, but the justification is empty."));
+                            .withDetailedMessage("O bundle de hora 1 não foi iniciado, mas a justificativa para isso é vazia."));
                 }
                 if (!checkIfAllFieldsAreFalse(form.getBundleHora1())) {
                     return Optional.of(new FormValidationException()
-                            .withDetailedMessage("The protocol was not initiated, but one or more fields are filled."));
+                            .withDetailedMessage("O bundle de hora 1 não foi iniciado, mas um ou mais campos foram preenchidos no formulário."));
                 }
             }
         } else {
             return Optional.of(new FormValidationException()
-                    .withDetailedMessage("The First Hour Bundle can not be null. It must have, at least, an justification, if the protocol was not initiated."));
+                    .withDetailedMessage("O Bundle de primeira hora não pode ser vazio. Precisa ter, pelo menos, uma justificativa se o protocolo não foi iniciado."));
         }
 
         // Reavaliações Seriadas
         if (form.getReavaliacoesSeriadas() != null) {
             if (form.getReavaliacoesSeriadas().getAplicada()) {
                 if (form.getReavaliacoesSeriadas().getJustificativaNao() != null && !form.getReavaliacoesSeriadas().getJustificativaNao().isBlank())
-                    return Optional.of(new FormValidationException().withDetailedMessage("The revalidations were applied, but the field 'justificaNao' was filled."));
+                    return Optional.of(new FormValidationException().withDetailedMessage("As revalidações foram aplicadas, mas o campo 'justificaNao' foi preenchido."));
 
                 if (checkIfAllFieldsAreFalse(form.getReavaliacoesSeriadas()))
-                    return Optional.of(new FormValidationException().withDetailedMessage("The revalidations were applied, but no action was selected in the form."));
+                    return Optional.of(new FormValidationException().withDetailedMessage("As revalidações foram aplicadas, mas nenhuma ação foi selecionada no formulário."));
 
                 if (form.getReavaliacoesSeriadas().getqSofa()) {
                     if (checkIfAllFieldsAreFalseQSofa(form.getReavaliacoesSeriadas())) {
-                        return Optional.of(new FormValidationException().withDetailedMessage("The field qSofa was marked as true, but no related fields (pas, fr, rebaixamentoConsiencia) were marked as true."));
+                        return Optional.of(new FormValidationException().withDetailedMessage("O campo 'qSofa' foi selecionado, mas nenhum campo relacionado (pas, fr, rebaixamentoConsiencia) foi selecionado."));
                     }
                 } else {
                     if (checkIfAllFieldsAreFalseQSofa(form.getReavaliacoesSeriadas())) {
-                        return Optional.of(new FormValidationException().withDetailedMessage("The field qSofa was marked as false, but related fields (pas, fr, rebaixamentoConsiencia) were marked as true."));
+                        return Optional.of(new FormValidationException().withDetailedMessage("O campo 'qSofa' não foi selecionado, mas um campo relacionado (pas, fr, rebaixamentoConsiencia) foi selecionado."));
                     }
                 }
             } else {
                 if (form.getReavaliacoesSeriadas().getJustificativaNao() == null || form.getReavaliacoesSeriadas().getJustificativaNao().isBlank()) {
-                    return Optional.of(new FormValidationException().withDetailedMessage("The revalidations were not applied, but the justification is empty."));
+                    return Optional.of(new FormValidationException().withDetailedMessage("As revalidações não foram aplicadas, mas a justificativa é vazia."));
                 }
                 if (!checkIfAllFieldsAreFalse(form.getReavaliacoesSeriadas())) {
-                    return Optional.of(new FormValidationException().withDetailedMessage("The revalidations were not applied, but one or more fields were selected as applied."));
+                    return Optional.of(new FormValidationException().withDetailedMessage("As revalidações não foi aplicadas, mas um ou mais campos foram selecionados."));
                 }
 
             }
         } else {
             return Optional.of(new FormValidationException()
-                    .withDetailedMessage("The revalidations can not be null. It must have, at least, an justification, if it was not applied."));
+                    .withDetailedMessage("O campo 'revalidacoesSeriadas' não pode ser nulo."));
         }
 
         return Optional.empty();
@@ -467,8 +467,8 @@ public class SepseFormServiceImpl implements SepseFormService {
                     .findById(idForm).orElseThrow(FormNotFoundException::new);
 
             if (FormStatus.CREATED.equals(FormStatus.fromValue(formularioSepseEnf1Entity.getStatus()))) {
-                throw new InvalidFormStateException().withMessage("This form is not available for filling yet.")
-                        .withDetailedMessage("The doctor part of this form has state PENDING.");
+                throw new InvalidFormStateException().withMessage("Este formulário ainda não está disponível para preenchimento.")
+                        .withDetailedMessage("A parte destinada ao médico ainda não foi finalizado.");
             }
             throw new FormNotFoundException();
         }
@@ -477,8 +477,8 @@ public class SepseFormServiceImpl implements SepseFormService {
 
         if (FormStatus.FINISHED.equals(FormStatus.fromValue(nurseForm2Entity.getStatus())))
             throw new InvalidFormStateException()
-                    .withMessage("This form can't be modified.")
-                    .withDetailedMessage("Form with state " + FormStatus.fromValue(nurseForm2Entity.getStatus()) + "can not be modified.");
+                    .withMessage("Este formulário não pode ser modificado.")
+                    .withDetailedMessage("Formulário com status " + FormStatus.fromValue(nurseForm2Entity.getStatus()) + " não pode ser modificado.");
 
         mergeEntity(nurseForm2Entity, nurseForm2UpdateDTO);
         nurseForm2Entity.setStatus(finish ? FormStatus.FINISHED.getValue() : FormStatus.SAVED.getValue());
@@ -486,10 +486,10 @@ public class SepseFormServiceImpl implements SepseFormService {
         FormularioSepseEnf1Entity formularioSepseEnf1Entity;
         if (finish) {
             if (!validateNurseForm2(nurseForm2Entity))
-                throw new FormValidationException().withMessage("The form isn't correctly filled.")
-                        .withDetailedMessage("The following fields are conflicting: ")
-                        .withFieldError("dtAlta", "Can't have the same value of the field 'dtObito'")
-                        .withFieldError("dtObito", "Can't have the same value of the field 'dtAlta'");
+                throw new FormValidationException().withMessage("Este formulário não foi preenchido corretamente.")
+                        .withDetailedMessage("Os campos a seguir são conflitantes.")
+                        .withFieldError("dtAlta", "Foi preenchido quando 'dtObito' também foi preenchido")
+                        .withFieldError("dtObito", "Foi preenchido quando 'dtAlta' também foi preenchido");
 
             nurseForm2Entity = nurseForm2Repository.save(nurseForm2Entity);
             formularioSepseEnf1Entity = updateStatusNurseForm1(nurseForm2Entity);
